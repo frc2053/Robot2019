@@ -5,7 +5,7 @@
  */
 #pragma once
 
-#include <Commands/Command.h>
+#include <frc/commands/Command.h>
 
 /**
  * Representation of a command that zeros the wheels
