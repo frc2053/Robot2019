@@ -6,12 +6,12 @@
 
 #pragma once
 
-#include <Commands/Subsystem.h>
+#include <frc/commands/Subsystem.h>
 #include <ctre/phoenix/MotorControl/CAN/TalonSRX.h>
-#include "../Utilities/TigerSwerve/TigerSwerve.h"
-#include "../Utilities/TigerDrive/TigerDrive.h"
+#include "Utilities/TigerSwerve/TigerSwerve.h"
+#include "Utilities/TigerDrive/TigerDrive.h"
 #include "ObserverSubsystem.h"
-#include "../Utilities/TigerSwerve/DriveController.h"
+#include "Utilities/TigerSwerve/DriveController.h"
 
 
 using namespace ctre::phoenix::motorcontrol;

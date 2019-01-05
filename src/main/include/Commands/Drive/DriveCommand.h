@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <Commands/Command.h>
+#include <frc/commands/Command.h>
 
 class DriveCommand : public frc::Command {
 public:

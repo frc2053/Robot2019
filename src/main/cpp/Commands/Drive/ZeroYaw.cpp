@@ -1,5 +1,5 @@
-#include "ZeroYaw.h"
-#include "../../Robot.h"
+#include "Commands/Drive/ZeroYaw.h"
+#include "Robot.h"
 
 ZeroYaw::ZeroYaw()
 {

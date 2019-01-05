@@ -22,9 +22,9 @@ public:
 	RigidTransform2D GetControllerError();
 	RigidTransform2D GetDriveControlSignal();
 private:
-	std::unique_ptr<PIDController2481> positionXController;
-	std::unique_ptr<PIDController2481> positionYController;
-	std::unique_ptr<PIDController2481> positionYawController;
+	std::unique_ptr<frc::PIDController2481> positionXController;
+	std::unique_ptr<frc::PIDController2481> positionYController;
+	std::unique_ptr<frc::PIDController2481> positionYawController;
 
 	std::unique_ptr<ObserverPIDSourceX> positionXSource;
 	std::unique_ptr<ObserverPIDSourceY> positionYSource;

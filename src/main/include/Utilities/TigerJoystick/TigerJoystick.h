@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <Joystick.h>
-#include <Buttons/JoystickButton.h>
+#include <frc/Joystick.h>
+#include <frc/buttons/JoystickButton.h>
 #include "TigerLeftTrigger.h"
 #include "TigerRightTrigger.h"
 

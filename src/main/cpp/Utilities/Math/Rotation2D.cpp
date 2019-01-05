@@ -4,7 +4,7 @@
  * \author FRC Team 2481
  */
 
-#include "Rotation2D.h"
+#include "Utilities/Math/Rotation2D.h"
 
 /**
  * The default constructor inits a rotation with its cos component as 1

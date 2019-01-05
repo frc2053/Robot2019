@@ -1,4 +1,4 @@
-#include "TigerJoystick.h"
+#include "Utilities/TigerJoystick/TigerJoystick.h"
 
 /**
  * Constructor for a joystick. Just pass in the port that appears in the

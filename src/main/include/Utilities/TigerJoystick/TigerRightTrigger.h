@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include <Joystick.h>
-#include <Buttons/Trigger.h>
+#include <frc/Joystick.h>
+#include <frc/buttons/Trigger.h>
 
 /**
  * Inherits from frc::Trigger so we can activate commands from the trigger

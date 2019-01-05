@@ -1,7 +1,7 @@
 #pragma once
 
 #include <atomic>
-#include <PIDOutput.h>
+#include <frc/PIDOutput.h>
 
 class DriveControllerOutput : public frc::PIDOutput {
 public:

@@ -4,7 +4,7 @@
  * \author FRC 2481
  */
 
-#include "InterpolatingDouble.h"
+#include "Utilities/Math/InterpolatingDouble.h"
 
 /**
  * Constructor for our Interpolating double

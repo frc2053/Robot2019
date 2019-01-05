@@ -1,5 +1,5 @@
-#include "AMT10Encoder.h"
-#include "../../RobotMap.h"
+#include "Utilities/TigerSwerve/AMT10Encoder.h"
+#include "RobotMap.h"
 
 /**
  * Constructor

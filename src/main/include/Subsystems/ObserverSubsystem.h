@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "../Utilities/Math/RigidTransform2D.h"
-#include "../Utilities/Math/InterpolatingMap.h"
-#include "../Utilities/Math/InterpolatingDouble.h"
+#include "Utilities/Math/RigidTransform2D.h"
+#include "Utilities/Math/InterpolatingMap.h"
+#include "Utilities/Math/InterpolatingDouble.h"
 
 class ObserverSubsystem {
 public:

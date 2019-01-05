@@ -7,6 +7,8 @@
 #pragma once
 
 #include <AHRS.h>
+#include <frc/PIDController.h>
+#include <frc/PIDOutput.h>
 
 /**
  * This class lets us control the rotation of the robot in teleop

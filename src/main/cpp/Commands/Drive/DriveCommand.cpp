@@ -1,6 +1,6 @@
-#include "DriveCommand.h"
-#include "../../Robot.h"
-#include "../../RobotMap.h"
+#include "Commands/Drive/DriveCommand.h"
+#include "Robot.h"
+#include "RobotMap.h"
 
 /**
  * Constructor for DriveCommand

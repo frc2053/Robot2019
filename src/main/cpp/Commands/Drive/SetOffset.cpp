@@ -1,5 +1,5 @@
-#include "SetOffset.h"
-#include "../../Robot.h"
+#include "Commands/Drive/SetOffset.h"
+#include "Robot.h"
 
 /**
  * Constructor for our command to change the offset

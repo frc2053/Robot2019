@@ -6,7 +6,7 @@
 
 
 #include "Robot.h"
-#include <Commands/Scheduler.h>
+#include <frc/commands/Scheduler.h>
 #include "Commands/Drive/DriveToPosition.h"
 
 std::unique_ptr<OI> Robot::oi;
@@ -100,4 +100,6 @@ void Robot::TestPeriodic() {
 
 }
 
-START_ROBOT_CLASS(Robot)
+int main() {
+	return frc::StartRobot<Robot>();
+}

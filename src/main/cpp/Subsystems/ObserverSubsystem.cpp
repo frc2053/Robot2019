@@ -1,7 +1,7 @@
-#include "ObserverSubsystem.h"
-#include "../Utilities/TigerSwerve/TigerSwerve.h"
-#include "../RobotMap.h"
-#include <RobotController.h>
+#include "Subsystems/ObserverSubsystem.h"
+#include "Utilities/TigerSwerve/TigerSwerve.h"
+#include "RobotMap.h"
+#include <frc/RobotController.h>
 
 /**
  * Constructor for our observer. We init a random default value because we dont really know
@@ -72,8 +72,8 @@ void ObserverSubsystem::SetRobotPos(RigidTransform2D robotPos, double timestamp)
  */
 void ObserverSubsystem::ResetPose(RigidTransform2D robotPose) {
 	m_robotPos.clear();
-	SetRobotPos(robotPose, RobotController::GetFPGATime() - 37);
-	SetRobotPos(robotPose, RobotController::GetFPGATime());
+	SetRobotPos(robotPose, frc::RobotController::GetFPGATime() - 37);
+	SetRobotPos(robotPose, frc::RobotController::GetFPGATime());
 }
 
 /**
@@ -83,7 +83,7 @@ void ObserverSubsystem::ResetPose() {
 	m_robotPos.clear();
 	Translation2D zeroTranslation = Translation2D(0, 0);
 	Rotation2D zeroRotation = Rotation2D(1, 0, true);
-	SetRobotPos(RigidTransform2D(zeroTranslation, zeroRotation), RobotController::GetFPGATime());
+	SetRobotPos(RigidTransform2D(zeroTranslation, zeroRotation), frc::RobotController::GetFPGATime());
 }
 
 /**

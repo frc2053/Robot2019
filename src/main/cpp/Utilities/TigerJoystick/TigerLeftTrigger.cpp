@@ -1,4 +1,4 @@
-#include "TigerLeftTrigger.h"
+#include "Utilities/TigerJoystick/TigerLeftTrigger.h"
 #include <Joystick.h>
 
 

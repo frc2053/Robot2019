@@ -1,6 +1,6 @@
-#include "TigerSwerve.h"
-#include "../../RobotMap.h"
-#include "../Math/RigidTransform2D.h"
+#include "Utilities/TigerSwerve/TigerSwerve.h"
+#include "RobotMap.h"
+#include "Utilities/Math/RigidTransform2D.h"
 
 /**
  * Constructor. Sets up all the talons and makes sure we are ready to drive

@@ -1,4 +1,4 @@
-#include "CTREMagEncoder.h"
+#include "Utilities/TigerSwerve/CTREMagEncoder.h"
 
 CTREMagEncoder::CTREMagEncoder(const std::shared_ptr<can::TalonSRX>& talon) : m_talon(talon) {
 

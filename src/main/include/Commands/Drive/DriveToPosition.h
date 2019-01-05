@@ -1,8 +1,9 @@
 #pragma once
 
-#include "..\..\Utilities\TigerSwerve\DriveController.h"
-#include "..\..\Robot.h"
+#include "Utilities\TigerSwerve\DriveController.h"
+#include "Robot.h"
 #include <iostream>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 class DriveToPosition : public frc::Command {
 private:

@@ -1,4 +1,4 @@
-#include "PIDController2481.h"
+#include "Utilities/Math/PIDController2481.h"
 
 #include <algorithm>
 #include <cmath>
@@ -6,10 +6,10 @@
 
 #include <HAL/HAL.h>
 
-#include "Notifier.h"
-#include "PIDOutput.h"
-#include "PIDSource.h"
-#include "SmartDashboard/SendableBuilder.h"
+#include "frc/Notifier.h"
+#include "frc/PIDOutput.h"
+#include "frc/PIDSource.h"
+#include "frc/smartdashboard/SendableBuilder.h"
 
 using namespace frc;
 

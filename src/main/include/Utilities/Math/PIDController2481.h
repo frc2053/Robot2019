@@ -3,17 +3,17 @@
 #include <memory>
 #include <string>
 
-#include <support/deprecated.h>
-#include <support/mutex.h>
+#include <wpi/deprecated.h>
+#include <wpi/mutex.h>
 
-#include "Base.h"
-#include "Controller.h"
-#include "Filters/LinearDigitalFilter.h"
-#include "Notifier.h"
-#include "PIDInterface.h"
-#include "PIDSource.h"
-#include "SmartDashboard/SendableBase.h"
-#include "Timer.h"
+#include "frc/Base.h"
+#include "frc/Controller.h"
+#include "frc/filters/LinearDigitalFilter.h"
+#include "frc/Notifier.h"
+#include "frc/PIDInterface.h"
+#include "frc/PIDSource.h"
+#include "frc/smartDashboard/SendableBase.h"
+#include "frc/Timer.h"
 
 namespace frc {
 
@@ -83,10 +83,10 @@ class PIDController2481 : public SendableBase, public PIDInterface {
 
   virtual bool OnTarget() const;
 
-  void Enable() override;
-  void Disable() override;
+  void Enable();
+  void Disable() ;
   void SetEnabled(bool enable);
-  bool IsEnabled() const override;
+  bool IsEnabled() const;
 
   void Reset() override;
 
