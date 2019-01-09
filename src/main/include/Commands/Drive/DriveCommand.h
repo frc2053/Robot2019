@@ -19,12 +19,11 @@ public:
 	void GetInputs();
 	void SetAngleFromInput();
 	void RotateCommand();
-	void CallToSwerveDrive();
+	void CallToTankDrive();
 	void CheckRotateOverride();
 private:
-	double xAxis;
-	double yAxis;
-	double rotAxis;
+	double throttleAxis;
+	double turnAxis;
 	double currentYaw;
 	double setAngle;
 	double finalRotVal;
@@ -32,6 +31,6 @@ private:
 	bool isBPressed;
 	bool isXPressed;
 	bool isYPressed;
-	bool isLeftStickPressed;
+	bool isRightShoulderPressed;
 	bool isRotDone;
 };

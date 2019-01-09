@@ -7,7 +7,7 @@
  */
 TigerDrive::TigerDrive(const std::shared_ptr<AHRS>& imuP)
 {
-	rotateController = std::make_unique<frc::PIDController>(kROTATION_P, kROTATION_I, kROTATION_D, imu.get(), this);
+	rotateController = std::make_unique<frc::PIDController>(YAW_CONTROLLER_P, YAW_CONTROLLER_I, YAW_CONTROLLER_D, imu.get(), this);
 	imu = imuP;
 
 	ConfigureIMU();
@@ -33,7 +33,7 @@ TigerDrive::~TigerDrive() {
 void TigerDrive::ConfigureIMU() {
 	rotateController->SetInputRange(-180.0, 180.0);
 	rotateController->SetOutputRange(-1.0, 1.0);
-	rotateController->SetAbsoluteTolerance(kROTATION_ANGLE_TOLERANCE);
+	rotateController->SetAbsoluteTolerance(YAW_CONTROLLER_TOLERANCE);
 	rotateController->SetContinuous(true);
 }
 
