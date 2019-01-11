@@ -1,5 +1,5 @@
 #include "Utilities/TigerJoystick/TigerLeftTrigger.h"
-#include <frc/Joystick.h>
+#include <Joystick.h>
 
 
 /**

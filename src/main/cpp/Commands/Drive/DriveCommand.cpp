@@ -1,56 +1,149 @@
-#include "Subsystems/DrivebaseSubsystem.h"
-#include "commands/Drive/DriveCommand.h"
+#include "Commands/Drive/DriveCommand.h"
+#include "Robot.h"
 #include "RobotMap.h"
-#include "frc/smartDashboard/SmartDashboard.h"
 
-DrivebaseSubsystem::DrivebaseSubsystem() : frc::Subsystem("DrivebaseSubsystem") {
-  leftLeaderTalon = std::make_shared<WPI_TalonSRX>(DRIVEBASE_LEFT_SIDE_LEADER_ID);
-  leftFollowerTalon = std::make_shared<WPI_TalonSRX>(DRIVEBASE_LEFT_SIDE_FOLLOWER_ID);
-  rightLeaderTalon = std::make_shared<WPI_TalonSRX>(DRIVEBASE_RIGHT_SIDE_LEADER_ID);
-  rightFollowerTalon = std::make_shared<WPI_TalonSRX>(DRIVEBASE_RIGHT_SIDE_FOLLOWER_ID);
-  imu = std::make_shared<AHRS>(frc::SPI::Port::kMXP);
-  tigerDrive = std::make_unique<TigerDrive>(imu);
-  driveSystem = std::make_unique<frc::DifferentialDrive>(*leftLeaderTalon, *rightLeaderTalon);
+/**
+ * Constructor for DriveCommand
+ * We set up our button states here
+ * And make sure we Require() our subsystem so we can take authority
+ * over other commands that may run on the drivebase
+ */
+DriveCommand::DriveCommand() {
+	Requires(Robot::swerveSubsystem.get());
+
+	xAxis = 0;
+	yAxis = 0;
+	rotAxis = 0;
+	currentYaw = 0;
+	finalRotVal = 0;
+	setAngle = 0;
+	isLeftStickPressed = false;
+	isAPressed = false;
+	isBPressed = false;
+	isXPressed = false;
+	isYPressed = false;
+	isRotDone = false;
 }
 
-void DrivebaseSubsystem::InitDefaultCommand() {
-  SetDefaultCommand(new DriveCommand());
+/**
+ * Runs when we first start a command
+ * We reset our states here just to be safe
+ */
+void DriveCommand::Initialize() {
+	xAxis = 0;
+	yAxis = 0;
+	rotAxis = 0;
+	isAPressed = false;
+	isBPressed = false;
+	isXPressed = false;
+	isYPressed = false;
 }
 
-void DrivebaseSubsystem::TankDrive(double throttleJoystick, double turnJoystick, bool quickTurnEnabled) {
-  driveSystem->CurvatureDrive(throttleJoystick, turnJoystick, quickTurnEnabled);
+/**
+ * Executes once every .2 seconds. We do all our calculations here
+ * to tell the robot how to drive
+ */
+void DriveCommand::Execute() {
+	GetInputs();
+	currentYaw = Robot::swerveSubsystem->GetTigerDrive()->GetAdjYaw();
+	isRotDone = Robot::swerveSubsystem->GetTigerDrive()->GetIsRotDone();
+
+	SetAngleFromInput();
+	RotateCommand();
+	CheckRotateOverride();
+	CallToSwerveDrive();
 }
 
-void DrivebaseSubsystem::ConfigureTalons() {
-  //make sure when you go forward on joystick, you get a positive number
-  //and that ALL Talons turn green
-  //if not change below
-  leftLeaderTalon->ConfigFactoryDefault();
-  leftFollowerTalon->ConfigFactoryDefault();
-  rightLeaderTalon->ConfigFactoryDefault();
-  rightFollowerTalon->ConfigFactoryDefault();
-
-  leftFollowerTalon->Follow(*leftLeaderTalon);
-  rightFollowerTalon->Follow(*rightLeaderTalon);
-
-  //only change these
-  leftLeaderTalon->SetInverted(false);
-  leftFollowerTalon->SetInverted(false);
-  rightLeaderTalon->SetInverted(false);
-  rightFollowerTalon->SetInverted(false);
-  //change these if you have encoders and make sure they increase in value when talons are green
-  leftLeaderTalon->SetSensorPhase(true);
-  rightLeaderTalon->SetSensorPhase(true);
-
-  //DO NOT CHANGE!!
-  driveSystem->SetRightSideInverted(false);
+/**
+ * We are never done with driving!
+ * @return false
+ */
+bool DriveCommand::IsFinished() {
+	return false;
 }
 
-void DrivebaseSubsystem::Periodic() {
-  SmartDashboard::PutNumber("Left Encoder Value", leftLeaderTalon->GetSelectedSensorPosition());
-  SmartDashboard::PutNumber("Right Encoder Value", rightLeaderTalon->GetSelectedSensorPosition());
+/**
+ * We dont need to clean up
+ */
+void DriveCommand::End() {
+
 }
 
-const std::unique_ptr<TigerDrive>& DrivebaseSubsystem::GetTigerDrive() {
-  return tigerDrive;
+/**
+ * Not useful
+ */
+void DriveCommand::Interrupted() {
+
+}
+
+/**
+ * Grabs joystick state
+ */
+void DriveCommand::GetInputs() {
+	xAxis = Robot::oi->GetDriverController()->GetLeftXAxis();
+	yAxis = Robot::oi->GetDriverController()->GetLeftYAxis();
+	rotAxis = Robot::oi->GetDriverController()->GetRightXAxis();
+
+	isAPressed = Robot::oi->GetDriverController()->aButton->Get();
+	isBPressed = Robot::oi->GetDriverController()->bButton->Get();
+	isXPressed = Robot::oi->GetDriverController()->xButton->Get();
+	isYPressed = Robot::oi->GetDriverController()->yButton->Get();
+}
+
+/**
+ * Based on the input, give us a target angle and set the PID target
+ */
+void DriveCommand::SetAngleFromInput() {
+	if(isAPressed) {
+		setAngle = 180;
+	}
+	if(isBPressed) {
+		setAngle = 90;
+	}
+	if(isXPressed) {
+		setAngle = -90;
+	}
+	if(isYPressed) {
+		setAngle = 0;
+	}
+	Robot::swerveSubsystem->GetTigerDrive()->SetAngleTarget(setAngle);
+}
+
+/**
+ * make sure we actually want to rotate and we dont get into weird
+ * states where we double rotate
+ */
+void DriveCommand::RotateCommand()
+{
+	if(((isYPressed == true|| isXPressed == true || isAPressed == true || isBPressed == true) && isRotDone == true) || (isRotDone == false))
+	{
+		finalRotVal = Robot::swerveSubsystem->GetTigerDrive()->CalculateRotationValue(setAngle, .5);//kROTATION_RATE_MULTIPLIER);
+	}
+}
+
+/**
+ * make sure we are checking if we want to cancel rotating
+ */
+void DriveCommand::CheckRotateOverride() {
+	if(Robot::swerveSubsystem->GetTigerDrive()->GetIsRotDoneOverride())
+	{
+		finalRotVal = 0;
+	}
+}
+
+/**
+ * This calls all the swerve drive stuff so we actually move
+ */
+void DriveCommand::CallToSwerveDrive() {
+	if(rotAxis == 0)
+	{
+		Robot::swerveSubsystem->GetTigerDrive()->SetIsRotDoneOverride(false);
+		Robot::swerveSubsystem->SwerveDrive(xAxis, -yAxis, -finalRotVal, currentYaw);
+	}
+	else
+	{
+		Robot::swerveSubsystem->GetTigerDrive()->SetIsRotDoneOverride(true);
+		Robot::swerveSubsystem->GetTigerDrive()->SetIsRotDone(true);
+		Robot::swerveSubsystem->SwerveDrive(xAxis, -yAxis, -rotAxis, currentYaw);
+	}
 }
