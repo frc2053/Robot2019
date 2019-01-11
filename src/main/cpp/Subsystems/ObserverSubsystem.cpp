@@ -1,4 +1,5 @@
 #include "Subsystems/ObserverSubsystem.h"
+#include "Utilities/TigerSwerve/TigerSwerve.h"
 #include "RobotMap.h"
 #include <frc/RobotController.h>
 
