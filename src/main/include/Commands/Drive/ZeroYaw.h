@@ -4,7 +4,7 @@
  */
 #pragma once
 
-#include <Commands/Command.h>
+#include <frc/commands/Command.h>
 
 /**
  * A command that zeros the yaw of the robot
