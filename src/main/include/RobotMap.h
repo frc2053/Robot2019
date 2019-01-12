@@ -24,3 +24,11 @@ constexpr int kDRIVESPARK_FL_ID = 1;
 constexpr int kDRIVESPARK_FR_ID = 2;
 constexpr int kDRIVESPARK_BL_ID = 3;
 constexpr int kDRIVESPARK_BR_ID = 4;
+
+//PHYSICAL CONSTANTS
+constexpr int kWHEEL_RADIUS = 6;
+constexpr double kDRIVE_GEARBOX_RATIO = 55/12;
+constexpr int kNEO_TICKS_PER_REV = 42;
+constexpr double kTICKS_PER_WHEEL_REV = kNEO_TICKS_PER_REV * kDRIVE_GEARBOX_RATIO * kWHEEL_RADIUS;
+constexpr double kWHEEL_BASE_WIDTH = 29;
+constexpr double kWHEEL_BASE_LENGTH = 29;
