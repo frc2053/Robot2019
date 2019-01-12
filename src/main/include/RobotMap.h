@@ -20,7 +20,7 @@ constexpr double kROTATION_D = .1;
 constexpr double kROTATION_ANGLE_TOLERANCE = 2;
 
 //DRIVEBASE TALONS
-constexpr int kDRIVESPARK_FL_ID = 1;
-constexpr int kDRIVESPARK_FR_ID = 2;
+constexpr int kDRIVESPARK_FL_ID = 4;
+constexpr int kDRIVESPARK_FR_ID = 1;
 constexpr int kDRIVESPARK_BL_ID = 3;
-constexpr int kDRIVESPARK_BR_ID = 4;
+constexpr int kDRIVESPARK_BR_ID = 2;

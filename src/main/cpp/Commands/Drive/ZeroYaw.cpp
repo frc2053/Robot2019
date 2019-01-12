@@ -18,7 +18,7 @@ void ZeroYaw::Initialize()
 void ZeroYaw::Execute()
 {
 	isDone = false;
-	Robot::drivebaseSubsystem->GetTigerDrive()->ZeroYaw();
+	Robot::drivebaseSubsystem->GetTigerDrive()->imu->ZeroYaw();
 	isDone = true;
 }
 

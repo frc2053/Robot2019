@@ -7,6 +7,8 @@
 
 #include "Robot.h"
 #include <frc/commands/Scheduler.h>
+#include <Commands/Drive/ZeroYaw.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<DrivebaseSubsystem> Robot::drivebaseSubsystem;
@@ -22,6 +24,7 @@ std::unique_ptr<DrivebaseSubsystem> Robot::drivebaseSubsystem;
 void Robot::RobotInit() {
 	drivebaseSubsystem = std::make_unique<DrivebaseSubsystem>();
 	oi = std::make_unique<OI>();
+	SmartDashboard::PutData("Zero Yaw", new ZeroYaw());
 }
 
 /**

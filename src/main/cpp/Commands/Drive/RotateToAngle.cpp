@@ -19,7 +19,7 @@ void RotateToAngle::Execute() {
 
 	Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDoneOverride(false);
 	isDone = Robot::drivebaseSubsystem->GetTigerDrive()->GetIsRotDone();
-	Robot::drivebaseSubsystem->GetTigerDrive()->SetAngleTarget(inputAngle);
+	Robot::drivebaseSubsystem->GetTigerDrive()->rotateController->SetSetpoint(inputAngle);
 
 	outputRate = Robot::drivebaseSubsystem->GetTigerDrive()->CalculateRotationValue(inputAngle, 1);
 	Robot::drivebaseSubsystem->MecDrive(0, 0, -outputRate, currentYaw);

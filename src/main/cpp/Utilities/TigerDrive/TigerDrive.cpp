@@ -1,87 +1,90 @@
 #include "Utilities/Tigerdrive/TigerDrive.h"
 #include "RobotMap.h"
+#include <iostream>
 
-/**
- * Constructor which sets up the PID Controller and IMU.
- * @param imuP shared_ptr to the IMU pointer (owned by drivebase subsystem)
- */
 TigerDrive::TigerDrive(const std::shared_ptr<AHRS>& imuP)
 {
-	rotateController = std::make_unique<frc::PIDController>(kROTATION_P, kROTATION_I, kROTATION_D, imu.get(), this);
-	imu = imuP;
-
-	ConfigureIMU();
-
 	tooFarCW = false;
 	tooFarCCW = false;
 	isRotDone = false;
-	controllerOverride = false;
-	rotateToAngleRate = 1;
-	yawOffset = 0;
-}
-
-/**
- * Default destructor
- */
-TigerDrive::~TigerDrive() {
-
-}
-
-/**
- * Sets the input and output range and tolerance of the PID controller
- */
-void TigerDrive::ConfigureIMU() {
+	timesThroughLoop = 0;
+	imu = imuP;
+	rotateController.reset(new frc::PIDController(kROTATION_P, kROTATION_I, kROTATION_P, 0, imu.get(), this));
 	rotateController->SetInputRange(-180.0, 180.0);
 	rotateController->SetOutputRange(-1.0, 1.0);
 	rotateController->SetAbsoluteTolerance(kROTATION_ANGLE_TOLERANCE);
 	rotateController->SetContinuous(true);
+	rotateToAngleRate = 1;
+	controllerOverride = false;
+	yawOffset = 0;
 }
 
-/**
- * Sets the yaw on the IMU to zero
- */
-void TigerDrive::ZeroYaw() {
-	imu->ZeroYaw();
+TigerDrive::~TigerDrive() {
+
 }
 
-/**
- * Calculates the rotation rate to rotate the robot at
- * @param angleToRotateTo angle to rotate to in degrees
- * @param speedMultiplier how fast we rotate
- * @return rotation rate
- */
 double TigerDrive::CalculateRotationValue(double angleToRotateTo, double speedMultiplier) {
+	int spinDir = CalculateSpinDirection(angleToRotateTo, imu->GetYaw());
 	double speed = 0;
 	if(!controllerOverride) {
-		speed = CalculateSpeedAndOvershoot(speedMultiplier);
+		speed = CalculateSpeedAndOvershoot(spinDir, speedMultiplier);
 	}
 	else {
 		speed = 0;
 	}
+	//std::cout << "speed: " << speed << "\n";
 	return speed;
 }
 
-/**
- * Calculates the speed and overshoot using the PID Controller
- * @param speedMulti
- * @return the rotation rate
- */
-double TigerDrive::CalculateSpeedAndOvershoot(double speedMulti) {
+double TigerDrive::CalculateSpinDirection(double targetAngle, double imuYaw) {
+	double degreesToAngle = 0;
+	int spinDirection = 0;
+	if((fabs(imuYaw - targetAngle) > kROTATION_ANGLE_TOLERANCE) &&
+	   (fabs(imuYaw + 360 - targetAngle) > kROTATION_ANGLE_TOLERANCE)) {
+		if (imuYaw > targetAngle)  {
+			tooFarCW = true;
+			spinDirection = -1;
+			degreesToAngle = imuYaw - targetAngle;
+		}
+		else {
+			tooFarCCW = true;
+			spinDirection = 1;
+			degreesToAngle = targetAngle - imuYaw;
+		}
+	}
+	if(degreesToAngle > 180)
+	{
+		degreesToAngle = 360 - degreesToAngle;
+		spinDirection = spinDirection * -1;
+	}
+	return spinDirection;
+}
+
+double TigerDrive::CalculateSpeedAndOvershoot(int spinDir, double speedMulti) {
 	double calculatedRotate = 0;
 	if(tooFarCW || tooFarCCW)
 	{
 		rotateController->Enable();
 		isRotDone = false;
 		calculatedRotate = rotateToAngleRate * speedMulti;
+		timesThroughLoop = 1;
 	}
+	/*else
+	{
+		if(timesThroughLoop == OVERSHOOT_TIMEOUT || timesThroughLoop == 0)
+		{
+			rotateController->Disable();
+			isRotDone = true;
+			timesThroughLoop = 0;
+			calculatedRotate = 0;
+		}
+		timesThroughLoop = timesThroughLoop + 1;
+	}*/
+
+
 	return calculatedRotate;
 }
 
-/**
- * Calculates the yaw of the robot based on the offset we passed in.
- * Usually used if we dont start straight forward in auto.
- * @return the "real" yaw of the robot
- */
 double TigerDrive::GetAdjYaw() {
 	double imuRaw = imu->GetYaw();
 	double calculatedOffset = imuRaw + yawOffset;
@@ -92,59 +95,36 @@ double TigerDrive::GetAdjYaw() {
 	return calculatedOffset;
 }
 
-void TigerDrive::SetAngleTarget(double angle) {
-	rotateController->SetSetpoint(angle);
-}
-
-/**
- * Sets the adjusted yaw so we can set this in auto modes to make sure we rotate correctly.
- * @param offset
- */
 void TigerDrive::SetAdjYaw(double offset)
 {
 	yawOffset = offset;
 }
 
-/**
- * Sets if we are done rotating
- * @param isDone are we done?
- */
 void TigerDrive::SetIsRotDone(bool isDone)
 {
 	isRotDone = isDone;
 }
 
-/**
- * Have we overrode our PID Controller with the controller
- * @param isDone have we moved the rotation axis
- */
 void TigerDrive::SetIsRotDoneOverride(bool isDone)
 {
 	controllerOverride = isDone;
 }
 
-/**
- * Gets the yaw of the imu.
- * @return the "raw" imu yaw
- */
+void TigerDrive::SetTimesThroughLoop(int timeLoop)
+{
+	timesThroughLoop = timeLoop;
+}
+
 float TigerDrive::GetImuYaw()
 {
 	return imu->GetYaw();
 }
 
-/**
- * Are we done rotating?
- * @return boolean that says if we are done rotating?
- */
 bool TigerDrive::GetIsRotDone()
 {
 	return isRotDone;
 }
 
-/**
- * Gets if we have overridden the pid controller
- * @return boolean that says if we have overridden the PID
- */
 bool TigerDrive::GetIsRotDoneOverride()
 {
 	return controllerOverride;

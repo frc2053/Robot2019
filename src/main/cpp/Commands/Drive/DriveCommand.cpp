@@ -1,6 +1,8 @@
 #include "Commands/Drive/DriveCommand.h"
 #include "Robot.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 #include "RobotMap.h"
+#include <iostream>
 
 /**
  * Constructor for DriveCommand
@@ -22,7 +24,7 @@ DriveCommand::DriveCommand() {
 	isBPressed = false;
 	isXPressed = false;
 	isYPressed = false;
-	isRotDone = false;
+	isRotDone = true;
 }
 
 /**
@@ -37,6 +39,7 @@ void DriveCommand::Initialize() {
 	isBPressed = false;
 	isXPressed = false;
 	isYPressed = false;
+	isRotDone = true;
 }
 
 /**
@@ -96,17 +99,20 @@ void DriveCommand::GetInputs() {
 void DriveCommand::SetAngleFromInput() {
 	if(isAPressed) {
 		setAngle = 180;
+		Robot::drivebaseSubsystem->GetTigerDrive()->rotateController->SetSetpoint(180);
 	}
 	if(isBPressed) {
+		Robot::drivebaseSubsystem->GetTigerDrive()->rotateController->SetSetpoint(90);
 		setAngle = 90;
 	}
 	if(isXPressed) {
+		Robot::drivebaseSubsystem->GetTigerDrive()->rotateController->SetSetpoint(-90);
 		setAngle = -90;
 	}
 	if(isYPressed) {
+		Robot::drivebaseSubsystem->GetTigerDrive()->rotateController->SetSetpoint(0);
 		setAngle = 0;
 	}
-	Robot::drivebaseSubsystem->GetTigerDrive()->SetAngleTarget(setAngle);
 }
 
 /**
@@ -115,7 +121,7 @@ void DriveCommand::SetAngleFromInput() {
  */
 void DriveCommand::RotateCommand()
 {
-	if(((isYPressed == true|| isXPressed == true || isAPressed == true || isBPressed == true) && isRotDone == true) || (isRotDone == false))
+	if(((isYPressed == true || isXPressed == true || isAPressed == true || isBPressed == true) && isRotDone == true) || (isRotDone == false))
 	{
 		finalRotVal = Robot::drivebaseSubsystem->GetTigerDrive()->CalculateRotationValue(setAngle, 1);
 	}
@@ -138,12 +144,12 @@ void DriveCommand::CallToSwerveDrive() {
 	if(rotAxis == 0)
 	{
 		Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDoneOverride(false);
-		Robot::drivebaseSubsystem->MecDrive(xAxis, -yAxis, -finalRotVal, currentYaw);
+		Robot::drivebaseSubsystem->MecDrive(xAxis, -yAxis, finalRotVal, currentYaw);
 	}
 	else
 	{
 		Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDoneOverride(true);
 		Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDone(true);
-		Robot::drivebaseSubsystem->MecDrive(xAxis, -yAxis, -rotAxis, currentYaw);
+		Robot::drivebaseSubsystem->MecDrive(xAxis, -yAxis, rotAxis, currentYaw);
 	}
 }

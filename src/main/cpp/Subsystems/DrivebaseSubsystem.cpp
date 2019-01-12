@@ -3,6 +3,9 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/commands/Command.h>
 #include "Commands/Drive/DriveCommand.h"
+#include <rev/CANSparkMax.h>
+#include <rev/CANSparkMaxLowLevel.h>
+
 #include <iostream>
 
 /**
@@ -15,7 +18,14 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	frontRightSpark = std::make_unique<rev::CANSparkMax>(kDRIVESPARK_FR_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
 	backLeftSpark = std::make_unique<rev::CANSparkMax>(kDRIVESPARK_BL_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
 	backRightSpark = std::make_unique<rev::CANSparkMax>(kDRIVESPARK_BR_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
-	mecDrive = std::make_unique<frc::MecanumDrive>(*frontLeftSpark.get(), *backLeftSpark.get(), *frontRightSpark.get(), *backRightSpark.get());
+	mecDrive = std::make_unique<frc::MecanumDrive>(*frontLeftSpark.get(), *backLeftSpark.get(), *frontRightSpark.get(), *
+		backRightSpark.get());
+
+	frontLeftSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+	frontRightSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+	backLeftSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+	backRightSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+
 }
 
 /**
@@ -34,8 +44,9 @@ void DrivebaseSubsystem::InitDefaultCommand() {
  * @param rotAxis Rotation Axis of joystick
  * @param currentYaw Current Yaw of the robot
  */
+
 void DrivebaseSubsystem::MecDrive(double xAxis, double yAxis, double rotAxis, double currentYaw) {
-	mecDrive->DriveCartesian(yAxis, xAxis, rotAxis, currentYaw);
+	mecDrive->DriveCartesian(xAxis, yAxis, rotAxis, currentYaw);
 }
 
 /*
@@ -47,5 +58,6 @@ const std::unique_ptr<TigerDrive>& DrivebaseSubsystem::GetTigerDrive() {
 }
 
 void DrivebaseSubsystem::Periodic() {
-
+	SmartDashboard::PutNumber("IMU Yaw", tigerDrive->GetAdjYaw());
+	
 }

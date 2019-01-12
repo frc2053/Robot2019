@@ -24,10 +24,10 @@ public:
 	virtual void Periodic();
 private:
 	std::shared_ptr<AHRS> imu;
-	std::shared_ptr<rev::CANSparkMax> frontLeftSpark;
-	std::shared_ptr<rev::CANSparkMax> frontRightSpark;
-	std::shared_ptr<rev::CANSparkMax> backLeftSpark;
-	std::shared_ptr<rev::CANSparkMax> backRightSpark;
+	std::unique_ptr<rev::CANSparkMax> frontLeftSpark;
+	std::unique_ptr<rev::CANSparkMax> frontRightSpark;
+	std::unique_ptr<rev::CANSparkMax> backLeftSpark;
+	std::unique_ptr<rev::CANSparkMax> backRightSpark;
 
 	std::unique_ptr<TigerDrive> tigerDrive;
 	std::unique_ptr<frc::MecanumDrive> mecDrive;
