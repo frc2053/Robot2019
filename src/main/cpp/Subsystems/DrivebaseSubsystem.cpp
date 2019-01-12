@@ -15,7 +15,6 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	frontRightSpark = std::make_unique<rev::CANSparkMax>(kDRIVESPARK_FR_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
 	backLeftSpark = std::make_unique<rev::CANSparkMax>(kDRIVESPARK_BL_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
 	backRightSpark = std::make_unique<rev::CANSparkMax>(kDRIVESPARK_BR_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
-	state = std::make_unique<DrivetrainState>();
 	mecDrive = std::make_unique<frc::MecanumDrive>(*frontLeftSpark.get(), *backLeftSpark.get(), *frontRightSpark.get(), *backRightSpark.get());
 }
 
@@ -45,39 +44,6 @@ void DrivebaseSubsystem::MecDrive(double xAxis, double yAxis, double rotAxis, do
  */
 const std::unique_ptr<TigerDrive>& DrivebaseSubsystem::GetTigerDrive() {
 	return tigerDrive;
-}
-
-const std::unique_ptr<DrivetrainState>& DrivebaseSubsystem::GetState() {
-	return state;
-}
-
-void DrivebaseSubsystem::ForwardKinematics() {
-
-	linearVelX = (ConvertTickRateToVelocity(frontLeftSpark->GetVelocity())
-		+ ConvertTickRateToVelocity(frontRightSpark->GetVelocity())
-		+ ConvertTickRateToVelocity(backLeftSpark->GetVelocity())
-		+ ConvertTickRateToVelocity(backRightSpark->GetVelocity()))
-		* (kWHEEL_RADIUS / 4);
-	linearVelY = (ConvertTickRateToVelocity(-frontLeftSpark->GetVelocity())
-		+ ConvertTickRateToVelocity(frontRightSpark->GetVelocity())
-		+ ConvertTickRateToVelocity(backLeftSpark->GetVelocity())
-		- ConvertTickRateToVelocity(backRightSpark->GetVelocity()))
-		* (kWHEEL_RADIUS / 4);
-	rotationVel = (ConvertTickRateToVelocity(-frontLeftSpark->GetVelocity())
-		+ ConvertTickRateToVelocity(frontRightSpark->GetVelocity())
-		- ConvertTickRateToVelocity(backLeftSpark->GetVelocity())
-		+ ConvertTickRateToVelocity(backRightSpark->GetVelocity()))
-		* (kWHEEL_RADIUS / (4 * kWHEEL_BASE_WIDTH + kWHEEL_BASE_LENGTH));
-
-	state->posX = state->posX + 
-}
-
-double DrivebaseSubsystem::ConvertTickRateToVelocity(double tickRate) {
-	double retVal = 0;
-
-	retVal = tickRate * kTICKS_PER_WHEEL_REV;
-
-	return retVal;
 }
 
 void DrivebaseSubsystem::Periodic() {
