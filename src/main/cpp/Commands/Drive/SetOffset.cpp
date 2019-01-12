@@ -6,7 +6,7 @@
  * @param input angle in degrees of offset
  */
 SetOffset::SetOffset(float input) {
-	Requires(Robot::swerveSubsystem.get());
+	Requires(Robot::drivebaseSubsystem.get());
 	isDone = false;
 	inputYaw = input;
 }
@@ -19,7 +19,7 @@ void SetOffset::Initialize() {
  * Instantly ends after setting yaw
  */
 void SetOffset::Execute() {
-	Robot::swerveSubsystem->GetTigerDrive()->SetAdjYaw(inputYaw);
+	Robot::drivebaseSubsystem->GetTigerDrive()->SetAdjYaw(inputYaw);
 	isDone = true;
 }
 

@@ -3,7 +3,7 @@
 
 ZeroYaw::ZeroYaw()
 {
-	Requires(Robot::swerveSubsystem.get());
+	Requires(Robot::drivebaseSubsystem.get());
 	isDone = false;
 }
 
@@ -18,7 +18,7 @@ void ZeroYaw::Initialize()
 void ZeroYaw::Execute()
 {
 	isDone = false;
-	Robot::swerveSubsystem->GetTigerDrive()->ZeroYaw();
+	Robot::drivebaseSubsystem->GetTigerDrive()->ZeroYaw();
 	isDone = true;
 }
 

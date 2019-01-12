@@ -14,15 +14,15 @@ void RotateToAngle::Initialize() {
 }
 
 void RotateToAngle::Execute() {
-	currentYaw = Robot::swerveSubsystem->GetTigerDrive()->GetAdjYaw();
+	currentYaw = Robot::drivebaseSubsystem->GetTigerDrive()->GetAdjYaw();
 	double outputRate = 0;
 
-	Robot::swerveSubsystem->GetTigerDrive()->SetIsRotDoneOverride(false);
-	isDone = Robot::swerveSubsystem->GetTigerDrive()->GetIsRotDone();
-	Robot::swerveSubsystem->GetTigerDrive()->SetAngleTarget(inputAngle);
+	Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDoneOverride(false);
+	isDone = Robot::drivebaseSubsystem->GetTigerDrive()->GetIsRotDone();
+	Robot::drivebaseSubsystem->GetTigerDrive()->SetAngleTarget(inputAngle);
 
-	outputRate = Robot::swerveSubsystem->GetTigerDrive()->CalculateRotationValue(inputAngle, kROTATION_RATE_MULTIPLIER);
-	Robot::swerveSubsystem->SwerveDrive(0, 0, -outputRate, currentYaw);
+	outputRate = Robot::drivebaseSubsystem->GetTigerDrive()->CalculateRotationValue(inputAngle, 1);
+	Robot::drivebaseSubsystem->MecDrive(0, 0, -outputRate, currentYaw);
 }
 
 bool RotateToAngle::IsFinished() {
@@ -30,7 +30,7 @@ bool RotateToAngle::IsFinished() {
 }
 
 void RotateToAngle::End() {
-	Robot::swerveSubsystem->SwerveDrive(0, 0, 0, currentYaw);
+	Robot::drivebaseSubsystem->MecDrive(0, 0, 0, currentYaw);
 }
 
 void RotateToAngle::Interrupted() {

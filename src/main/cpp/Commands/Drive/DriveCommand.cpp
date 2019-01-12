@@ -9,7 +9,7 @@
  * over other commands that may run on the drivebase
  */
 DriveCommand::DriveCommand() {
-	Requires(Robot::swerveSubsystem.get());
+	Requires(Robot::drivebaseSubsystem.get());
 
 	xAxis = 0;
 	yAxis = 0;
@@ -45,8 +45,8 @@ void DriveCommand::Initialize() {
  */
 void DriveCommand::Execute() {
 	GetInputs();
-	currentYaw = Robot::swerveSubsystem->GetTigerDrive()->GetAdjYaw();
-	isRotDone = Robot::swerveSubsystem->GetTigerDrive()->GetIsRotDone();
+	currentYaw = Robot::drivebaseSubsystem->GetTigerDrive()->GetAdjYaw();
+	isRotDone = Robot::drivebaseSubsystem->GetTigerDrive()->GetIsRotDone();
 
 	SetAngleFromInput();
 	RotateCommand();
@@ -106,7 +106,7 @@ void DriveCommand::SetAngleFromInput() {
 	if(isYPressed) {
 		setAngle = 0;
 	}
-	Robot::swerveSubsystem->GetTigerDrive()->SetAngleTarget(setAngle);
+	Robot::drivebaseSubsystem->GetTigerDrive()->SetAngleTarget(setAngle);
 }
 
 /**
@@ -117,7 +117,7 @@ void DriveCommand::RotateCommand()
 {
 	if(((isYPressed == true|| isXPressed == true || isAPressed == true || isBPressed == true) && isRotDone == true) || (isRotDone == false))
 	{
-		finalRotVal = Robot::swerveSubsystem->GetTigerDrive()->CalculateRotationValue(setAngle, .5);//kROTATION_RATE_MULTIPLIER);
+		finalRotVal = Robot::drivebaseSubsystem->GetTigerDrive()->CalculateRotationValue(setAngle, 1);
 	}
 }
 
@@ -125,7 +125,7 @@ void DriveCommand::RotateCommand()
  * make sure we are checking if we want to cancel rotating
  */
 void DriveCommand::CheckRotateOverride() {
-	if(Robot::swerveSubsystem->GetTigerDrive()->GetIsRotDoneOverride())
+	if(Robot::drivebaseSubsystem->GetTigerDrive()->GetIsRotDoneOverride())
 	{
 		finalRotVal = 0;
 	}
@@ -137,13 +137,13 @@ void DriveCommand::CheckRotateOverride() {
 void DriveCommand::CallToSwerveDrive() {
 	if(rotAxis == 0)
 	{
-		Robot::swerveSubsystem->GetTigerDrive()->SetIsRotDoneOverride(false);
-		Robot::swerveSubsystem->SwerveDrive(xAxis, -yAxis, -finalRotVal, currentYaw);
+		Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDoneOverride(false);
+		Robot::drivebaseSubsystem->MecDrive(xAxis, -yAxis, -finalRotVal, currentYaw);
 	}
 	else
 	{
-		Robot::swerveSubsystem->GetTigerDrive()->SetIsRotDoneOverride(true);
-		Robot::swerveSubsystem->GetTigerDrive()->SetIsRotDone(true);
-		Robot::swerveSubsystem->SwerveDrive(xAxis, -yAxis, -rotAxis, currentYaw);
+		Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDoneOverride(true);
+		Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDone(true);
+		Robot::drivebaseSubsystem->MecDrive(xAxis, -yAxis, -rotAxis, currentYaw);
 	}
 }

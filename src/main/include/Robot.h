@@ -8,8 +8,7 @@
 
 #include <frc/TimedRobot.h>
 #include "OI.h"
-#include "Subsystems/SwerveSubsystem.h"
-#include "Subsystems/ObserverSubsystem.h"
+#include "Subsystems/DrivebaseSubsystem.h"
 
 /**
  * This is the main class of the robot. Sort of like
@@ -17,9 +16,8 @@
  */
 class Robot : public frc::TimedRobot {
 public:
-
 	static std::unique_ptr<OI> oi;
-	static std::unique_ptr<SwerveSubsystem> swerveSubsystem;
+	static std::unique_ptr<DrivebaseSubsystem> drivebaseSubsystem;
 
 	void RobotInit() override;
 	void DisabledInit() override;
@@ -29,7 +27,5 @@ public:
 	void TeleopInit() override;
 	void TeleopPeriodic() override;
 	void TestPeriodic() override;
-
 private:
-	Command* driveToPos;
 };

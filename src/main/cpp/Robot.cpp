@@ -7,10 +7,9 @@
 
 #include "Robot.h"
 #include <frc/commands/Scheduler.h>
-#include "Commands/Drive/DriveToPosition.h"
 
 std::unique_ptr<OI> Robot::oi;
-std::unique_ptr<SwerveSubsystem> Robot::swerveSubsystem;
+std::unique_ptr<DrivebaseSubsystem> Robot::drivebaseSubsystem;
 
 /**
  * \brief Robot Initialization
@@ -21,9 +20,8 @@ std::unique_ptr<SwerveSubsystem> Robot::swerveSubsystem;
  * also set up game specific auto routines.
  */
 void Robot::RobotInit() {
-	swerveSubsystem = std::make_unique<SwerveSubsystem>();
+	drivebaseSubsystem = std::make_unique<DrivebaseSubsystem>();
 	oi = std::make_unique<OI>();
-	driveToPos = new DriveToPosition();
 }
 
 /**
@@ -54,7 +52,6 @@ void Robot::DisabledPeriodic() {
  * autonomous mode. Used to get selected auto mode.
  */
 void Robot::AutonomousInit() {
-	driveToPos->Start();
 }
 
 /**
