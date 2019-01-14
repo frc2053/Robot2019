@@ -46,7 +46,7 @@ void DrivebaseSubsystem::InitDefaultCommand() {
  */
 
 void DrivebaseSubsystem::MecDrive(double xAxis, double yAxis, double rotAxis, double currentYaw) {
-	mecDrive->DriveCartesian(xAxis, yAxis, rotAxis, currentYaw);
+	mecDrive->DriveCartesian(xAxis, yAxis, rotAxis, -currentYaw);
 }
 
 /*

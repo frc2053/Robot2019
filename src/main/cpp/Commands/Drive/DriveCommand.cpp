@@ -24,6 +24,7 @@ DriveCommand::DriveCommand() {
 	isBPressed = false;
 	isXPressed = false;
 	isYPressed = false;
+	isRightShoulderButtonPressed = false;
 	isRotDone = true;
 }
 
@@ -39,6 +40,7 @@ void DriveCommand::Initialize() {
 	isBPressed = false;
 	isXPressed = false;
 	isYPressed = false;
+	isRightShoulderButtonPressed = false;
 	isRotDone = true;
 }
 
@@ -91,6 +93,7 @@ void DriveCommand::GetInputs() {
 	isBPressed = Robot::oi->GetDriverController()->bButton->Get();
 	isXPressed = Robot::oi->GetDriverController()->xButton->Get();
 	isYPressed = Robot::oi->GetDriverController()->yButton->Get();
+	isRightShoulderButtonPressed = Robot::oi->GetDriverController()->rightShoulderButton->Get();
 }
 
 /**
@@ -101,7 +104,7 @@ void DriveCommand::SetAngleFromInput() {
 		setAngle = 180;
 		Robot::drivebaseSubsystem->GetTigerDrive()->rotateController->SetSetpoint(180);
 	}
-	if(isBPressed) {
+	if(isRightShoulderButtonPressed) {
 		Robot::drivebaseSubsystem->GetTigerDrive()->rotateController->SetSetpoint(90);
 		setAngle = 90;
 	}
@@ -121,7 +124,7 @@ void DriveCommand::SetAngleFromInput() {
  */
 void DriveCommand::RotateCommand()
 {
-	if(((isYPressed == true || isXPressed == true || isAPressed == true || isBPressed == true) && isRotDone == true) || (isRotDone == false))
+	if(((isYPressed == true || isXPressed == true || isAPressed == true || isRightShoulderButtonPressed == true) && isRotDone == true) || (isRotDone == false))
 	{
 		finalRotVal = Robot::drivebaseSubsystem->GetTigerDrive()->CalculateRotationValue(setAngle, 1);
 	}

@@ -32,6 +32,7 @@ private:
 	bool isBPressed;
 	bool isXPressed;
 	bool isYPressed;
+	bool isRightShoulderButtonPressed;
 	bool isLeftStickPressed;
 	bool isRotDone;
 };
