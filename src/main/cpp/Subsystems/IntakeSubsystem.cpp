@@ -10,7 +10,9 @@
 
 IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeWheelsTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kINTAKE_WHEELS_ID);
-  intakeWheelsTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kINTAKE_ACTUATOR_ID);
+  intakeActuatorTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kINTAKE_ACTUATOR_ID);
+  
+  intakeActuatorTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative);
 }
 
 void IntakeSubsystem::InitDefaultCommand() {
@@ -27,7 +29,7 @@ void IntakeSubsystem::SetIntakeAngle(double angle) {
 }
 
 int IntakeSubsystem::ConvertAngleToTicks(double angle) {
-  int ticks = angle / 360.0 * kTICKS_PER_REV_OF_ENCODER;
+  int ticks = angle / 360.0 * kTICKS_PER_REV_OF_ENCODER * kWRIST_GEAR_RATIO;
   return ticks;
 }
 
