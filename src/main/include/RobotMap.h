@@ -45,6 +45,10 @@ constexpr int kELEVATOR_LEADER_ID = 7;
 constexpr int kELEVATOR_FOLLOWERONE_ID = 8;
 constexpr int kELEVATOR_FOLLOWERTWO_ID = 9;
 
+//FLAPPER TALONS
+constexpr int kINTAKE_FLAPPER_LEFT_ID = 10;
+constexpr int kINTAKE_FLAPPER_RIGHT_ID = 11;
+
 //INTAKE PARAMS
 constexpr double kINTAKE_ANGLE_BALL = 45;
 constexpr double kINTAKE_ANGLE_UP = 0;

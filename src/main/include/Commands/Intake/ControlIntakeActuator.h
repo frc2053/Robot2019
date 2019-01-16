@@ -9,9 +9,9 @@
 
 #include <frc/commands/Command.h>
 
-class ControlIntakeActuator : public frc::Command {
+class ControlIntakeWrist : public frc::Command {
  public:
-  ControlIntakeActuator(double intakeAngle);
+  ControlIntakeWrist(double intakeAngle);
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

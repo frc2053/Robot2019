@@ -5,23 +5,23 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Commands/Intake/ControlIntakeActuator.h"
+#include "Commands/Intake/ControlIntakeWrist.h"
 #include "RobotMap.h"
 #include "Robot.h"
 
-ControlIntakeActuator::ControlIntakeActuator(double intakeAngle) {
+ControlIntakeWrist::ControlIntakeWrist(double intakeAngle) {
   Requires(Robot::intakeSubsystem.get());
   targetAngle = intakeAngle;
   isDone = false;
 }
 
 // Called just before this Command runs the first time
-void ControlIntakeActuator::Initialize() {
+void ControlIntakeWrist::Initialize() {
   isDone = false;
 }
 
 // Called repeatedly when this Command is scheduled to run
-void ControlIntakeActuator::Execute() {
+void ControlIntakeWrist::Execute() {
   Robot::intakeSubsystem->SetIntakeAngle(targetAngle);
   if(Robot::intakeSubsystem->GetAngleError() < kINTAKE_ANGLE_TOLERANCE) {
     isDone = true;
@@ -29,13 +29,13 @@ void ControlIntakeActuator::Execute() {
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool ControlIntakeActuator::IsFinished() { 
+bool ControlIntakeWrist::IsFinished() { 
   return isDone; 
 }
 
 // Called once after isFinished returns true
-void ControlIntakeActuator::End() {}
+void ControlIntakeWrist::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ControlIntakeActuator::Interrupted() {}
+void ControlIntakeWrist::Interrupted() {}

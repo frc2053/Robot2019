@@ -13,7 +13,9 @@
 class IntakeSubsystem : public frc::Subsystem {
  private:
   std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeWheelsTalon;
-  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeActuatorTalon;
+  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeWristTalon;
+  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeFlapperLeftTalon;
+  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeFlapperRightTalon;
  public:
   IntakeSubsystem();
   void InitDefaultCommand() override;
