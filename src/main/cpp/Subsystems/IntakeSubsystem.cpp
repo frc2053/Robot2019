@@ -12,7 +12,7 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeWheelsTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kINTAKE_WHEELS_ID);
   intakeWristTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kINTAKE_ACTUATOR_ID);
   intakeFlapperLeftTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kINTAKE_FLAPPER_LEFT_ID);
-  intakeFlapperLeftTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kINTAKE_FLAPPER_RIGHT_ID);
+  intakeFlapperRightTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kINTAKE_FLAPPER_RIGHT_ID);
   
   intakeFlapperRightTalon->Follow(*intakeFlapperLeftTalon.get());
 
@@ -28,16 +28,28 @@ void IntakeSubsystem::SetIntakeWheelSpeed(double speed) {
   intakeWheelsTalon->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
 }
 
-void IntakeSubsystem::SetIntakeAngle(double angle) {
-  angle = ConvertAngleToTicks(angle);
+void IntakeSubsystem::SetWristAngle(double angle) {
+  angle = ConvertAngleToTicksWrist(angle);
   intakeWristTalon->Set(ctre::phoenix::motorcontrol::ControlMode::Position, angle);
 }
 
-int IntakeSubsystem::ConvertAngleToTicks(double angle) {
+void IntakeSubsystem::SetFlapperAngle(double angle) {
+  angle = ConvertAngleToTicksFlapper(angle);
+  intakeFlapperLeftTalon->Set(ctre::phoenix::motorcontrol::ControlMode::Position, angle);
+}
+
+int IntakeSubsystem::ConvertAngleToTicksWrist(double angle) {
   int ticks = angle / 360.0 * kTICKS_PER_REV_OF_ENCODER * kWRIST_GEAR_RATIO;
   return ticks;
 }
 
-int IntakeSubsystem::GetAngleError() {
+int IntakeSubsystem::GetFlapperAngleError() {
+  return intakeFlapperLeftTalon->GetClosedLoopError(0);
+}
+int IntakeSubsystem::GetWristAngleError() {
   return intakeWristTalon->GetClosedLoopError(0);
+}
+
+int IntakeSubsystem::ConvertAngleToTicksFlapper(double angle) {
+  int ticks = angle / 360.0 * kTICKS_PER_REV_OF_ENCODER * kFLAPPER_GEAR_RATIO;
 }

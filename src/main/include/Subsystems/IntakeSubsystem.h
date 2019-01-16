@@ -20,7 +20,10 @@ class IntakeSubsystem : public frc::Subsystem {
   IntakeSubsystem();
   void InitDefaultCommand() override;
   void SetIntakeWheelSpeed(double speed);
-  void SetIntakeAngle(double angle);
-  int ConvertAngleToTicks(double angle);
-  int GetAngleError();
+  void SetWristAngle(double angle);
+  void SetFlapperAngle(double angle);
+  int ConvertAngleToTicksWrist(double angle);
+  int ConvertAngleToTicksFlapper(double angle);
+  int GetWristAngleError();
+  int GetFlapperAngleError();
 };
