@@ -16,7 +16,7 @@ constexpr int kOPERATOR_CONTROLLER_PORT = 1;
 //ENCODER STUFF
 constexpr int kTICKS_PER_REV_OF_ENCODER = 4096;
 constexpr int kELEVATORTICKS_PER_INCH= 4096;
-constexpr double kWRIST_GEAR_RATIO = .55;
+constexpr double kWRIST_GEAR_RATIO = 1.8181;
 
 //DRIVEBASE ROTATION PARAMETERS
 constexpr double kROTATION_P = .03;
