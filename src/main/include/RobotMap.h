@@ -19,6 +19,7 @@ constexpr int kTICKS_PER_REV_OF_ENCODER = 4096;
 constexpr int kELEVATORTICKS_PER_INCH= 4096;
 constexpr double kWRIST_GEAR_RATIO = 1.8181;
 constexpr double kFLAPPER_GEAR_RATIO = 1;
+constexpr double kWHEEL_DIAMETER = 6;
 
 //DRIVEBASE ROTATION PARAMETERS
 constexpr double kROTATION_P = .03;
@@ -59,8 +60,8 @@ constexpr int kINTAKE_ANGLE_TOLERANCE = 5;
 constexpr double kINTAKE_SPEED = 1;
 
 //FORWARD KINEMATICS
-constexpr double kFORWARD_KINEMATICS_WEIGHT = 1;
-constexpr double kGYRO_WEIGHT = 0;
+constexpr double kFORWARD_KINEMATICS_WEIGHT = 0;
+constexpr double kGYRO_WEIGHT = 1;
 constexpr double kAUTO_CONTROLLER_P = 1;
 constexpr double kAUTO_CONTROLLER_I = 0;
 constexpr double kAUTO_CONTROLLER_D = 0;

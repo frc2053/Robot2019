@@ -21,6 +21,11 @@ public:
 	void InitDefaultCommand();
 	const std::unique_ptr<TigerDrive>& GetTigerDrive();
 	void MecDrive(double xAxis, double yAxis, double rotAxis, double currentYaw);
+	double ConvertEncoderTicksToEncoderRotations(int ticks);
+	double ConvertEncoderRotationsToWheelsRotations(double rotations);
+	double ConvertWheelRotationsToDistance(double rotations);
+	double GetWheelSpeed(std::string wheel);
+	Translation2D GetWheelDistance(std::string wheel);
 	virtual void Periodic();
 private:
 	std::shared_ptr<AHRS> imu;
@@ -31,5 +36,11 @@ private:
 
 	std::unique_ptr<TigerDrive> tigerDrive;
 	std::unique_ptr<frc::MecanumDrive> mecDrive;
+	double m_xVel, m_yVel, m_yawRate;
+	double m_oldTimestamp;
+	bool m_first;
+	Translation2D m_oldFlDistance, m_oldFrDistance, m_oldBlDistance, m_oldBrDistance;
+	Rotation2D m_oldGyroYaw;
+	Translation2D m_motionSetpoint;
 };
 
