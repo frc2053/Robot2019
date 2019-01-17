@@ -27,7 +27,7 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	frontRightSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 	backLeftSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 	backRightSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-
+	Robot::observer->SetRobotPos(RigidTransform2D(Translation2D(0,0), Rotation2D(1, 0, true)), 0.0);
 }
 
 /**

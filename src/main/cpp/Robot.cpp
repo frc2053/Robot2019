@@ -9,6 +9,7 @@
 #include <frc/commands/Scheduler.h>
 #include <Commands/Drive/ZeroYaw.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <cameraserver/CameraServer.h>
 
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<DrivebaseSubsystem> Robot::drivebaseSubsystem;
@@ -24,11 +25,14 @@ std::unique_ptr<ObserverSubsystem> Robot::observer;
  * also set up game specific auto routines.
  */
 void Robot::RobotInit() {
+	observer = std::make_unique<ObserverSubsystem>();
 	drivebaseSubsystem = std::make_unique<DrivebaseSubsystem>();
 	intakeSubsystem = std::make_unique<IntakeSubsystem>();
-	observer = std::make_unique<ObserverSubsystem>();
 	oi = std::make_unique<OI>();
 	SmartDashboard::PutData("Zero Yaw", new ZeroYaw());
+	cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture(0);
+	camera.SetResolution(320, 240);
+	camera.SetFPS(15);
 }
 
 /**
