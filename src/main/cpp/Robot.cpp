@@ -9,7 +9,6 @@
 #include <frc/commands/Scheduler.h>
 #include <Commands/Drive/ZeroYaw.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-#include <cameraserver/CameraServer.h>
 
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<DrivebaseSubsystem> Robot::drivebaseSubsystem;
@@ -30,9 +29,8 @@ void Robot::RobotInit() {
 	intakeSubsystem = std::make_unique<IntakeSubsystem>();
 	oi = std::make_unique<OI>();
 	SmartDashboard::PutData("Zero Yaw", new ZeroYaw());
-	cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture(0);
+	cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture("camera", "/dev/video0");
 	camera.SetResolution(320, 240);
-	camera.SetFPS(15);
 }
 
 /**

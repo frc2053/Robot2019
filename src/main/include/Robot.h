@@ -11,6 +11,8 @@
 #include "Subsystems/DrivebaseSubsystem.h"
 #include "Subsystems/IntakeSubsystem.h"
 #include "Subsystems/ObserverSubsystem.h"
+#include <opencv2/core/core.hpp>
+#include <cameraserver/CameraServer.h>
 
 /**
  * This is the main class of the robot. Sort of like
