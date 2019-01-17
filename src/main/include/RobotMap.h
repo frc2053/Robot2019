@@ -20,6 +20,9 @@ constexpr int kELEVATORTICKS_PER_INCH= 4096;
 constexpr double kWRIST_GEAR_RATIO = 1.8181;
 constexpr double kFLAPPER_GEAR_RATIO = 1;
 constexpr double kWHEEL_DIAMETER = 6;
+constexpr double kDRIVE_GEAR_RATIO = 22/4;
+constexpr double kWHEEL_BASE_LENGTH = 29;
+constexpr double kWHEEL_BASE_WIDTH = 29;
 
 //DRIVEBASE ROTATION PARAMETERS
 constexpr double kROTATION_P = .03;

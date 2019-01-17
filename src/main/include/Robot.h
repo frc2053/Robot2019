@@ -10,6 +10,7 @@
 #include "OI.h"
 #include "Subsystems/DrivebaseSubsystem.h"
 #include "Subsystems/IntakeSubsystem.h"
+#include "Subsystems/ObserverSubsystem.h"
 
 /**
  * This is the main class of the robot. Sort of like
@@ -19,6 +20,7 @@ class Robot : public frc::TimedRobot {
 public:
 	static std::unique_ptr<OI> oi;
 	static std::unique_ptr<DrivebaseSubsystem> drivebaseSubsystem;
+	static std::unique_ptr<ObserverSubsystem> observer;
 	static std::unique_ptr<IntakeSubsystem> intakeSubsystem;
 
 	void RobotInit() override;

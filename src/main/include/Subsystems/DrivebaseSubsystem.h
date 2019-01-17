@@ -11,6 +11,10 @@
 #include <rev/CANSparkMaxLowLevel.h>
 #include "Utilities/TigerDrive/TigerDrive.h"
 #include <frc/drive/MecanumDrive.h>
+#include "Utilities/Math/Translation2D.h"
+#include "Utilities/Math/Rotation2D.h"
+#include "Utilities/Math/RigidTransform2D.h"
+
 
 /**
  * This class represents a SwerveSubsystem. We hold the tigerSwerve, tigerDrive and talons in here
@@ -21,6 +25,7 @@ public:
 	void InitDefaultCommand();
 	const std::unique_ptr<TigerDrive>& GetTigerDrive();
 	void MecDrive(double xAxis, double yAxis, double rotAxis, double currentYaw);
+	RigidTransform2D::Delta MecanumForwardKinematics(RigidTransform2D::Delta& flVelocity, RigidTransform2D::Delta& frVelocity, RigidTransform2D::Delta& blVelocity, RigidTransform2D::Delta& brVelocity);
 	double ConvertEncoderTicksToEncoderRotations(int ticks);
 	double ConvertEncoderRotationsToWheelsRotations(double rotations);
 	double ConvertWheelRotationsToDistance(double rotations);

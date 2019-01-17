@@ -13,6 +13,7 @@
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<DrivebaseSubsystem> Robot::drivebaseSubsystem;
 std::unique_ptr<IntakeSubsystem> Robot::intakeSubsystem;
+std::unique_ptr<ObserverSubsystem> Robot::observer;
 
 /**
  * \brief Robot Initialization
@@ -25,6 +26,7 @@ std::unique_ptr<IntakeSubsystem> Robot::intakeSubsystem;
 void Robot::RobotInit() {
 	drivebaseSubsystem = std::make_unique<DrivebaseSubsystem>();
 	intakeSubsystem = std::make_unique<IntakeSubsystem>();
+	observer = std::make_unique<ObserverSubsystem>();
 	oi = std::make_unique<OI>();
 	SmartDashboard::PutData("Zero Yaw", new ZeroYaw());
 }

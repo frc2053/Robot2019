@@ -1,7 +1,7 @@
 #include "Subsystems/ObserverSubsystem.h"
 #include "RobotMap.h"
+#include "Robot.h"
 #include <frc/RobotController.h>
-#include "Subsystems/DrivebaseSubsystem.h"
 
 /**
  * Constructor for our observer. We init a random default value because we dont really know
@@ -31,7 +31,7 @@ void ObserverSubsystem::UpdateRobotPoseObservation(RigidTransform2D::Delta& flVe
 		RigidTransform2D::Delta& frVelocity, RigidTransform2D::Delta& blVelocity,
 		RigidTransform2D::Delta& brVelocity, double timeStamp, Rotation2D& deltaGyroYaw) {
 			
-	RigidTransform2D::Delta deltaRobotPos = DrivebaseSubsystem::MecanumForwardKinematics(flVelocity, frVelocity, blVelocity, brVelocity);
+	RigidTransform2D::Delta deltaRobotPos = Robot::drivebaseSubsystem->MecanumForwardKinematics(flVelocity, frVelocity, blVelocity, brVelocity);
 	RigidTransform2D oldRobotPos = GetLastRobotPose();
 
 	Rotation2D finalAngleDelta = Rotation2D::fromRadians((deltaRobotPos.GetTheta() * kFORWARD_KINEMATICS_WEIGHT) + (deltaGyroYaw.getRadians() * kGYRO_WEIGHT));

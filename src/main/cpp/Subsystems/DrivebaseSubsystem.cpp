@@ -5,7 +5,9 @@
 #include "Commands/Drive/DriveCommand.h"
 #include <rev/CANSparkMax.h>
 #include <rev/CANSparkMaxLowLevel.h>
-
+#include "Robot.h"
+#include "Utilities/Math/RigidTransform2D.h"
+#include "frc/RobotController.h"
 #include <iostream>
 
 /**
@@ -60,49 +62,49 @@ const std::unique_ptr<TigerDrive>& DrivebaseSubsystem::GetTigerDrive() {
 double DrivebaseSubsystem::GetWheelSpeed(std::string wheel) {
 	double vel = 0;
 	if(wheel == "fl") {
-		vel = frontLeftSpark->GetVelocity();
+		vel = frontLeftSpark->GetEncoder().GetVelocity();
 	}
 	if(wheel == "fr") {
-		vel = frontRightSpark->GetVelocity();
+		vel = frontRightSpark->GetEncoder().GetVelocity();
 	}
 	if(wheel == "bl") {
-		vel = backLeftSpark->GetVelocity();
+		vel = backLeftSpark->GetEncoder().GetVelocity();
 	}
 	if(wheel == "br") {
-		vel = backRightSpark->GetVelocity();
+		vel = backRightSpark->GetEncoder().GetVelocity();
 	}
-	return ConvertWheelRotationsToDistance(ConvertEncoderRotationsToWheelRotations(ConvertEncoderTicksToEncoderRotations(vel))) * 10;
+	return ConvertWheelRotationsToDistance(ConvertEncoderRotationsToWheelsRotations(ConvertEncoderTicksToEncoderRotations(vel))) * 10;
 }
 
 Translation2D DrivebaseSubsystem::GetWheelDistance(std::string wheel) {
 	double pos = 0;
 	if(wheel == "fl") {
-		pos = frontLeftSpark->GetPosition();
+		pos = frontLeftSpark->GetEncoder().GetPosition();
 	}
 	if(wheel == "fr") {
-		pos = frontRightSpark->GetPosition();
+		pos = frontRightSpark->GetEncoder().GetPosition();
 	}
 	if(wheel == "bl") {
-		pos = backLeftSpark->GetPosition();
+		pos = backLeftSpark->GetEncoder().GetPosition();
 	}
 	if(wheel == "br") {
-		pos = backRightSpark->GetPosition();
+		pos = backRightSpark->GetEncoder().GetPosition();
 	}
 	double encoderRotations = ConvertEncoderTicksToEncoderRotations(pos);
 	double wheelRotations = ConvertEncoderRotationsToWheelsRotations(encoderRotations);
 	return Translation2D(ConvertWheelRotationsToDistance(wheelRotations), 0);
 }
 
-double ConvertEncoderTicksToEncoderRotations(int ticks) {
+double DrivebaseSubsystem::ConvertEncoderTicksToEncoderRotations(int ticks) {
 	return ticks / (double) kTICKS_PER_REV_OF_ENCODER;
 }
 
-double ConvertEncoderRotationsToWheelsRotations(double rotations) {
+double DrivebaseSubsystem::ConvertEncoderRotationsToWheelsRotations(double rotations) {
 	double output = rotations / (kTICKS_PER_REV_OF_ENCODER * kDRIVE_GEAR_RATIO * kWHEEL_DIAMETER);
 	return output;
 }
 
-double ConvertWheelRotationsToDistance(double rotations) {
+double DrivebaseSubsystem::ConvertWheelRotationsToDistance(double rotations) {
 	return rotations * (3.14159 * kWHEEL_DIAMETER);
 }
 
@@ -111,17 +113,59 @@ void DrivebaseSubsystem::Periodic() {
 
 	if(m_first) {
 		m_first = false;
-		m_oldFlDistance = Robot::drivebaseSubsystem->GetDistance("fl");
-		m_oldFrDistance = Robot::drivebaseSubsystem->GetDistance("fr");
-		m_oldBlDistance = Robot::drivebaseSubsystem->GetDistance("bl");
-		m_oldBrDistance = Robot::drivebaseSubsystem->GetDistance("br");
+		m_oldFlDistance = Robot::drivebaseSubsystem->GetWheelDistance("fl");
+		m_oldFrDistance = Robot::drivebaseSubsystem->GetWheelDistance("fr");
+		m_oldBlDistance = Robot::drivebaseSubsystem->GetWheelDistance("bl");
+		m_oldBrDistance = Robot::drivebaseSubsystem->GetWheelDistance("br");
 		m_oldGyroYaw = Rotation2D::fromDegrees(-GetTigerDrive()->GetAdjYaw());
 	}
+
+	double timestamp = RobotController::GetFPGATime();
+	double deltaTimestamp = timestamp - m_oldTimestamp;
+	m_oldTimestamp = timestamp;
+
+	Translation2D newFlDistance = GetWheelDistance("fl");
+	Translation2D deltaFlDistance = newFlDistance.translateBy(m_oldFlDistance.inverse());
+	m_oldFlDistance = newFlDistance;
+
+	Translation2D newFrDistance = GetWheelDistance("fr");
+	Translation2D deltaFrDistance = newFrDistance.translateBy(m_oldFrDistance.inverse());
+	m_oldFrDistance = newFrDistance;
+
+	Translation2D newBlDistance = GetWheelDistance("bl");
+	Translation2D deltaBlDistance = newBlDistance.translateBy(m_oldBlDistance.inverse());
+	m_oldBlDistance = newBlDistance;
+
+	Translation2D newBrDistance = GetWheelDistance("br");
+	Translation2D deltaBrDistance = newBrDistance.translateBy(m_oldBrDistance.inverse());
+	m_oldBrDistance = newBrDistance;
+
+	Rotation2D newGyroYaw = Rotation2D::fromDegrees(-GetTigerDrive()->GetAdjYaw());
+	Rotation2D deltaGyroYaw = newGyroYaw.rotateBy(m_oldGyroYaw.inverse());
+	m_oldGyroYaw = newGyroYaw;
+
+	RigidTransform2D::Delta deltaFlVelocity = RigidTransform2D::Delta::fromDelta(-deltaFlDistance.getX(), 0, 0, deltaTimestamp);
+	RigidTransform2D::Delta deltaFrVelocity = RigidTransform2D::Delta::fromDelta(-deltaFrDistance.getX(), 0, 0, deltaTimestamp);
+	RigidTransform2D::Delta deltaBlVelocity = RigidTransform2D::Delta::fromDelta(-deltaBlDistance.getX(), 0, 0, deltaTimestamp);
+	RigidTransform2D::Delta deltaBrVelocity = RigidTransform2D::Delta::fromDelta(-deltaBrDistance.getX(), 0, 0, deltaTimestamp);
+
+	Robot::observer->UpdateRobotPoseObservation(deltaFlVelocity, deltaFrVelocity, deltaBlVelocity, deltaBrVelocity, timestamp, deltaGyroYaw);
+
+	RigidTransform2D observerPos = Robot::observer->GetLastRobotPose();
+
+	SmartDashboard::PutNumber("Field X", observerPos.getTranslation().getX());
+	SmartDashboard::PutNumber("Field Y", observerPos.getTranslation().getY());
+	SmartDashboard::PutNumber("Field Yaw", observerPos.getRotation().getDegrees());
+
+	SmartDashboard::PutNumber("FL Drive Velocity", GetWheelSpeed("fl"));
+	SmartDashboard::PutNumber("FR Drive Velocity", GetWheelSpeed("fr"));
+	SmartDashboard::PutNumber("BL Drive Velocity", GetWheelSpeed("bl"));
+	SmartDashboard::PutNumber("BR Drive Velocity", GetWheelSpeed("br"));
 }
 
-RigidTransform2D::Delta DrivebaseSubsystem::MecanumForwardKinematics(RigidTransform2D::Delta& flVelocity, RigidTransform2D::Delta& frVelocity, RigidTransform2D::Delta& blVelocity, RigidTransform2D::Delta& brVelocity {
-	double xVelocity = (GetWheelSpeed("fl") + GetWheelSpeed("fr") + GetWheelSpeed("bl") + GetWheelSpeed("br") * (kWHEEL_DIAMTER / 2) / 4);
-	double yVelocity = (-GetWheelSpeed("fl") + GetWheelSpeed("fr") + GetWheelSpeed("bl") - GetWheelSpeed("br") * (kWHEEL_DIAMTER / 2) / 4);
-	double yawRate = (-GetWheelSpeed("fl") + GetWheelSpeed("fr") - GetWheelSpeed("bl") + GetWheelSpeed("br") * (kWHEEL_DIAMTER / 2) / (4 * (kWHEEL_BASE_LENGTH + kWHEEL_BASE_WIDTH)));
+RigidTransform2D::Delta DrivebaseSubsystem::MecanumForwardKinematics(RigidTransform2D::Delta& flVelocity, RigidTransform2D::Delta& frVelocity, RigidTransform2D::Delta& blVelocity, RigidTransform2D::Delta& brVelocity) {
+	double xVelocity = (GetWheelSpeed("fl") + GetWheelSpeed("fr") + GetWheelSpeed("bl") + GetWheelSpeed("br") * (kWHEEL_DIAMETER / 2) / 4);
+	double yVelocity = (-GetWheelSpeed("fl") + GetWheelSpeed("fr") + GetWheelSpeed("bl") - GetWheelSpeed("br") * (kWHEEL_DIAMETER / 2) / 4);
+	double yawRate = (-GetWheelSpeed("fl") + GetWheelSpeed("fr") - GetWheelSpeed("bl") + GetWheelSpeed("br") * (kWHEEL_DIAMETER / 2) / (4 * (kWHEEL_BASE_LENGTH + kWHEEL_BASE_WIDTH)));
 	return RigidTransform2D::Delta::fromDelta(xVelocity, yVelocity, yawRate, flVelocity.GetDt());
 }
