@@ -16,13 +16,14 @@ constexpr double kCONTROLLER_PERIOD = 0.02;
 
 //ENCODER STUFF
 constexpr int kTICKS_PER_REV_OF_ENCODER = 4096;
+constexpr int kTICKS_PER_REV_NEO = 48;
 constexpr int kELEVATORTICKS_PER_INCH= 4096;
 constexpr double kWRIST_GEAR_RATIO = 1.8181;
 constexpr double kFLAPPER_GEAR_RATIO = 1;
 constexpr double kWHEEL_DIAMETER = 6;
-constexpr double kDRIVE_GEAR_RATIO = 22/4;
-constexpr double kWHEEL_BASE_LENGTH = 29;
-constexpr double kWHEEL_BASE_WIDTH = 29;
+constexpr double kDRIVE_GEAR_RATIO = 7.86;
+constexpr double kWHEEL_BASE_LENGTH = 25.25;
+constexpr double kWHEEL_BASE_WIDTH = 25.25;
 
 //DRIVEBASE ROTATION PARAMETERS
 constexpr double kROTATION_P = .03;
@@ -70,3 +71,4 @@ constexpr double kAUTO_CONTROLLER_I = 0;
 constexpr double kAUTO_CONTROLLER_D = 0;
 constexpr double kAUTO_CONTROLLER_V = 0;
 
+constexpr double kENCODER_REVS_PER_WHEEL_REV = .17;
