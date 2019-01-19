@@ -73,7 +73,8 @@ double DrivebaseSubsystem::GetWheelSpeed(std::string wheel) {
 	if(wheel.compare("br") == 0) {
 		vel = -backRightSpark->GetEncoder().GetVelocity();
 	}
-	double retVal = ConvertWheelRotationsToDistance(ConvertEncoderRotationsToWheelsRotations(ConvertEncoderTicksToEncoderRotations(vel)));
+	double ticksPer10Ms = ConvertRPMToTicksPer10MS(vel);
+	double retVal = ConvertWheelRotationsToDistance(ConvertEncoderRotationsToWheelsRotations(ConvertEncoderTicksToEncoderRotations(ticksPer10Ms)));
 	return retVal;
 }
 
@@ -112,6 +113,10 @@ double DrivebaseSubsystem::ConvertWheelRotationsToDistance(double rotations) {
 	double retVal = rotations * (3.14159 * kWHEEL_DIAMETER);
 	SmartDashboard::PutNumber("distance", retVal);
 	return retVal;
+}
+
+double DrivebaseSubsystem::ConvertRPMToTicksPer10MS(double rpm) {
+	return rpm * .008; //.008 = (1/60) * (1/1000) * (10/10) * 48
 }
 
 void DrivebaseSubsystem::Periodic() {
@@ -179,6 +184,6 @@ RigidTransform2D::Delta DrivebaseSubsystem::MecanumForwardKinematics(RigidTransf
 	double yVelocity = (-GetWheelSpeed("fl") + GetWheelSpeed("fr") + GetWheelSpeed("bl") - GetWheelSpeed("br") * (kWHEEL_DIAMETER / 2) / 4);
 	double yawRate = (-GetWheelSpeed("fl") + GetWheelSpeed("fr") - GetWheelSpeed("bl") + GetWheelSpeed("br") * (kWHEEL_DIAMETER / 2) / (4 * (kWHEEL_BASE_LENGTH + kWHEEL_BASE_WIDTH)));
 	SmartDashboard::PutNumber("xVel", xVelocity);
-	SmartDashboard::PutNumber("yVel", xVelocity);
+	SmartDashboard::PutNumber("yVel", yVelocity);
 	return RigidTransform2D::Delta::fromDelta(xVelocity, yVelocity, yawRate, flVelocity.GetDt());
 }
