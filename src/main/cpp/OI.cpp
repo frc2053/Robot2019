@@ -7,7 +7,9 @@
 #include "OI.h"
 #include "RobotMap.h"
 
-#include "Commands/Intake/IntakeBall.h"
+#include "Commands/Intake/ControlIntakeWrist.h"
+#include "Commands/Intake/ControlIntakeWheels.h"
+#include "Commands/Intake/ControlFlapper.h"
 
 /**
  * \brief OI Constructor
@@ -20,8 +22,14 @@ OI::OI() {
 	operatorController = std::make_unique<TigerJoystick>(kOPERATOR_CONTROLLER_PORT);
 
 	//INTAKE
-	operatorController->yButton->
-	operatorController->aButton->WhenReleased(new IntakeBall(kINTAKE_ANGLE_UP, 0));
+	operatorController->yButton->WhenPressed(new ControlIntakeWrist(kINTAKE_ANGLE_UP));
+	operatorController->aButton->WhenPressed(new ControlIntakeWrist(kINTAKE_ANGLE_BALL));
+
+	operatorController->xButton->WhenActive(new ControlIntakeWheels(0, kINTAKE_SPEED));
+	operatorController->xButton->WhenReleased(new ControlIntakeWheels(0, 0));
+
+	operatorController->bButton->WhenActive(new ControlFlapper(kFLAPPER_DOWN_ANGLE));
+	operatorController->bButton->WhenReleased(new ControlFlapper(kFLAPPER_UP_ANGLE));
 }
 
 const std::unique_ptr<TigerJoystick>& OI::GetDriverController() {

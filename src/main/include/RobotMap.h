@@ -59,7 +59,8 @@ constexpr int kINTAKE_FLAPPER_RIGHT_ID = 11;
 //INTAKE PARAMS
 constexpr double kINTAKE_ANGLE_BALL = 90;
 constexpr double kINTAKE_ANGLE_UP = 0;
-constexpr double kINTAKE_ANGLE_HATCH = 90;
+constexpr double kFLAPPER_UP_ANGLE = 0;
+constexpr double kFLAPPER_DOWN_ANGLE = 0;
 constexpr int kINTAKE_ANGLE_TOLERANCE = 5;
 constexpr double kINTAKE_SPEED = 1;
 
