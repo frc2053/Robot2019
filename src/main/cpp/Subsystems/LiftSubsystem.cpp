@@ -1,20 +1,38 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
+/* CATHERINE WROTE THIS CODE                                                  */
 /*----------------------------------------------------------------------------*/
 
 #include "Subsystems/LiftSubsystem.h"
 #include "RobotMap.h"
+#include <rev/CANSparkMax.h>
+#include <rev/CANSparkMaxLowLevel.h>
+
 LiftSubsystem::LiftSubsystem() : Subsystem("LiftSubsystem") {
-  FootDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kFOOT_TALON_ID);
+  FootDriverSpark = std::make_unique<rev::CANSparkMax>(kFOOT_SPARK_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
   LegDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kLEG_LEADER_TALON_ID);
   LegFollowerTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kLEG_FOLLOWER_TALON_ID);
 }
 
-double LiftSubsystem::GetPosition() {
-
+int LiftSubsystem::DistanceToTicks(double distance){
+  int ticks = distance * kELEVATORTICKS_PER_INCH;
+  return ticks;
 }
 
+double LiftSubsystem::GetPosition() {
+  double position = LegDriverTalon->GetSelectedSensorPosition(0);
+  return position;
+}
+
+void LiftSubsystem::SetPosition(double position){
+  int ticks = DistanceToTicks(position);
+  LegDriverTalon->Set(ctre::phoenix::motorcontrol::ControlMode::Position, ticks);
+}
+
+void LiftSubsystem::SetFootSpeed(double speed){
+  FootDriverSpark->Set(speed);
+}
+
+void LiftSubsystem::SetLegSpeed(double speed){
+  LegDriverTalon->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
+}
 
