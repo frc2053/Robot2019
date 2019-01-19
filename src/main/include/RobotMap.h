@@ -72,3 +72,8 @@ constexpr double kAUTO_CONTROLLER_D = 0;
 constexpr double kAUTO_CONTROLLER_V = 0;
 
 constexpr double kENCODER_REVS_PER_WHEEL_REV = .17;
+
+//LIFT STUFF
+constexpr int kFOOT_TALON_ID = 12;
+constexpr int kLEG_LEADER_TALON_ID = 13;
+constexpr int kLEG
