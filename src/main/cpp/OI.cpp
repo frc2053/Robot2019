@@ -20,7 +20,7 @@ OI::OI() {
 	operatorController = std::make_unique<TigerJoystick>(kOPERATOR_CONTROLLER_PORT);
 
 	//INTAKE
-	operatorController->aButton->WhenPressed(new IntakeBall(kINTAKE_ANGLE_BALL, kINTAKE_SPEED));
+	operatorController->yButton->
 	operatorController->aButton->WhenReleased(new IntakeBall(kINTAKE_ANGLE_UP, 0));
 }
 
