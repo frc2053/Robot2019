@@ -6,9 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Subsystems/LiftSubsystem.h"
-
+#include "RobotMap.h"
 LiftSubsystem::LiftSubsystem() : Subsystem("LiftSubsystem") {
-  FootDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>()
+  FootDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kFOOT_TALON_ID);
+  LegDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kLEG_LEADER_TALON_ID);
+  LegFollowerTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kLEG_FOLLOWER_TALON_ID);
 }
 
 double LiftSubsystem::GetPosition() {
