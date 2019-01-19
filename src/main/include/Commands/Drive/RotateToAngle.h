@@ -11,7 +11,7 @@
 
 class RotateToAngle : frc::Command {
 public:
-	RotateToAngle(double angleToRateTo);
+	RotateToAngle(double angleToRotateTo);
 	void Initialize();
 	void Execute();
 	bool IsFinished();

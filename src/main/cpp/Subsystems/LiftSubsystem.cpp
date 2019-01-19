@@ -5,13 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Subsystems/Lift.h"
+#include "Subsystems/LiftSubsystem.h"
 
-Lift::Lift() : Subsystem("LiftSubsystem") {
+LiftSubsystem::LiftSubsystem() : Subsystem("LiftSubsystem") {
   FootDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>()
 }
 
-double Lift::GetPosition() {
+double LiftSubsystem::GetPosition() {
 
 }
 

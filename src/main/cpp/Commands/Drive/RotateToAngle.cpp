@@ -2,8 +2,8 @@
 #include "Robot.h"
 #include "RobotMap.h"
 
-RotateToAngle::RotateToAngle(double angle) {
-	inputAngle = angle;
+RotateToAngle::RotateToAngle(double angleToRotateTo) {
+	inputAngle = angleToRotateTo;
 	isDone = false;
 	currentYaw = 0;
 }

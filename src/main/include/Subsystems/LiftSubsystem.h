@@ -5,9 +5,9 @@
 #pragma once
 
 #include <frc/commands/Subsystem.h>
-#include <crte/phoenix/motorcontrol/can/TalonSRX.h>
+#include <ctre/phoenix/MotorControl/CAN/TalonSRX.h>
 
-class Lift : public frc::Subsystem {
+class LiftSubsystem : public frc::Subsystem {
  private:
  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> FootDriverTalon;
  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> LegDriverTalon;
@@ -15,7 +15,7 @@ class Lift : public frc::Subsystem {
  int DistanceToTicks(double distance);
 
  public:
-  Lift();
+  LiftSubsytem();
   double GetPosition();
   void SetPosition(double position);
   void SetFootSpeed(double speed);
