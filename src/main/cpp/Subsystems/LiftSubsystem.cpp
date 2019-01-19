@@ -11,6 +11,9 @@ LiftSubsystem::LiftSubsystem() : Subsystem("LiftSubsystem") {
   FootDriverSpark = std::make_unique<rev::CANSparkMax>(kFOOT_SPARK_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
   LegDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kLEG_LEADER_TALON_ID);
   LegFollowerTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kLEG_FOLLOWER_TALON_ID);
+
+  LegFollowerTalon->Follow(*LegDriverTalon.get());
+  LegDriverTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative);
 }
 
 int LiftSubsystem::DistanceToTicks(double distance){

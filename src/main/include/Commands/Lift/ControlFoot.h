@@ -7,9 +7,21 @@
 
 #pragma once
 
-#include <frc/commands/CommandGroup.h>
+#include <frc/commands/Command.h>
+#include <frc/Timer.h>
 
-class IntakeBall : public frc::CommandGroup {
+class ControlFoot : public frc::Command {
  public:
-  IntakeBall(double intakeAngle, double intakeSpeed);
+  ControlFoot(double time = 0, double speed = 0);
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
+ private:
+  double timeTarget;
+	double timeCurrent;
+	double inputSpeed;
+	bool isDone;
+  std::unique_ptr<frc::Timer> timer;
 };
