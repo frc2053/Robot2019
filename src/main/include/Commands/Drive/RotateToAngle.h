@@ -9,7 +9,7 @@
 
 #include <frc/commands/Command.h>
 
-class RotateToAngle : frc::Command {
+class RotateToAngle : public frc::Command {
 public:
 	RotateToAngle(double angleToRotateTo);
 	void Initialize();

@@ -15,7 +15,7 @@ class LiftSubsystem : public frc::Subsystem {
  int DistanceToTicks(double distance);
 
  public:
-  LiftSubsytem();
+  LiftSubsystem();
   double GetPosition();
   void SetPosition(double position);
   void SetFootSpeed(double speed);
