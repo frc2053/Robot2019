@@ -7,6 +7,7 @@
 
 #include "Subsystems/ElevatorSubsystem.h"
 #include "RobotMap.h"
+#include "Commands/Elevator/ElevatorControl.h"
 
 ElevatorSubsystem::ElevatorSubsystem() : Subsystem("ElevatorSubsystem") {
   elevatorMotorLeader = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kELEVATOR_LEADER_ID);
@@ -27,7 +28,7 @@ ElevatorSubsystem::ElevatorSubsystem() : Subsystem("ElevatorSubsystem") {
 }
 
 void ElevatorSubsystem::InitDefaultCommand() {
-
+	SetDefaultCommand(new ElevatorControl());
 }
 
 int ElevatorSubsystem::ConvertHeightToTicks(double inputHeight) {
