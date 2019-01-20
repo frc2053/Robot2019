@@ -13,6 +13,7 @@
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<DrivebaseSubsystem> Robot::drivebaseSubsystem;
 std::unique_ptr<IntakeSubsystem> Robot::intakeSubsystem;
+std::unique_ptr<LiftSubsystem> Robot::liftSubsystem;
 std::unique_ptr<ObserverSubsystem> Robot::observer;
 
 /**
@@ -27,6 +28,7 @@ void Robot::RobotInit() {
 	observer = std::make_unique<ObserverSubsystem>();
 	drivebaseSubsystem = std::make_unique<DrivebaseSubsystem>();
 	intakeSubsystem = std::make_unique<IntakeSubsystem>();
+	liftSubsystem = std::make_unique<LiftSubsystem>();
 	oi = std::make_unique<OI>();
 	SmartDashboard::PutData("Zero Yaw", new ZeroYaw());
 	cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture("camera", "/dev/video0");
