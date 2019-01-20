@@ -41,10 +41,14 @@ void ElevatorControl::Execute() {
 	}
 
 	if (isRightShoulderPressed) {
-		currentState = (ELEVATOR_POSITION)((int)currentState++);
+		if (!(currentState == ELEVATOR_POSITION::LEVEL_THREE)) {
+			currentState = (ELEVATOR_POSITION)(currentState + 1);
+		}
 	}
 	if (isLeftShoulderPressed) {
-		currentState = (ELEVATOR_POSITION)((int)currentState--);
+		if (!(currentState == ELEVATOR_POSITION::GROUND)) {
+			currentState = (ELEVATOR_POSITION)(currentState - 1);
+		}
 	}
 
 	if (manualControl) {
@@ -57,13 +61,13 @@ void ElevatorControl::Execute() {
 			Robot::elevatorSubsystem->GoToHeight(kELEVATOR_GROUND);
 			break;
 		case LEVEL_ONE:
-			Robot::elevatorSubsystem->GoToHeight(kELEVATOR_LEVEL_ONE);
+			Robot::elevatorSubsystem->GoToHeight(kELEVATOR_LEVEL_ONE_HATCH);
 			break;
 		case LEVEL_TWO:
-			Robot::elevatorSubsystem->GoToHeight(kELEVATOR_LEVEL_TWO);
+			Robot::elevatorSubsystem->GoToHeight(kELEVATOR_LEVEL_TWO_HATCH);
 			break;
 		case LEVEL_THREE:
-			Robot::elevatorSubsystem->GoToHeight(kELEVATOR_LEVEL_THREE);
+			Robot::elevatorSubsystem->GoToHeight(kELEVATOR_LEVEL_THREE_HATCH);
 			break;
 		}
 	}
