@@ -35,3 +35,7 @@ OI::OI() {
 const std::unique_ptr<TigerJoystick>& OI::GetDriverController() {
 	return driverController;
 }
+
+const std::unique_ptr<TigerJoystick>& OI::GetOperatorController() {
+	return operatorController;
+}

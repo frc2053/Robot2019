@@ -17,6 +17,7 @@ class OI {
 public:
 	OI();
 	const std::unique_ptr<TigerJoystick>& GetDriverController();
+	const std::unique_ptr<TigerJoystick>& GetOperatorController();
 private:
 	std::unique_ptr<TigerJoystick> driverController;
 	std::unique_ptr<TigerJoystick> operatorController;

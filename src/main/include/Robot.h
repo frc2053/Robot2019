@@ -12,6 +12,7 @@
 #include "Subsystems/IntakeSubsystem.h"
 #include "Subsystems/LiftSubsystem.h"
 #include "Subsystems/ObserverSubsystem.h"
+#include "Subsystems/ElevatorSubsystem.h"
 #include <opencv2/core/core.hpp>
 #include <cameraserver/CameraServer.h>
 
@@ -26,6 +27,7 @@ public:
 	static std::unique_ptr<ObserverSubsystem> observer;
 	static std::unique_ptr<IntakeSubsystem> intakeSubsystem;
 	static std::unique_ptr<LiftSubsystem> liftSubsystem;
+	static std::unique_ptr<ElevatorSubsystem> elevatorSubsystem;
 
 	void RobotInit() override;
 	void DisabledInit() override;

@@ -64,6 +64,16 @@ constexpr double kFLAPPER_DOWN_ANGLE = 0;
 constexpr int kINTAKE_ANGLE_TOLERANCE = 5;
 constexpr double kINTAKE_SPEED = 1;
 
+//ELEVATOR PARAMS
+constexpr double kELEVATOR_GROUND = 0;
+constexpr double kELEVATOR_LEVEL_ONE_HATCH = 19;
+constexpr double kELEVATOR_LEVEL_TWO_HATCH = 47;
+constexpr double kELEVATOR_LEVEL_THREE_HATCH = 66;
+
+constexpr double kELEVATOR_LEVEL_ONE_PORT = 27.55;
+constexpr double kELEVATOR_LEVEL_TWO_PORT = 55.55;
+constexpr double kELEVATOR_LEVEL_THREE_PORT = 83.55;
+
 //FORWARD KINEMATICS
 constexpr double kFORWARD_KINEMATICS_WEIGHT = 0;
 constexpr double kGYRO_WEIGHT = 1;

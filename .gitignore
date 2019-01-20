@@ -166,3 +166,9 @@ cmake-build-debug
 CMakeLists.txt
 .iml
 *.iml
+
+#visual studio
+.vs/*
+*vcxproj
+*vcxproj.*
+*.sln
