@@ -39,3 +39,6 @@ void LiftSubsystem::SetLegSpeed(double speed){
   LegDriverTalon->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
 }
 
+int LiftSubsystem::GetLegClosedLoopError() {
+  return LegDriverTalon->GetClosedLoopError(0);
+}
