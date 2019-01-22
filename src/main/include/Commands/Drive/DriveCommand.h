@@ -19,7 +19,7 @@ public:
 	void GetInputs();
 	void SetAngleFromInput();
 	void RotateCommand();
-	void CallToSwerveDrive();
+	void CallToTigerDrive();
 	void CheckRotateOverride();
 private:
 	double xAxis;

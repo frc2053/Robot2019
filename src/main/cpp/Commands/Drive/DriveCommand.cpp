@@ -60,7 +60,7 @@ void DriveCommand::Execute() {
 	SetAngleFromInput();
 	RotateCommand();
 	CheckRotateOverride();
-	CallToSwerveDrive();
+	CallToTigerDrive();
 }
 
 /**
@@ -147,7 +147,7 @@ void DriveCommand::CheckRotateOverride() {
 /**
  * This calls all the swerve drive stuff so we actually move
  */
-void DriveCommand::CallToSwerveDrive() {
+void DriveCommand::CallToTigerDrive() {
 	if(rotAxis == 0)
 	{
 		Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDoneOverride(false);
