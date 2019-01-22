@@ -28,6 +28,16 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	backLeftSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 	backRightSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 	Robot::observer->SetRobotPos(RigidTransform2D(Translation2D(0,0), Rotation2D(1, 0, true)), 0.0);
+	flPos = 0;
+	frPos = 0;
+	blPos = 0;
+	brPos = 0;
+	m_first = true;
+	frontLeftSpark->SetCANTimeout(1000);
+	frontRightSpark->SetCANTimeout(1000);
+	backLeftSpark->SetCANTimeout(1000);
+	backRightSpark->SetCANTimeout(1000);
+
 }
 
 /**
@@ -81,16 +91,16 @@ double DrivebaseSubsystem::GetWheelSpeed(std::string wheel) {
 Translation2D DrivebaseSubsystem::GetWheelDistance(std::string wheel) {
 	double pos = 0;
 	if(wheel.compare("fl") == 0) {
-		pos = frontLeftSpark->GetEncoder().GetPosition();
+		pos = frontLeftSpark->GetEncoder().GetPosition() - flPos;
 	}
 	if(wheel.compare("fr") == 0) {
-		pos = -frontRightSpark->GetEncoder().GetPosition();
+		pos = -frontRightSpark->GetEncoder().GetPosition() - frPos;
 	}
 	if(wheel.compare("bl") == 0) {
-		pos = backLeftSpark->GetEncoder().GetPosition();
+		pos = backLeftSpark->GetEncoder().GetPosition() - blPos;
 	}
 	if(wheel.compare("br") == 0) {
-		pos = -backRightSpark->GetEncoder().GetPosition();
+		pos = -backRightSpark->GetEncoder().GetPosition() - brPos;
 		SmartDashboard::PutNumber("TESTING BL DIST", pos);
 	}
 	double wheelRotations = ConvertEncoderRotationsToWheelsRotations(pos);
@@ -180,10 +190,18 @@ void DrivebaseSubsystem::Periodic() {
 }
 
 RigidTransform2D::Delta DrivebaseSubsystem::MecanumForwardKinematics(RigidTransform2D::Delta& flVelocity, RigidTransform2D::Delta& frVelocity, RigidTransform2D::Delta& blVelocity, RigidTransform2D::Delta& brVelocity) {
-	double xVelocity = (GetWheelSpeed("fl") + GetWheelSpeed("fr") + GetWheelSpeed("bl") + GetWheelSpeed("br") * (kWHEEL_DIAMETER / 2) / 4);
-	double yVelocity = (-GetWheelSpeed("fl") + GetWheelSpeed("fr") + GetWheelSpeed("bl") - GetWheelSpeed("br") * (kWHEEL_DIAMETER / 2) / 4);
-	double yawRate = (-GetWheelSpeed("fl") + GetWheelSpeed("fr") - GetWheelSpeed("bl") + GetWheelSpeed("br") * (kWHEEL_DIAMETER / 2) / (4 * (kWHEEL_BASE_LENGTH + kWHEEL_BASE_WIDTH)));
+	double xVelocity = (flVelocity.GetX() + frVelocity.GetX()  + blVelocity.GetX()  + brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / 4);
+	double yVelocity = (-flVelocity.GetX() + frVelocity.GetX() + blVelocity.GetX() - brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / 4);
+	double yawRate = (-flVelocity.GetX() + frVelocity.GetX() - blVelocity.GetX() + brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * (kWHEEL_BASE_LENGTH + kWHEEL_BASE_WIDTH)));
 	SmartDashboard::PutNumber("xVel", xVelocity);
 	SmartDashboard::PutNumber("yVel", yVelocity);
+	SmartDashboard::PutNumber("DT", flVelocity.GetDt());
 	return RigidTransform2D::Delta::fromDelta(xVelocity, yVelocity, yawRate, flVelocity.GetDt());
+}
+
+void DrivebaseSubsystem::ZeroEncoders() {
+	flPos = frontLeftSpark->GetEncoder().GetPosition();
+	frPos = -frontRightSpark->GetEncoder().GetPosition();
+	blPos = backLeftSpark->GetEncoder().GetPosition();
+	brPos = -backRightSpark->GetEncoder().GetPosition();
 }

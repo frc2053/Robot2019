@@ -14,4 +14,5 @@ ZeroPose::ZeroPose() {
 // Called once when the command executes
 void ZeroPose::Initialize() {
   Robot::observer->ResetPose();
+  Robot::drivebaseSubsystem->ZeroEncoders();
 }
