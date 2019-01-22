@@ -31,7 +31,7 @@ public:
 	double ConvertWheelRotationsToDistance(double rotations);
 	double GetWheelSpeed(std::string wheel);
 	Translation2D GetWheelDistance(std::string wheel);
-	double ConvertRPMToTicksPer10MS(double rpm);
+	double ConvertRPMToTicksPer100MS(double rpm);
 	virtual void Periodic();
 private:
 	std::shared_ptr<AHRS> imu;

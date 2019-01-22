@@ -82,7 +82,7 @@ constexpr double kAUTO_CONTROLLER_I = 0;
 constexpr double kAUTO_CONTROLLER_D = 0;
 constexpr double kAUTO_CONTROLLER_V = 0;
 
-constexpr double kENCODER_REVS_PER_WHEEL_REV = .17;
+constexpr double kENCODER_REVS_PER_WHEEL_REV = 7.5952;
 
 //LIFT STUFF
 constexpr int kFOOT_SPARK_ID = 12;

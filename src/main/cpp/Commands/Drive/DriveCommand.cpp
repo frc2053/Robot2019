@@ -36,6 +36,10 @@ void DriveCommand::Initialize() {
 	xAxis = 0;
 	yAxis = 0;
 	rotAxis = 0;
+	currentYaw = 0;
+	finalRotVal = 0;
+	setAngle = 0;
+	isLeftStickPressed = false;
 	isAPressed = false;
 	isBPressed = false;
 	isXPressed = false;

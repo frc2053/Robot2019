@@ -73,8 +73,8 @@ double DrivebaseSubsystem::GetWheelSpeed(std::string wheel) {
 	if(wheel.compare("br") == 0) {
 		vel = -backRightSpark->GetEncoder().GetVelocity();
 	}
-	double ticksPer10Ms = ConvertRPMToTicksPer10MS(vel);
-	double retVal = ConvertWheelRotationsToDistance(ConvertEncoderRotationsToWheelsRotations(ConvertEncoderTicksToEncoderRotations(ticksPer10Ms)));
+	double ticksPer100Ms = ConvertRPMToTicksPer100MS(vel);
+	double retVal = ConvertWheelRotationsToDistance(ConvertEncoderRotationsToWheelsRotations(ConvertEncoderTicksToEncoderRotations(ticksPer100Ms))) * 10;
 	return retVal;
 }
 
@@ -91,9 +91,9 @@ Translation2D DrivebaseSubsystem::GetWheelDistance(std::string wheel) {
 	}
 	if(wheel.compare("br") == 0) {
 		pos = -backRightSpark->GetEncoder().GetPosition();
+		SmartDashboard::PutNumber("TESTING BL DIST", pos);
 	}
-	double encoderRotations = ConvertEncoderTicksToEncoderRotations(pos);
-	double wheelRotations = ConvertEncoderRotationsToWheelsRotations(encoderRotations);
+	double wheelRotations = ConvertEncoderRotationsToWheelsRotations(pos);
 	return Translation2D(ConvertWheelRotationsToDistance(wheelRotations), 0);
 }
 
@@ -115,8 +115,8 @@ double DrivebaseSubsystem::ConvertWheelRotationsToDistance(double rotations) {
 	return retVal;
 }
 
-double DrivebaseSubsystem::ConvertRPMToTicksPer10MS(double rpm) {
-	return rpm * .008; //.008 = (1/60) * (1/1000) * (10/10) * 48
+double DrivebaseSubsystem::ConvertRPMToTicksPer100MS(double rpm) {
+	return rpm * .08; //.08 = (1/60) * (1/1000) * (100/1) * 48
 }
 
 void DrivebaseSubsystem::Periodic() {
