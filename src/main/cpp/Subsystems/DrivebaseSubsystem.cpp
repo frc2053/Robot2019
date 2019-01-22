@@ -190,8 +190,8 @@ void DrivebaseSubsystem::Periodic() {
 }
 
 RigidTransform2D::Delta DrivebaseSubsystem::MecanumForwardKinematics(RigidTransform2D::Delta& flVelocity, RigidTransform2D::Delta& frVelocity, RigidTransform2D::Delta& blVelocity, RigidTransform2D::Delta& brVelocity) {
-	double xVelocity = (flVelocity.GetX() + frVelocity.GetX()  + blVelocity.GetX()  + brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / 4);
-	double yVelocity = (-flVelocity.GetX() + frVelocity.GetX() + blVelocity.GetX() - brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / 4);
+	double xVelocity = (flVelocity.GetX() + frVelocity.GetX()  + blVelocity.GetX()  + brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * M_PI));
+	double yVelocity = (-flVelocity.GetX() + frVelocity.GetX() + blVelocity.GetX() - brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * M_PI));
 	double yawRate = (-flVelocity.GetX() + frVelocity.GetX() - blVelocity.GetX() + brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * (kWHEEL_BASE_LENGTH + kWHEEL_BASE_WIDTH)));
 	SmartDashboard::PutNumber("xVel", xVelocity);
 	SmartDashboard::PutNumber("yVel", yVelocity);
