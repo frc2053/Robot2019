@@ -32,6 +32,7 @@ public:
 	double GetWheelSpeed(std::string wheel);
 	Translation2D GetWheelDistance(std::string wheel);
 	double ConvertRPMToTicksPer100MS(double rpm);
+	void ZeroEncoders();
 	virtual void Periodic();
 private:
 	std::shared_ptr<AHRS> imu;
@@ -48,5 +49,6 @@ private:
 	Translation2D m_oldFlDistance, m_oldFrDistance, m_oldBlDistance, m_oldBrDistance;
 	Rotation2D m_oldGyroYaw;
 	Translation2D m_motionSetpoint;
+	double flPos, frPos, blPos, brPos;
 };
 
