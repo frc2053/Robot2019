@@ -22,6 +22,5 @@ class LiftSubsystem : public frc::Subsystem {
   void SetPosition(double position);
   void SetFootSpeed(double speed);
   void SetLegSpeed(double speed);
-  void FinalClimb();
   int GetLegClosedLoopError();
 };
