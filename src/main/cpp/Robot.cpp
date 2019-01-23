@@ -37,6 +37,7 @@ void Robot::RobotInit() {
 	SmartDashboard::PutData("Zero Pose", new ZeroPose());
 	cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture("camera", "/dev/video0");
 	camera.SetResolution(320, 240);
+	camera.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
 	
 }
 
