@@ -11,6 +11,8 @@
 #include "Commands/Drive/ZeroPose.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
+#include "Commands/Drive/FollowPath.h"
+
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<DrivebaseSubsystem> Robot::drivebaseSubsystem;
 std::unique_ptr<IntakeSubsystem> Robot::intakeSubsystem;
@@ -74,6 +76,8 @@ void Robot::DisabledPeriodic() {
  * autonomous mode. Used to get selected auto mode.
  */
 void Robot::AutonomousInit() {
+	Command* testAuto = new FollowPath("/home/lvuser/testAutoPath.csv");
+	testAuto->Start();
 }
 
 /**
