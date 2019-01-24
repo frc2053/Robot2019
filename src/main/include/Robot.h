@@ -13,6 +13,7 @@
 #include "Subsystems/LiftSubsystem.h"
 #include "Subsystems/ObserverSubsystem.h"
 #include "Subsystems/ElevatorSubsystem.h"
+#include "Utilities/TigerMecanum/PathManager.h"
 #include <opencv2/core/core.hpp>
 #include <cameraserver/CameraServer.h>
 
@@ -24,10 +25,11 @@ class Robot : public frc::TimedRobot {
 public:
 	static std::unique_ptr<OI> oi;
 	static std::unique_ptr<DrivebaseSubsystem> drivebaseSubsystem;
-	static std::unique_ptr<ObserverSubsystem> observer;
+	static std::shared_ptr<ObserverSubsystem> observer;
 	static std::unique_ptr<IntakeSubsystem> intakeSubsystem;
 	static std::unique_ptr<LiftSubsystem> liftSubsystem;
 	static std::unique_ptr<ElevatorSubsystem> elevatorSubsystem;
+	static std::unique_ptr<PathManager> pathManager;
 
 	void RobotInit() override;
 	void DisabledInit() override;

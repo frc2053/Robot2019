@@ -14,6 +14,7 @@
 #include "Utilities/Math/Translation2D.h"
 #include "Utilities/Math/Rotation2D.h"
 #include "Utilities/Math/RigidTransform2D.h"
+#include "Utilities/TigerMecanum/DriveController.h"
 
 
 /**
@@ -34,6 +35,7 @@ public:
 	double ConvertRPMToTicksPer100MS(double rpm);
 	void ZeroEncoders();
 	virtual void Periodic();
+	DriveController* GetDriveController();
 private:
 	std::shared_ptr<AHRS> imu;
 	std::unique_ptr<rev::CANSparkMax> frontLeftSpark;
@@ -50,5 +52,6 @@ private:
 	Rotation2D m_oldGyroYaw;
 	Translation2D m_motionSetpoint;
 	double flPos, frPos, blPos, brPos;
+	DriveController* m_driveController;
 };
 

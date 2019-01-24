@@ -16,7 +16,8 @@ std::unique_ptr<DrivebaseSubsystem> Robot::drivebaseSubsystem;
 std::unique_ptr<IntakeSubsystem> Robot::intakeSubsystem;
 std::unique_ptr<LiftSubsystem> Robot::liftSubsystem;
 std::unique_ptr<ElevatorSubsystem> Robot::elevatorSubsystem;
-std::unique_ptr<ObserverSubsystem> Robot::observer;
+std::shared_ptr<ObserverSubsystem> Robot::observer;
+std::unique_ptr<PathManager> Robot::pathManager;
 
 /**
  * \brief Robot Initialization
@@ -27,7 +28,8 @@ std::unique_ptr<ObserverSubsystem> Robot::observer;
  * also set up game specific auto routines.
  */
 void Robot::RobotInit() {
-	observer = std::make_unique<ObserverSubsystem>();
+	pathManager = std::make_unique<PathManager>();
+	observer = std::make_shared<ObserverSubsystem>();
 	drivebaseSubsystem = std::make_unique<DrivebaseSubsystem>();
 	intakeSubsystem = std::make_unique<IntakeSubsystem>();
 	liftSubsystem = std::make_unique<LiftSubsystem>();

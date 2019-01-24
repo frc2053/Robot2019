@@ -37,7 +37,11 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	frontRightSpark->SetCANTimeout(1000);
 	backLeftSpark->SetCANTimeout(1000);
 	backRightSpark->SetCANTimeout(1000);
+	m_driveController = new DriveController(Robot::observer);
+}
 
+DriveController* DrivebaseSubsystem::GetDriveController() {
+	return m_driveController;
 }
 
 /**
