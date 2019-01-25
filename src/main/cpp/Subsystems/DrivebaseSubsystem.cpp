@@ -22,6 +22,7 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	backRightSpark = std::make_unique<rev::CANSparkMax>(kDRIVESPARK_BR_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
 	mecDrive = std::make_unique<frc::MecanumDrive>(*frontLeftSpark.get(), *backLeftSpark.get(), *frontRightSpark.get(), *
 		backRightSpark.get());
+	mecDrive->SetSafetyEnabled(false);
 	frontLeftSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 	frontRightSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 	backLeftSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
@@ -192,7 +193,7 @@ RigidTransform2D::Delta DrivebaseSubsystem::MecanumForwardKinematics(RigidTransf
 	double xVelocity = (flVelocity.GetX() + frVelocity.GetX()  + blVelocity.GetX()  + brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * M_PI));
 	double yVelocity = (-flVelocity.GetX() + frVelocity.GetX() + blVelocity.GetX() - brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * M_PI));
 	double yawRate = (-flVelocity.GetX() + frVelocity.GetX() - blVelocity.GetX() + brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * (kWHEEL_BASE_LENGTH + kWHEEL_BASE_WIDTH)));
-	return RigidTransform2D::Delta::fromDelta(xVelocity, yVelocity, yawRate, flVelocity.GetDt());
+	return RigidTransform2D::Delta::fromDelta(yVelocity, xVelocity, yawRate, flVelocity.GetDt());
 }
 
 void DrivebaseSubsystem::ZeroEncoders() {

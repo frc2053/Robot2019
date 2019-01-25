@@ -66,6 +66,7 @@ constexpr double kINTAKE_SPEED = 1;
 
 //ELEVATOR PARAMS
 constexpr double kELEVATOR_GROUND = 0;
+//;)
 constexpr double kELEVATOR_LEVEL_ONE_HATCH = 19;
 constexpr double kELEVATOR_LEVEL_TWO_HATCH = 47;
 constexpr double kELEVATOR_LEVEL_THREE_HATCH = 66;
@@ -77,10 +78,10 @@ constexpr double kELEVATOR_LEVEL_THREE_PORT = 83.55;
 //FORWARD KINEMATICS
 constexpr double kFORWARD_KINEMATICS_WEIGHT = 0;
 constexpr double kGYRO_WEIGHT = 1;
-constexpr double kAUTO_CONTROLLER_P = 0.005;
+constexpr double kAUTO_CONTROLLER_P = 0.02;
 constexpr double kAUTO_CONTROLLER_I = 0;
 constexpr double kAUTO_CONTROLLER_D = 0;
-constexpr double kAUTO_CONTROLLER_V = 0;
+constexpr double kAUTO_CONTROLLER_V = 1/216;
 
 constexpr double kENCODER_REVS_PER_WHEEL_REV = 7.5952;
 
