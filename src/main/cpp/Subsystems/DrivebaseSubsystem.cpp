@@ -22,7 +22,6 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	backRightSpark = std::make_unique<rev::CANSparkMax>(kDRIVESPARK_BR_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
 	mecDrive = std::make_unique<frc::MecanumDrive>(*frontLeftSpark.get(), *backLeftSpark.get(), *frontRightSpark.get(), *
 		backRightSpark.get());
-
 	frontLeftSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 	frontRightSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 	backLeftSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
@@ -33,10 +32,10 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	blPos = 0;
 	brPos = 0;
 	m_first = true;
-	frontLeftSpark->SetCANTimeout(1000);
-	frontRightSpark->SetCANTimeout(1000);
-	backLeftSpark->SetCANTimeout(1000);
-	backRightSpark->SetCANTimeout(1000);
+	frontLeftSpark->SetCANTimeout(50);
+	frontRightSpark->SetCANTimeout(50);
+	backLeftSpark->SetCANTimeout(50);
+	backRightSpark->SetCANTimeout(50);
 	m_driveController = new DriveController(Robot::observer);
 }
 
@@ -50,7 +49,7 @@ DriveController* DrivebaseSubsystem::GetDriveController() {
  * have stopped.
  */
 void DrivebaseSubsystem::InitDefaultCommand() {
-	SetDefaultCommand(new DriveCommand());
+	//SetDefaultCommand(new DriveCommand());
 }
 
 /**
@@ -105,7 +104,6 @@ Translation2D DrivebaseSubsystem::GetWheelDistance(std::string wheel) {
 	}
 	if(wheel.compare("br") == 0) {
 		pos = -backRightSpark->GetEncoder().GetPosition() - brPos;
-		SmartDashboard::PutNumber("TESTING BL DIST", pos);
 	}
 	double wheelRotations = ConvertEncoderRotationsToWheelsRotations(pos);
 	return Translation2D(ConvertWheelRotationsToDistance(wheelRotations), 0);
@@ -113,19 +111,16 @@ Translation2D DrivebaseSubsystem::GetWheelDistance(std::string wheel) {
 
 double DrivebaseSubsystem::ConvertEncoderTicksToEncoderRotations(int ticks) {
 	double retVal = (double) ticks / (double) kTICKS_PER_REV_NEO;
-	SmartDashboard::PutNumber("encoder rots", retVal);
 	return retVal;
 }
 
 double DrivebaseSubsystem::ConvertEncoderRotationsToWheelsRotations(double rotations) {
 	double output = rotations / kENCODER_REVS_PER_WHEEL_REV;
-	SmartDashboard::PutNumber("wheel rots", output);
 	return output;
 }
 
 double DrivebaseSubsystem::ConvertWheelRotationsToDistance(double rotations) {
 	double retVal = rotations * (3.14159 * kWHEEL_DIAMETER);
-	SmartDashboard::PutNumber("distance", retVal);
 	return retVal;
 }
 
@@ -197,9 +192,6 @@ RigidTransform2D::Delta DrivebaseSubsystem::MecanumForwardKinematics(RigidTransf
 	double xVelocity = (flVelocity.GetX() + frVelocity.GetX()  + blVelocity.GetX()  + brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * M_PI));
 	double yVelocity = (-flVelocity.GetX() + frVelocity.GetX() + blVelocity.GetX() - brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * M_PI));
 	double yawRate = (-flVelocity.GetX() + frVelocity.GetX() - blVelocity.GetX() + brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * (kWHEEL_BASE_LENGTH + kWHEEL_BASE_WIDTH)));
-	SmartDashboard::PutNumber("xVel", xVelocity);
-	SmartDashboard::PutNumber("yVel", yVelocity);
-	SmartDashboard::PutNumber("DT", flVelocity.GetDt());
 	return RigidTransform2D::Delta::fromDelta(xVelocity, yVelocity, yawRate, flVelocity.GetDt());
 }
 

@@ -76,7 +76,7 @@ void Robot::DisabledPeriodic() {
  * autonomous mode. Used to get selected auto mode.
  */
 void Robot::AutonomousInit() {
-	Command* testAuto = new FollowPath("/home/lvuser/testAutoPath.csv");
+	Command* testAuto = new FollowPath("/home/lvuser/testPath.csv");
 	testAuto->Start();
 }
 
@@ -89,6 +89,9 @@ void Robot::AutonomousInit() {
  */
 void Robot::AutonomousPeriodic() {
 	frc::Scheduler::GetInstance()->Run();
+	SmartDashboard::PutNumber("PATH GOAL X", drivebaseSubsystem->GetDriveController()->GetFieldTarget().getTranslation().getX());
+	SmartDashboard::PutNumber("PATH GOAL Y", drivebaseSubsystem->GetDriveController()->GetFieldTarget().getTranslation().getY());
+	SmartDashboard::PutNumber("PATH GOAL YAW", drivebaseSubsystem->GetDriveController()->GetFieldTarget().getRotation().getDegrees());
 }
 
 /**

@@ -21,6 +21,7 @@ public:
 
 	RigidTransform2D GetControllerError();
 	RigidTransform2D GetDriveControlSignal();
+	RigidTransform2D GetFieldTarget();
 private:
 	std::unique_ptr<frc::PIDController2481> positionXController;
 	std::unique_ptr<frc::PIDController2481> positionYController;

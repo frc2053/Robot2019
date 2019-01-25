@@ -1,6 +1,8 @@
 #include "Utilities/TigerMecanum/DriveController.h"
 #include "RobotMap.h"
 #include "Utilities/Math/Rotation2D.h"
+#include <iostream>
+
 DriveController::DriveController(const std::shared_ptr<ObserverSubsystem>& observerPtr) {
 	observer = observerPtr;
 
@@ -34,6 +36,10 @@ void DriveController::SetFieldTarget(RigidTransform2D fieldTarget) {
 	positionYawController->SetSetpoint(fieldTarget.getRotation().getDegrees());
 }
 
+RigidTransform2D DriveController::GetFieldTarget() {
+	return RigidTransform2D(Translation2D(positionXController->GetSetpoint(), positionYController->GetSetpoint()), Rotation2D::fromDegrees(positionYawController->GetSetpoint()));
+}
+
 void DriveController::SetRobotTarget(RigidTransform2D robotTarget) {
 	positionXController->SetSetpoint(robotTarget.getTranslation().getX());
 	positionYController->SetSetpoint(robotTarget.getTranslation().getY());
@@ -51,6 +57,8 @@ RigidTransform2D DriveController::GetDriveControlSignal() {
 
 	controlSignalTranslation.setX(positionXSignal->GetOutput());
 	controlSignalTranslation.setY(positionYSignal->GetOutput());
+	std::cout << "positionYawSignal: " << positionYawSignal->GetOutput() << "\n";
+	std::cout << "positionYawSource: " << positionYawSource->PIDGet() << "\n";
 	controlSignalRotation = Rotation2D::fromDegrees(positionYawSignal->GetOutput());
 
 	Rotation2D robotYaw = observer->GetLastRobotPose().getRotation();

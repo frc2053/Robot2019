@@ -9,6 +9,8 @@
 #include "Robot.h"
 #include "frc/smartdashboard/SmartDashboard.h"
 #include "RobotMap.h"
+#include "Utilities/Math/RigidTransform2D.h"
+#include <iostream>
 
 FollowPath::FollowPath(std::string filePath) : m_path(Robot::pathManager->GetPath(filePath)) {
   Requires(Robot::drivebaseSubsystem.get());
@@ -33,7 +35,12 @@ void FollowPath::Execute() {
   SmartDashboard::PutNumber("Path Yaw", targetPos.getRotation().getDegrees());
 
   RigidTransform2D driveSignal = m_driveController->GetDriveControlSignal();
-  Robot::drivebaseSubsystem->MecDrive(driveSignal.getTranslation.getX(), driveSignal.getTranslation().getY(), driveSignal.getRotation().getDegrees(), 0);
+
+  std::cout << "X Cmd: " << driveSignal.getTranslation().getX() << "\n";
+  std::cout << "Y Cmd: " <<  driveSignal.getTranslation().getY() << "\n";
+  std::cout << "Yaw Cmd: " << driveSignal.getRotation().getDegrees() << "\n";
+
+  Robot::drivebaseSubsystem->MecDrive(driveSignal.getTranslation().getX(), driveSignal.getTranslation().getY(), driveSignal.getRotation().getDegrees(), Robot::drivebaseSubsystem->GetTigerDrive()->GetAdjYaw());
 }
 
 // Make this return true when this Command no longer needs to run execute()

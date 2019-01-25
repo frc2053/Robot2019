@@ -36,11 +36,6 @@ void ObserverSubsystem::UpdateRobotPoseObservation(RigidTransform2D::Delta& flVe
 	RigidTransform2D::Delta deltaRobotPos = Robot::drivebaseSubsystem->MecanumForwardKinematics(flVelocity, frVelocity, blVelocity, brVelocity);
 	RigidTransform2D oldRobotPos = GetLastRobotPose();
 
-	SmartDashboard::PutNumber("flVelocityDelta", flVelocity.GetX());
-	SmartDashboard::PutNumber("frVelocityDelta", frVelocity.GetX());
-	SmartDashboard::PutNumber("blVelocityDelta", blVelocity.GetX());
-	SmartDashboard::PutNumber("brVelocityDelta", brVelocity.GetX());
-
 	Rotation2D finalAngleDelta = Rotation2D::fromRadians((deltaRobotPos.GetTheta() * kFORWARD_KINEMATICS_WEIGHT) + (deltaGyroYaw.getRadians() * kGYRO_WEIGHT));
 	Rotation2D newRobotAngle = oldRobotPos.getRotation().rotateBy(finalAngleDelta);
 
