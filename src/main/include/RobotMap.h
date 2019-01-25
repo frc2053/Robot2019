@@ -77,10 +77,10 @@ constexpr double kELEVATOR_LEVEL_THREE_PORT = 83.55;
 //FORWARD KINEMATICS
 constexpr double kFORWARD_KINEMATICS_WEIGHT = 0;
 constexpr double kGYRO_WEIGHT = 1;
-constexpr double kAUTO_CONTROLLER_P = 0.01;
+constexpr double kAUTO_CONTROLLER_P = 0.005;
 constexpr double kAUTO_CONTROLLER_I = 0;
 constexpr double kAUTO_CONTROLLER_D = 0;
-constexpr double kAUTO_CONTROLLER_V = 1/18;
+constexpr double kAUTO_CONTROLLER_V = 0;
 
 constexpr double kENCODER_REVS_PER_WHEEL_REV = 7.5952;
 

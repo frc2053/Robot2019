@@ -12,6 +12,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 #include "Commands/Drive/FollowPath.h"
+#include "Commands/Drive/DriveCommand.h"
 
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<DrivebaseSubsystem> Robot::drivebaseSubsystem;
@@ -101,7 +102,8 @@ void Robot::AutonomousPeriodic() {
  * Runs everytime you enable
  */
 void Robot::TeleopInit() {
-
+	Command* driveCommand = new DriveCommand();
+	driveCommand->Start();
 }
 
 /**
