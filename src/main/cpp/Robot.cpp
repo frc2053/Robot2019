@@ -77,7 +77,7 @@ void Robot::DisabledPeriodic() {
  * autonomous mode. Used to get selected auto mode.
  */
 void Robot::AutonomousInit() {
-	Command* testAuto = new FollowPath("/home/lvuser/testPath.csv");
+	Command* testAuto = new FollowPath("/home/lvuser/testPath10ft.csv");
 	testAuto->Start();
 }
 
