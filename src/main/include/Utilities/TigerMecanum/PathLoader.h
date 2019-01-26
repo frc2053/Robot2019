@@ -7,10 +7,12 @@
 
 #pragma once
 
-#include <fstream>
 #include "Utilities/Math/RigidTransform2D.h"
 #include "Utilities/Math/InterpolatingMap.h"
 #include "Utilities/Math/InterpolatingDouble.h"
+#include <string>
+#include <vector>
+#include <istream>
 
 typedef InterpolatingMap<InterpolatingDouble, RigidTransform2D> Path2D;
 
@@ -21,4 +23,5 @@ public:
   void LoadPath(const std::string filePath);
 private:
   Path2D& m_path;
+  std::vector<std::string> GetNextLineAndSplitIntoTokens(std::istream& str);
 };

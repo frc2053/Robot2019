@@ -6,9 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Utilities/TigerMecanum/PathLoader.h"
+#include <string>
+#include <fstream>
 #include <sstream>
 #include <iostream>
-#include <cstring>
+
 PathLoader::PathLoader(Path2D &path) : m_path(path)
 {
 }
@@ -19,47 +21,32 @@ PathLoader::~PathLoader()
 
 void PathLoader::LoadPath(const std::string filePath)
 {
-    std::ifstream fin(filePath);
-    std::string line;
-    std::getline(fin, line);
+    std::ifstream testFile(filePath);
+    while (testFile.good()) {
+		std::vector<std::string> results = GetNextLineAndSplitIntoTokens(testFile);
+        m_path.put(InterpolatingDouble(std::stod(results[0])), RigidTransform2D(Translation2D(std::stod(results[1]), std::stod(results[2])), Rotation2D::fromDegrees(std::stod(results[3]))));
+		std::cout << "Time: " << results[0] << " X: " << results[1] << " Y: " << results[2] << " Heading: " << results[3] << "\n";
+	}
+}
 
-    std::stringstream lineStream(line);
-    std::string cell;
+std::vector<std::string> PathLoader::GetNextLineAndSplitIntoTokens(std::istream& str)
+{
+	std::vector<std::string> result;
+	std::string line;
+	std::getline(str, line);
 
-    double x = 0;
-    double y = 0;
-    double yaw = 0;
-    double time = 0;
+	std::stringstream lineStream(line);
+	std::string cell;
 
-    while(fin.good()) {
-        
-    }
-
-    // m_path.put(InterpolatingDouble(0), RigidTransform2D(Translation2D(0, 0), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.02), RigidTransform2D(Translation2D(0, 0.078939), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.04), RigidTransform2D(Translation2D(0, 0.26423), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.06), RigidTransform2D(Translation2D(0, 0.593635), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.08), RigidTransform2D(Translation2D(0, 1.10833), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.10), RigidTransform2D(Translation2D(0, 1.828904), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.12), RigidTransform2D(Translation2D(0, 2.755356), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.14), RigidTransform2D(Translation2D(0, 3.887686), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.16), RigidTransform2D(Translation2D(0, 5.225895), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.18), RigidTransform2D(Translation2D(0, 6.749394), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.20), RigidTransform2D(Translation2D(0, 8.417007), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.22), RigidTransform2D(Translation2D(0, 10.18756), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.24), RigidTransform2D(Translation2D(0, 12.019168), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.26), RigidTransform2D(Translation2D(0, 13.849359), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.28), RigidTransform2D(Translation2D(0, 15.61637), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.30), RigidTransform2D(Translation2D(0, 17.279025), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.32), RigidTransform2D(Translation2D(0, 18.796149), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.34), RigidTransform2D(Translation2D(0, 20.127273), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.36), RigidTransform2D(Translation2D(0, 21.25252), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.38), RigidTransform2D(Translation2D(0, 22.171889), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.40), RigidTransform2D(Translation2D(0, 22.885379), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.42), RigidTransform2D(Translation2D(0, 23.393699), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.44), RigidTransform2D(Translation2D(0, 23.718146), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.46), RigidTransform2D(Translation2D(0, 23.899894), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.48), RigidTransform2D(Translation2D(0, 23.980121), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.50), RigidTransform2D(Translation2D(0, 24), Rotation2D::fromDegrees(0)));
-    // m_path.put(InterpolatingDouble(0.52), RigidTransform2D(Translation2D(0, 24), Rotation2D::fromDegrees(0)));
+	while (std::getline(lineStream, cell, ','))
+	{
+		result.push_back(cell);
+	}
+	// This checks for a trailing comma with no data after it.
+	if (!lineStream && cell.empty())
+	{
+		// If there was a trailing comma then add an empty element.
+		result.push_back("");
+	}
+	return result;
 }
