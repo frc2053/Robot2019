@@ -88,6 +88,8 @@ constexpr double kENCODER_REVS_PER_WHEEL_REV = 7.5952;
 constexpr double kTOLERANCE_POS = 5;
 constexpr double kTOLERANCE_HEADING = 5;
 
+constexpr double kSTRAFE_MULTIPLIER = 2;
+
 //LIFT STUFF
 constexpr int kFOOT_SPARK_ID = 12;
 constexpr int kLEG_LEADER_TALON_ID = 13;
