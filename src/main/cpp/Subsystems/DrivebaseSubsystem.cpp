@@ -28,15 +28,17 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	backLeftSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 	backRightSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 	Robot::observer->SetRobotPos(RigidTransform2D(Translation2D(0,0), Rotation2D(1, 0, true)), 0.0);
+
+	frontLeftSpark->SetRampRate(.5);
+	frontRightSpark->SetRampRate(.5);
+	backLeftSpark->SetRampRate(.5);
+	backRightSpark->SetRampRate(.5);
+
 	flPos = 0;
 	frPos = 0;
 	blPos = 0;
 	brPos = 0;
 	m_first = true;
-	frontLeftSpark->SetCANTimeout(50);
-	frontRightSpark->SetCANTimeout(50);
-	backLeftSpark->SetCANTimeout(50);
-	backRightSpark->SetCANTimeout(50);
 	m_driveController = new DriveController(Robot::observer);
 }
 

@@ -40,7 +40,7 @@ void FollowPath::Execute() {
   std::cout << "Y Cmd: " <<  driveSignal.getTranslation().getY() << "\n";
   std::cout << "Yaw Cmd: " << driveSignal.getRotation().getDegrees() << "\n";
 
-  Robot::drivebaseSubsystem->MecDrive(driveSignal.getTranslation().getX(), driveSignal.getTranslation().getY(), driveSignal.getRotation().getDegrees(), Robot::drivebaseSubsystem->GetTigerDrive()->GetAdjYaw());
+  Robot::drivebaseSubsystem->MecDrive(-driveSignal.getTranslation().getX(), driveSignal.getTranslation().getY(), driveSignal.getRotation().getDegrees(), Robot::drivebaseSubsystem->GetTigerDrive()->GetAdjYaw());
 }
 
 // Make this return true when this Command no longer needs to run execute()
