@@ -28,7 +28,7 @@ constexpr double kWHEEL_BASE_WIDTH = 25.25;
 //DRIVEBASE ROTATION PARAMETERS
 constexpr double kROTATION_P = .03;
 constexpr double kROTATION_I = 0.0;
-constexpr double kROTATION_D = .1;
+constexpr double kROTATION_D = 0;
 constexpr double kROTATION_ANGLE_TOLERANCE = 2;
 
 //ELEVATOR PID

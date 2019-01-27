@@ -25,6 +25,7 @@ private:
   DriveController* m_driveController;
   bool m_skip;
   std::string m_filePath;
+  bool isFirst;
 protected:
   Path2D& m_path;
 };

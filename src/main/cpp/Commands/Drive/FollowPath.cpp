@@ -17,17 +17,25 @@ FollowPath::FollowPath(std::string filePath) : m_path(Robot::pathManager->GetPat
   m_driveController = Robot::drivebaseSubsystem->GetDriveController();
   m_skip = false;
   m_filePath = filePath;
+  isFirst = true;
 }
 
 // Called just before this Command runs the first time
 void FollowPath::Initialize() {
   m_skip = false;
   m_driveController->EnableController();
+  isFirst = true;
 }
 
 // Called repeatedly when this Command is scheduled to run
 void FollowPath::Execute() {
   RigidTransform2D targetPos = m_path.getInterpolated(InterpolatingDouble(TimeSinceInitialized()));
+
+  if(isFirst) {
+    Robot::observer->SetRobotPos(targetPos, TimeSinceInitialized());
+    isFirst = false;
+  }
+
   m_driveController->SetFieldTarget(targetPos);
 
   SmartDashboard::PutNumber("Path X", targetPos.getTranslation().getX());
