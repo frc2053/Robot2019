@@ -1,5 +1,5 @@
 #include "Utilities/Tigerdrive/TigerDrive.h"
-#include "RobotMap.h"
+#include "Robot.h"
 #include <iostream>
 
 TigerDrive::TigerDrive(const std::shared_ptr<AHRS>& imuP)
@@ -9,10 +9,10 @@ TigerDrive::TigerDrive(const std::shared_ptr<AHRS>& imuP)
 	isRotDone = false;
 	timesThroughLoop = 0;
 	imu = imuP;
-	rotateController.reset(new frc::PIDController(kROTATION_P, kROTATION_I, kROTATION_P, 0, imu.get(), this));
+	rotateController.reset(new frc::PIDController(Robot::robotMap->kROTATION_P, Robot::robotMap->kROTATION_I, Robot::robotMap->kROTATION_P, 0, imu.get(), this));
 	rotateController->SetInputRange(-180.0, 180.0);
 	rotateController->SetOutputRange(-1.0, 1.0);
-	rotateController->SetAbsoluteTolerance(kROTATION_ANGLE_TOLERANCE);
+	rotateController->SetAbsoluteTolerance(Robot::robotMap->kROTATION_ANGLE_TOLERANCE);
 	rotateController->SetContinuous(true);
 	rotateToAngleRate = 1;
 	controllerOverride = false;
@@ -39,8 +39,8 @@ double TigerDrive::CalculateRotationValue(double angleToRotateTo, double speedMu
 double TigerDrive::CalculateSpinDirection(double targetAngle, double imuYaw) {
 	double degreesToAngle = 0;
 	int spinDirection = 0;
-	if((fabs(imuYaw - targetAngle) > kROTATION_ANGLE_TOLERANCE) &&
-	   (fabs(imuYaw + 360 - targetAngle) > kROTATION_ANGLE_TOLERANCE)) {
+	if((fabs(imuYaw - targetAngle) > Robot::robotMap->kROTATION_ANGLE_TOLERANCE) &&
+	   (fabs(imuYaw + 360 - targetAngle) > Robot::robotMap->kROTATION_ANGLE_TOLERANCE)) {
 		if (imuYaw > targetAngle)  {
 			tooFarCW = true;
 			spinDirection = -1;

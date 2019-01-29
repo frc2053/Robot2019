@@ -23,7 +23,7 @@ void ControlFlapper::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void ControlFlapper::Execute() {
   Robot::intakeSubsystem->SetFlapperAngle(targetAngle);
-  if(Robot::intakeSubsystem->GetFlapperAngleError() < kINTAKE_ANGLE_TOLERANCE) {
+  if(Robot::intakeSubsystem->GetFlapperAngleError() < Robot::robotMap->kINTAKE_ANGLE_TOLERANCE) {
     isDone = true;
   }
 }

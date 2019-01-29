@@ -58,16 +58,16 @@ void ElevatorControl::Execute() {
 		switch(currentState)
 		{
 		case GROUND:
-			Robot::elevatorSubsystem->GoToHeight(kELEVATOR_GROUND);
+			Robot::elevatorSubsystem->GoToHeight(Robot::robotMap->kELEVATOR_GROUND);
 			break;
 		case LEVEL_ONE:
-			Robot::elevatorSubsystem->GoToHeight(kELEVATOR_LEVEL_ONE_HATCH);
+			Robot::elevatorSubsystem->GoToHeight(Robot::robotMap->kELEVATOR_LEVEL_ONE_HATCH);
 			break;
 		case LEVEL_TWO:
-			Robot::elevatorSubsystem->GoToHeight(kELEVATOR_LEVEL_TWO_HATCH);
+			Robot::elevatorSubsystem->GoToHeight(Robot::robotMap->kELEVATOR_LEVEL_TWO_HATCH);
 			break;
 		case LEVEL_THREE:
-			Robot::elevatorSubsystem->GoToHeight(kELEVATOR_LEVEL_THREE_HATCH);
+			Robot::elevatorSubsystem->GoToHeight(Robot::robotMap->kELEVATOR_LEVEL_THREE_HATCH);
 			break;
 		}
 	}

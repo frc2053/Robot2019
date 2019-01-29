@@ -1,5 +1,5 @@
 #include "Utilities/TigerMecanum/DriveController.h"
-#include "RobotMap.h"
+#include "Robot.h"
 #include "Utilities/Math/Rotation2D.h"
 #include <iostream>
 
@@ -14,9 +14,9 @@ DriveController::DriveController(const std::shared_ptr<ObserverSubsystem>& obser
 	positionYSignal = std::make_unique<DriveControllerOutput>();
 	positionYawSignal = std::make_unique<DriveControllerOutput>();
 
-	positionXController = std::make_unique<frc::PIDController2481>(kAUTO_CONTROLLER_P, kAUTO_CONTROLLER_I, kAUTO_CONTROLLER_D, kAUTO_CONTROLLER_V, positionXSource.get(), positionXSignal.get(), kCONTROLLER_PERIOD);
-	positionYController = std::make_unique<frc::PIDController2481>(kAUTO_CONTROLLER_P, kAUTO_CONTROLLER_I, kAUTO_CONTROLLER_D, kAUTO_CONTROLLER_V, positionYSource.get(), positionYSignal.get(), kCONTROLLER_PERIOD);
-	positionYawController = std::make_unique<frc::PIDController2481>(kROTATION_P, kROTATION_I, kROTATION_D, 0, positionYawSource.get(), positionYawSignal.get(), kCONTROLLER_PERIOD);
+	positionXController = std::make_unique<frc::PIDController2481>(Robot::robotMap->kAUTO_CONTROLLER_P, Robot::robotMap->kAUTO_CONTROLLER_I, Robot::robotMap->kAUTO_CONTROLLER_D, Robot::robotMap->kAUTO_CONTROLLER_V, positionXSource.get(), positionXSignal.get(), Robot::robotMap->kCONTROLLER_PERIOD);
+	positionYController = std::make_unique<frc::PIDController2481>(Robot::robotMap->kAUTO_CONTROLLER_P, Robot::robotMap->kAUTO_CONTROLLER_I, Robot::robotMap->kAUTO_CONTROLLER_D, Robot::robotMap->kAUTO_CONTROLLER_V, positionYSource.get(), positionYSignal.get(), Robot::robotMap->kCONTROLLER_PERIOD);
+	positionYawController = std::make_unique<frc::PIDController2481>(Robot::robotMap->kROTATION_P, Robot::robotMap->kROTATION_I, Robot::robotMap->kROTATION_D, 0, positionYawSource.get(), positionYawSignal.get(), Robot::robotMap->kCONTROLLER_PERIOD);
 
 	positionYawController->SetInputRange(-180, 180);
 
@@ -26,7 +26,7 @@ DriveController::DriveController(const std::shared_ptr<ObserverSubsystem>& obser
 	positionYawController->SetContinuous(true);
 	positionYawController->SetInputRange(-180.0, 180.0);
 	positionYawController->SetOutputRange(-1.0, 1.0);
-	positionYawController->SetAbsoluteTolerance(kROTATION_ANGLE_TOLERANCE);
+	positionYawController->SetAbsoluteTolerance(Robot::robotMap->kROTATION_ANGLE_TOLERANCE);
 
 
 	positionXController->SetIZone(0);

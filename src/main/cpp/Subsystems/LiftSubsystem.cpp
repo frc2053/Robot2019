@@ -3,21 +3,21 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Subsystems/LiftSubsystem.h"
-#include "RobotMap.h"
+#include "Robot.h"
 #include <rev/CANSparkMax.h>
 #include <rev/CANSparkMaxLowLevel.h>
 
 LiftSubsystem::LiftSubsystem() : Subsystem("LiftSubsystem") {
-  FootDriverSpark = std::make_unique<rev::CANSparkMax>(kFOOT_SPARK_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
-  LegDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kLEG_LEADER_TALON_ID);
-  LegFollowerTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kLEG_FOLLOWER_TALON_ID);
+  FootDriverSpark = std::make_unique<rev::CANSparkMax>(Robot::robotMap->kFOOT_SPARK_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
+  LegDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kLEG_LEADER_TALON_ID);
+  LegFollowerTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kLEG_FOLLOWER_TALON_ID);
 
   LegFollowerTalon->Follow(*LegDriverTalon.get());
   LegDriverTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative);
 }
 
 int LiftSubsystem::DistanceToTicks(double distance){
-  int ticks = distance * kELEVATORTICKS_PER_INCH;
+  int ticks = distance * Robot::robotMap->kELEVATORTICKS_PER_INCH;
   return ticks;
 }
 

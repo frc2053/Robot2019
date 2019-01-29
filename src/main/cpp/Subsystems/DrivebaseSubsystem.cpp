@@ -16,10 +16,10 @@
 DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	imu = std::make_unique<AHRS>(frc::SPI::Port::kMXP);
 	tigerDrive = std::make_unique<TigerDrive>(imu);
-	frontLeftSpark = std::make_unique<rev::CANSparkMax>(kDRIVESPARK_FL_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
-	frontRightSpark = std::make_unique<rev::CANSparkMax>(kDRIVESPARK_FR_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
-	backLeftSpark = std::make_unique<rev::CANSparkMax>(kDRIVESPARK_BL_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
-	backRightSpark = std::make_unique<rev::CANSparkMax>(kDRIVESPARK_BR_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
+	frontLeftSpark = std::make_unique<rev::CANSparkMax>(Robot::robotMap->kDRIVESPARK_FL_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
+	frontRightSpark = std::make_unique<rev::CANSparkMax>(Robot::robotMap->kDRIVESPARK_FR_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
+	backLeftSpark = std::make_unique<rev::CANSparkMax>(Robot::robotMap->kDRIVESPARK_BL_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
+	backRightSpark = std::make_unique<rev::CANSparkMax>(Robot::robotMap->kDRIVESPARK_BR_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
 	mecDrive = std::make_unique<frc::MecanumDrive>(*frontLeftSpark.get(), *backLeftSpark.get(), *frontRightSpark.get(), *
 		backRightSpark.get());
 	mecDrive->SetSafetyEnabled(false);
@@ -113,17 +113,17 @@ Translation2D DrivebaseSubsystem::GetWheelDistance(std::string wheel) {
 }
 
 double DrivebaseSubsystem::ConvertEncoderTicksToEncoderRotations(int ticks) {
-	double retVal = (double) ticks / (double) kTICKS_PER_REV_NEO;
+	double retVal = (double) ticks / (double) Robot::robotMap->kTICKS_PER_REV_NEO;
 	return retVal;
 }
 
 double DrivebaseSubsystem::ConvertEncoderRotationsToWheelsRotations(double rotations) {
-	double output = rotations / kENCODER_REVS_PER_WHEEL_REV;
+	double output = rotations / Robot::robotMap->kENCODER_REVS_PER_WHEEL_REV;
 	return output;
 }
 
 double DrivebaseSubsystem::ConvertWheelRotationsToDistance(double rotations) {
-	double retVal = rotations * (3.14159 * kWHEEL_DIAMETER);
+	double retVal = rotations * (3.14159 * Robot::robotMap->kWHEEL_DIAMETER);
 	return retVal;
 }
 
@@ -192,9 +192,9 @@ void DrivebaseSubsystem::Periodic() {
 }
 
 RigidTransform2D::Delta DrivebaseSubsystem::MecanumForwardKinematics(RigidTransform2D::Delta& flVelocity, RigidTransform2D::Delta& frVelocity, RigidTransform2D::Delta& blVelocity, RigidTransform2D::Delta& brVelocity) {
-	double xVelocity = (flVelocity.GetX() + frVelocity.GetX()  + blVelocity.GetX()  + brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * M_PI));
-	double yVelocity = (-flVelocity.GetX() + frVelocity.GetX() + blVelocity.GetX() - brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * M_PI));
-	double yawRate = (-flVelocity.GetX() + frVelocity.GetX() - blVelocity.GetX() + brVelocity.GetX()) * ((kWHEEL_DIAMETER / 2) / (4 * (kWHEEL_BASE_LENGTH + kWHEEL_BASE_WIDTH)));
+	double xVelocity = (flVelocity.GetX() + frVelocity.GetX()  + blVelocity.GetX()  + brVelocity.GetX()) * ((Robot::robotMap->kWHEEL_DIAMETER / 2) / (4 * M_PI));
+	double yVelocity = (-flVelocity.GetX() + frVelocity.GetX() + blVelocity.GetX() - brVelocity.GetX()) * ((Robot::robotMap->kWHEEL_DIAMETER / 2) / (4 * M_PI));
+	double yawRate = (-flVelocity.GetX() + frVelocity.GetX() - blVelocity.GetX() + brVelocity.GetX()) * ((Robot::robotMap->kWHEEL_DIAMETER / 2) / (4 * (Robot::robotMap->kWHEEL_BASE_LENGTH + Robot::robotMap->kWHEEL_BASE_WIDTH)));
 	return RigidTransform2D::Delta::fromDelta(yVelocity, xVelocity, yawRate, flVelocity.GetDt());
 }
 

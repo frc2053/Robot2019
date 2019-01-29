@@ -9,7 +9,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include "RobotMap.h"
+#include "Robot.h"
 #include <iostream>
 
 PathLoader::PathLoader(Path2D &path) : m_path(path)
@@ -25,7 +25,7 @@ void PathLoader::LoadPath(const std::string filePath)
     std::ifstream testFile(filePath);
     while (testFile.good()) {
 		std::vector<std::string> results = GetNextLineAndSplitIntoTokens(testFile);
-        m_path.put(InterpolatingDouble(std::stod(results[0])), RigidTransform2D(Translation2D(std::stod(results[1]) * kSTRAFE_MULTIPLIER, std::stod(results[2])), Rotation2D::fromDegrees(std::stod(results[3]))));
+        m_path.put(InterpolatingDouble(std::stod(results[0])), RigidTransform2D(Translation2D(std::stod(results[1]) * Robot::robotMap->kSTRAFE_MULTIPLIER, std::stod(results[2])), Rotation2D::fromDegrees(std::stod(results[3]))));
 		std::cout << "Time: " << results[0] << " X: " << results[1] << " Y: " << results[2] << " Heading: " << results[3] << "\n";
 	}
 }

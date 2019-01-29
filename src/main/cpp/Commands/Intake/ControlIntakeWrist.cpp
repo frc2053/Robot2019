@@ -23,7 +23,7 @@ void ControlIntakeWrist::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void ControlIntakeWrist::Execute() {
   Robot::intakeSubsystem->SetWristAngle(targetAngle);
-  if(Robot::intakeSubsystem->GetWristAngleError() < kINTAKE_ANGLE_TOLERANCE) {
+  if(Robot::intakeSubsystem->GetWristAngleError() < Robot::robotMap->kINTAKE_ANGLE_TOLERANCE) {
     isDone = true;
   }
 }

@@ -6,13 +6,13 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Subsystems/IntakeSubsystem.h"
-#include "RobotMap.h"
+#include "Robot.h"
 
 IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
-  intakeWheelsTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kINTAKE_WHEELS_ID);
-  intakeWristTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kINTAKE_ACTUATOR_ID);
-  intakeFlapperLeftTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kINTAKE_FLAPPER_LEFT_ID);
-  intakeFlapperRightTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kINTAKE_FLAPPER_RIGHT_ID);
+  intakeWheelsTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kINTAKE_WHEELS_ID);
+  intakeWristTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kINTAKE_ACTUATOR_ID);
+  intakeFlapperLeftTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kINTAKE_FLAPPER_LEFT_ID);
+  intakeFlapperRightTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kINTAKE_FLAPPER_RIGHT_ID);
   
   intakeFlapperRightTalon->Follow(*intakeFlapperLeftTalon.get());
 
@@ -39,7 +39,7 @@ void IntakeSubsystem::SetFlapperAngle(double angle) {
 }
 
 int IntakeSubsystem::ConvertAngleToTicksWrist(double angle) {
-  int ticks = angle / 360.0 * kTICKS_PER_REV_OF_ENCODER * kWRIST_GEAR_RATIO;
+  int ticks = angle / 360.0 * Robot::robotMap->kTICKS_PER_REV_OF_ENCODER * Robot::robotMap->kWRIST_GEAR_RATIO;
   return ticks;
 }
 
@@ -51,5 +51,5 @@ int IntakeSubsystem::GetWristAngleError() {
 }
 
 int IntakeSubsystem::ConvertAngleToTicksFlapper(double angle) {
-  int ticks = angle / 360.0 * kTICKS_PER_REV_OF_ENCODER * kFLAPPER_GEAR_RATIO;
+  int ticks = angle / 360.0 * Robot::robotMap->kTICKS_PER_REV_OF_ENCODER * Robot::robotMap->kFLAPPER_GEAR_RATIO;
 }

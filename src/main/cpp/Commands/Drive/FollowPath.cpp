@@ -59,7 +59,7 @@ bool FollowPath::IsFinished() {
   Translation2D errorTranslation = lastPoint.getTranslation().translateBy(robotPose.getTranslation().inverse());
   Rotation2D errorRotation = lastPoint.getRotation().rotateBy(robotPose.getRotation().inverse());
 
-  return ((fabs(errorTranslation.norm()) < kTOLERANCE_POS) && (fabs(errorRotation.getDegrees()) < kTOLERANCE_HEADING)) ||
+  return ((fabs(errorTranslation.norm()) < Robot::robotMap->kTOLERANCE_POS) && (fabs(errorRotation.getDegrees()) < Robot::robotMap->kTOLERANCE_HEADING)) ||
     (m_path.rbegin()->first.m_value + 2 < TimeSinceInitialized()) ||
     m_skip;
 }

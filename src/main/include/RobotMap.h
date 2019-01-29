@@ -6,99 +6,99 @@
  * Here we hold all of the robots constants.
  * These are the default values when the robot starts up.
  */
+#pragma once
 
 #include <string>
 #include <iostream>
 #include <sstream>
-#include "INIReader.h"
 
 class RobotMap {
 public: 
+    RobotMap();
+    void Init();
 
-//CONTROLLER STUFF
-static int kDRIVER_CONTROLLER_PORT;
-static int kOPERATOR_CONTROLLER_PORT;
-static double  kCONTROLLER_PERIOD;
+    //CONTROLLER STUFF
+    int kDRIVER_CONTROLLER_PORT;
+    int kOPERATOR_CONTROLLER_PORT;
+    double  kCONTROLLER_PERIOD;
 
-//ENCODER STUFF
-static int kTICKS_PER_REV_OF_ENCODER;
-static int kTICKS_PER_REV_NEO;
-static int kELEVATORTICKS_PER_INCH;
-static double  kWRIST_GEAR_RATIO;
-static double  kFLAPPER_GEAR_RATIO;
-static double  kWHEEL_DIAMETER;
-static double  kDRIVE_GEAR_RATIO;
-static double  kWHEEL_BASE_LENGTH;
-static double  kWHEEL_BASE_WIDTH;
+    //ENCODER STUFF
+    int kTICKS_PER_REV_OF_ENCODER;
+    int kTICKS_PER_REV_NEO;
+    int kELEVATORTICKS_PER_INCH;
+    double  kWRIST_GEAR_RATIO;
+    double  kFLAPPER_GEAR_RATIO;
+    double  kWHEEL_DIAMETER;
+    double  kDRIVE_GEAR_RATIO;
+    double  kWHEEL_BASE_LENGTH;
+    double  kWHEEL_BASE_WIDTH;
 
-//DRIVEBASE ROTATION PARAMETERS
-static double  kROTATION_P;
-static double  kROTATION_I;
-static double  kROTATION_D;
-static double  kROTATION_ANGLE_TOLERANCE;
+    //DRIVEBASE ROTATION PARAMETERS
+    double  kROTATION_P;
+    double  kROTATION_I;
+    double  kROTATION_D;
+    double  kROTATION_ANGLE_TOLERANCE;
 
-//ELEVATOR PID
-static double  kELEVATOR_F;
-static double  kELEVATOR_P;
-static double  kELEVATOR_I;
-static double  kELEVATOR_D;
+    //ELEVATOR PID
+    double  kELEVATOR_F;
+    double  kELEVATOR_P;
+    double  kELEVATOR_I;
+    double  kELEVATOR_D;
 
-//DRIVEBASE TALONS
-static int kDRIVESPARK_FL_ID;
-static int kDRIVESPARK_FR_ID;
-static int kDRIVESPARK_BL_ID;
-static int kDRIVESPARK_BR_ID;
+    //DRIVEBASE TALONS
+    int kDRIVESPARK_FL_ID;
+    int kDRIVESPARK_FR_ID;
+    int kDRIVESPARK_BL_ID;
+    int kDRIVESPARK_BR_ID;
 
-//INTAKE TALONS
-static int kINTAKE_WHEELS_ID;
-static int kINTAKE_ACTUATOR_ID;
+    //INTAKE TALONS
+    int kINTAKE_WHEELS_ID;
+    int kINTAKE_ACTUATOR_ID;
 
-//ELEVATOR TALONS
-static int kELEVATOR_LEADER_ID;
-static int kELEVATOR_FOLLOWERONE_ID;
-static int kELEVATOR_FOLLOWERTWO_ID;
+    //ELEVATOR TALONS
+    int kELEVATOR_LEADER_ID;
+    int kELEVATOR_FOLLOWERONE_ID;
+    int kELEVATOR_FOLLOWERTWO_ID;
 
-//FLAPPER TALONS
-static int kINTAKE_FLAPPER_LEFT_ID;
-static int kINTAKE_FLAPPER_RIGHT_ID;
+    //FLAPPER TALONS
+    int kINTAKE_FLAPPER_LEFT_ID;
+    int kINTAKE_FLAPPER_RIGHT_ID;
 
-//INTAKE PARAMS
-static double  kINTAKE_ANGLE_BALL;
-static double  kINTAKE_ANGLE_UP;
-static double  kFLAPPER_UP_ANGLE;
-//;)
-static double  kFLAPPER_DOWN_ANGLE;
-static int kINTAKE_ANGLE_TOLERANCE;
-static double  kINTAKE_SPEED;
+    //INTAKE PARAMS
+    double  kINTAKE_ANGLE_BALL;
+    double  kINTAKE_ANGLE_UP;
+    double  kFLAPPER_UP_ANGLE;
+    //;)
+    double  kFLAPPER_DOWN_ANGLE;
+    int kINTAKE_ANGLE_TOLERANCE;
+    double  kINTAKE_SPEED;
 
-//ELEVATOR PARAMS
-static double  kELEVATOR_GROUND;
-static double  kELEVATOR_LEVEL_ONE_HATCH;
-static double  kELEVATOR_LEVEL_TWO_HATCH;
-static double  kELEVATOR_LEVEL_THREE_HATCH;
-static double  kELEVATOR_LEVEL_ONE_PORT;
-static double  kELEVATOR_LEVEL_TWO_PORT;
-static double  kELEVATOR_LEVEL_THREE_PORT;
+    //ELEVATOR PARAMS
+    double  kELEVATOR_GROUND;
+    double  kELEVATOR_LEVEL_ONE_HATCH;
+    double  kELEVATOR_LEVEL_TWO_HATCH;
+    double  kELEVATOR_LEVEL_THREE_HATCH;
+    double  kELEVATOR_LEVEL_ONE_PORT;
+    double  kELEVATOR_LEVEL_TWO_PORT;
+    double  kELEVATOR_LEVEL_THREE_PORT;
 
-//FORWARD KINEMATICS
-static double  kFORWARD_KINEMATICS_WEIGHT;
-static double  kGYRO_WEIGHT;
-static double  kAUTO_CONTROLLER_P;
-static double  kAUTO_CONTROLLER_I;
-static double  kAUTO_CONTROLLER_D;
-static double  kAUTO_CONTROLLER_V;
+    //FORWARD KINEMATICS
+    double  kFORWARD_KINEMATICS_WEIGHT;
+    double  kGYRO_WEIGHT;
+    double  kAUTO_CONTROLLER_P;
+    double  kAUTO_CONTROLLER_I;
+    double  kAUTO_CONTROLLER_D;
+    double  kAUTO_CONTROLLER_V;
 
-static double  kENCODER_REVS_PER_WHEEL_REV;
+    double  kENCODER_REVS_PER_WHEEL_REV;
 
-static double  kTOLERANCE_POS;
-static double  kTOLERANCE_HEADING;
+    double  kTOLERANCE_POS;
+    double  kTOLERANCE_HEADING;
 
-static double  kSTRAFE_MULTIPLIER;
+    double  kSTRAFE_MULTIPLIER;
 
-//LIFT STUFF
-static int kFOOT_SPARK_ID;
-static int kLEG_LEADER_TALON_ID;
-static int kLEG_FOLLOWER_TALON_ID;
+    //LIFT STUFF
+    int kFOOT_SPARK_ID;
+    int kLEG_LEADER_TALON_ID;
+    int kLEG_FOLLOWER_TALON_ID;
 };
-
-extern RobotMap globalRobotMap;

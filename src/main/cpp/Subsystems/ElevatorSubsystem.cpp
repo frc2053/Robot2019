@@ -6,13 +6,13 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Subsystems/ElevatorSubsystem.h"
-#include "RobotMap.h"
+#include "Robot.h"
 #include "Commands/Elevator/ElevatorControl.h"
 
 ElevatorSubsystem::ElevatorSubsystem() : Subsystem("ElevatorSubsystem") {
-  elevatorMotorLeader = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kELEVATOR_LEADER_ID);
-  elevatorMotorFollower01 = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kELEVATOR_FOLLOWERONE_ID);
-  elevatorMotorFollower02 = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(kELEVATOR_FOLLOWERTWO_ID);
+  elevatorMotorLeader = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kELEVATOR_LEADER_ID);
+  elevatorMotorFollower01 = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kELEVATOR_FOLLOWERONE_ID);
+  elevatorMotorFollower02 = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kELEVATOR_FOLLOWERTWO_ID);
 
   elevatorMotorFollower01->Follow(*elevatorMotorLeader.get());
   elevatorMotorFollower02->Follow(*elevatorMotorLeader.get());
@@ -21,10 +21,10 @@ ElevatorSubsystem::ElevatorSubsystem() : Subsystem("ElevatorSubsystem") {
   elevatorMotorLeader->SetSelectedSensorPosition(0);
   elevatorMotorLeader->ConfigAllowableClosedloopError(0, 50, 0);
 
-  elevatorMotorLeader->Config_kF(0, kELEVATOR_F);
-  elevatorMotorLeader->Config_kP(0, kELEVATOR_P);
-  elevatorMotorLeader->Config_kI(0, kELEVATOR_I);
-  elevatorMotorLeader->Config_kD(0, kELEVATOR_D);
+  elevatorMotorLeader->Config_kF(0, Robot::robotMap->kELEVATOR_F);
+  elevatorMotorLeader->Config_kP(0, Robot::robotMap->kELEVATOR_P);
+  elevatorMotorLeader->Config_kI(0, Robot::robotMap->kELEVATOR_I);
+  elevatorMotorLeader->Config_kD(0, Robot::robotMap->kELEVATOR_D);
 }
 
 void ElevatorSubsystem::InitDefaultCommand() {
@@ -33,7 +33,7 @@ void ElevatorSubsystem::InitDefaultCommand() {
 
 int ElevatorSubsystem::ConvertHeightToTicks(double inputHeight) {
   int ticks = 0;
-  ticks = inputHeight * kELEVATORTICKS_PER_INCH;
+  ticks = inputHeight * Robot::robotMap->kELEVATORTICKS_PER_INCH;
   return ticks;
 }
 

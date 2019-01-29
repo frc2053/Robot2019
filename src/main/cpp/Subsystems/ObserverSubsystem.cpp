@@ -36,7 +36,7 @@ void ObserverSubsystem::UpdateRobotPoseObservation(RigidTransform2D::Delta& flVe
 	RigidTransform2D::Delta deltaRobotPos = Robot::drivebaseSubsystem->MecanumForwardKinematics(flVelocity, frVelocity, blVelocity, brVelocity);
 	RigidTransform2D oldRobotPos = GetLastRobotPose();
 
-	Rotation2D finalAngleDelta = Rotation2D::fromRadians((deltaRobotPos.GetTheta() * kFORWARD_KINEMATICS_WEIGHT) + (deltaGyroYaw.getRadians() * kGYRO_WEIGHT));
+	Rotation2D finalAngleDelta = Rotation2D::fromRadians((deltaRobotPos.GetTheta() * Robot::robotMap->kFORWARD_KINEMATICS_WEIGHT) + (deltaGyroYaw.getRadians() * Robot::robotMap->kGYRO_WEIGHT));
 	Rotation2D newRobotAngle = oldRobotPos.getRotation().rotateBy(finalAngleDelta.inverse());
 
 	Rotation2D halfAngle = oldRobotPos.getRotation().rotateBy(Rotation2D::fromDegrees(finalAngleDelta.getDegrees() * 1));

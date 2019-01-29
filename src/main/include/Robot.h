@@ -16,6 +16,7 @@
 #include "Utilities/TigerMecanum/PathManager.h"
 #include <opencv2/core/core.hpp>
 #include <cameraserver/CameraServer.h>
+#include "RobotMap.h"
 
 /**
  * This is the main class of the robot. Sort of like
@@ -30,6 +31,7 @@ public:
 	static std::unique_ptr<LiftSubsystem> liftSubsystem;
 	static std::unique_ptr<ElevatorSubsystem> elevatorSubsystem;
 	static std::unique_ptr<PathManager> pathManager;
+	static std::unique_ptr<RobotMap> robotMap;
 
 	void RobotInit() override;
 	void DisabledInit() override;
