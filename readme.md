@@ -32,6 +32,8 @@ When working on FRC Robots, you need to make sure all of your hardware is up to 
 
 You also need to make sure all 3rd party dependencies are updated as well. This included equipment like CTRE Talon SRX's, REV Robotics Spark Max, and the Kauai Labs NavX. They all have firmware that needs to be updated every year and especially for newer products, have multiple updates throughout the build season that may fix bugs. 
 
+To install these libraries and use them in our code, we can simply add their libraries build repo using GradeRIO. To do this do Ctrl+Shift+P in VSCode in a robot project, and search for Manage Vendor Libraries, and follow the directions from the vendors site. You can also check for updates using the same method. 
+
 If you run into a wierd issue, don't be afraid to search on Chief Delphi or email the support team for the company. They are always willing to help.
 
 ## Chapter Two and a Half (Advanced): Build Systems
@@ -56,4 +58,14 @@ There is a lot to this section so lets jump in! I will use C++ as an example her
 So to start, your main class is going to be called Robot. Its files are stored in /src and /include when you create a project through VSCode. This class inherits from a RobotBase class provided by WPI. There are different types of classes that you can inherit from. One of them is TimedRobot which is the most common and what you want to use 99% of the time. There is also, an iterative robot, as well as sample robot. There is also what we use which is called __Command Based Robot__. This is based on TimedRobot, but is a differently structured to allow programmers to do more than one action at once (sort of). 
 
 ### Command Based Architecture
+
+The Command Based system is very powerful but definetly has its quirks. The whole system is run off of a [Queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) of Commands or Functions. This is called the Scheduler. You mostly dont have to worry about the Scheduler unless you are doing advanced things with Autonomous or switching commands.There are a couple different terms you need to be familiar with. 
+
+- Subsystems: A subsystem can be considered a system of your robot. For example you might have a intake mechanism on your robot as well as a drivetrain, and a shooter. All of these could be considered different subsystems as they act independantly of each other. Each subsystem can have a single running "Command" that is using that subsystem. Each subsystem can also have a default command that can run when no other commands are running.
+
+- Command: A command is a single action that your robot can do. For example, you might have a command to intake a ball. This command would call a function from your intake subsytem that says run a motor at 50 percent speed. Commands can be triggered in multiple ways. The mose usual being through button presses. They can also be triggered manually, or through CommandGroups.
+
+- Command Groups: A command group is a sequence of commands that can run sequentually or in parallel. You have to be very careful with this because depending on the order of your commands you might end up running things in parallel when you meant to run them in order. For example, you could have a command group that runs a command called IntakeBall and then another command called DriveForward. Another thing to note is that commands are added to commandgroups in their constructor so you have to be careful with timing issues.
+
+
 
