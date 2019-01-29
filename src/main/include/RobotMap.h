@@ -8,89 +8,97 @@
  */
 
 #include <string>
+#include <iostream>
+#include <sstream>
+#include "INIReader.h"
+
+class RobotMap {
+public: 
 
 //CONTROLLER STUFF
-constexpr int kDRIVER_CONTROLLER_PORT = 0;
-constexpr int kOPERATOR_CONTROLLER_PORT = 1;
-constexpr double kCONTROLLER_PERIOD = 0.02;
+static int kDRIVER_CONTROLLER_PORT;
+static int kOPERATOR_CONTROLLER_PORT;
+static double  kCONTROLLER_PERIOD;
 
 //ENCODER STUFF
-constexpr int kTICKS_PER_REV_OF_ENCODER = 4096;
-constexpr int kTICKS_PER_REV_NEO = 48;
-constexpr int kELEVATORTICKS_PER_INCH= 4096;
-constexpr double kWRIST_GEAR_RATIO = 1.8181;
-constexpr double kFLAPPER_GEAR_RATIO = 1;
-constexpr double kWHEEL_DIAMETER = 6;
-constexpr double kDRIVE_GEAR_RATIO = 7.86;
-constexpr double kWHEEL_BASE_LENGTH = 25.25;
-constexpr double kWHEEL_BASE_WIDTH = 25.25;
+static int kTICKS_PER_REV_OF_ENCODER;
+static int kTICKS_PER_REV_NEO;
+static int kELEVATORTICKS_PER_INCH;
+static double  kWRIST_GEAR_RATIO;
+static double  kFLAPPER_GEAR_RATIO;
+static double  kWHEEL_DIAMETER;
+static double  kDRIVE_GEAR_RATIO;
+static double  kWHEEL_BASE_LENGTH;
+static double  kWHEEL_BASE_WIDTH;
 
 //DRIVEBASE ROTATION PARAMETERS
-constexpr double kROTATION_P = .03;
-constexpr double kROTATION_I = 0.0;
-constexpr double kROTATION_D = 0;
-constexpr double kROTATION_ANGLE_TOLERANCE = 2;
+static double  kROTATION_P;
+static double  kROTATION_I;
+static double  kROTATION_D;
+static double  kROTATION_ANGLE_TOLERANCE;
 
 //ELEVATOR PID
-constexpr double kELEVATOR_F = 0;
-constexpr double kELEVATOR_P = 1;
-constexpr double kELEVATOR_I = 0;
-constexpr double kELEVATOR_D = 0;
+static double  kELEVATOR_F;
+static double  kELEVATOR_P;
+static double  kELEVATOR_I;
+static double  kELEVATOR_D;
 
 //DRIVEBASE TALONS
-constexpr int kDRIVESPARK_FL_ID = 4;
-constexpr int kDRIVESPARK_FR_ID = 1;
-constexpr int kDRIVESPARK_BL_ID = 3;
-constexpr int kDRIVESPARK_BR_ID = 2;
+static int kDRIVESPARK_FL_ID;
+static int kDRIVESPARK_FR_ID;
+static int kDRIVESPARK_BL_ID;
+static int kDRIVESPARK_BR_ID;
 
 //INTAKE TALONS
-constexpr int kINTAKE_WHEELS_ID = 5;
-constexpr int kINTAKE_ACTUATOR_ID = 6;
+static int kINTAKE_WHEELS_ID;
+static int kINTAKE_ACTUATOR_ID;
 
 //ELEVATOR TALONS
-constexpr int kELEVATOR_LEADER_ID = 7;
-constexpr int kELEVATOR_FOLLOWERONE_ID = 8;
-constexpr int kELEVATOR_FOLLOWERTWO_ID = 9;
+static int kELEVATOR_LEADER_ID;
+static int kELEVATOR_FOLLOWERONE_ID;
+static int kELEVATOR_FOLLOWERTWO_ID;
 
 //FLAPPER TALONS
-constexpr int kINTAKE_FLAPPER_LEFT_ID = 10;
-constexpr int kINTAKE_FLAPPER_RIGHT_ID = 11;
+static int kINTAKE_FLAPPER_LEFT_ID;
+static int kINTAKE_FLAPPER_RIGHT_ID;
 
 //INTAKE PARAMS
-constexpr double kINTAKE_ANGLE_BALL = 90;
-constexpr double kINTAKE_ANGLE_UP = 0;
-constexpr double kFLAPPER_UP_ANGLE = 0;
-constexpr double kFLAPPER_DOWN_ANGLE = 90;
-constexpr int kINTAKE_ANGLE_TOLERANCE = 5;
-constexpr double kINTAKE_SPEED = 1;
+static double  kINTAKE_ANGLE_BALL;
+static double  kINTAKE_ANGLE_UP;
+static double  kFLAPPER_UP_ANGLE;
+//;)
+static double  kFLAPPER_DOWN_ANGLE;
+static int kINTAKE_ANGLE_TOLERANCE;
+static double  kINTAKE_SPEED;
 
 //ELEVATOR PARAMS
-constexpr double kELEVATOR_GROUND = 0;
-//;)
-constexpr double kELEVATOR_LEVEL_ONE_HATCH = 19;
-constexpr double kELEVATOR_LEVEL_TWO_HATCH = 47;
-constexpr double kELEVATOR_LEVEL_THREE_HATCH = 66;
-
-constexpr double kELEVATOR_LEVEL_ONE_PORT = 27.55;
-constexpr double kELEVATOR_LEVEL_TWO_PORT = 55.55;
-constexpr double kELEVATOR_LEVEL_THREE_PORT = 83.55;
+static double  kELEVATOR_GROUND;
+static double  kELEVATOR_LEVEL_ONE_HATCH;
+static double  kELEVATOR_LEVEL_TWO_HATCH;
+static double  kELEVATOR_LEVEL_THREE_HATCH;
+static double  kELEVATOR_LEVEL_ONE_PORT;
+static double  kELEVATOR_LEVEL_TWO_PORT;
+static double  kELEVATOR_LEVEL_THREE_PORT;
 
 //FORWARD KINEMATICS
-constexpr double kFORWARD_KINEMATICS_WEIGHT = 0;
-constexpr double kGYRO_WEIGHT = 1;
-constexpr double kAUTO_CONTROLLER_P = 0.015;
-constexpr double kAUTO_CONTROLLER_I = 0;
-constexpr double kAUTO_CONTROLLER_D = 0;
-constexpr double kAUTO_CONTROLLER_V = 0;
+static double  kFORWARD_KINEMATICS_WEIGHT;
+static double  kGYRO_WEIGHT;
+static double  kAUTO_CONTROLLER_P;
+static double  kAUTO_CONTROLLER_I;
+static double  kAUTO_CONTROLLER_D;
+static double  kAUTO_CONTROLLER_V;
 
-constexpr double kENCODER_REVS_PER_WHEEL_REV = 7.5952;
+static double  kENCODER_REVS_PER_WHEEL_REV;
 
-constexpr double kTOLERANCE_POS = 5;
-constexpr double kTOLERANCE_HEADING = 5;
+static double  kTOLERANCE_POS;
+static double  kTOLERANCE_HEADING;
 
-constexpr double kSTRAFE_MULTIPLIER = 2;
+static double  kSTRAFE_MULTIPLIER;
 
 //LIFT STUFF
-constexpr int kFOOT_SPARK_ID = 12;
-constexpr int kLEG_LEADER_TALON_ID = 13;
-constexpr int kLEG_FOLLOWER_TALON_ID = 14;
+static int kFOOT_SPARK_ID;
+static int kLEG_LEADER_TALON_ID;
+static int kLEG_FOLLOWER_TALON_ID;
+};
+
+extern RobotMap globalRobotMap;
