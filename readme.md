@@ -63,9 +63,19 @@ The Command Based system is very powerful but definetly has its quirks. The whol
 
 - Subsystems: A subsystem can be considered a system of your robot. For example you might have a intake mechanism on your robot as well as a drivetrain, and a shooter. All of these could be considered different subsystems as they act independantly of each other. Each subsystem can have a single running "Command" that is using that subsystem. Each subsystem can also have a default command that can run when no other commands are running.
 
-- Command: A command is a single action that your robot can do. For example, you might have a command to intake a ball. This command would call a function from your intake subsytem that says run a motor at 50 percent speed. Commands can be triggered in multiple ways. The mose usual being through button presses. They can also be triggered manually, or through CommandGroups.
+- Command: A command is a single action that your robot can do. For example, you might have a command to intake a ball. This command would call a function from your intake subsytem that says run a motor at 50 percent speed. Commands can be triggered in multiple ways. The mose usual being through button presses. They can also be triggered manually, or through CommandGroups. Each command has 5 phases in its lifecycle
+    1. Constructor - When you create a new instance of a command. Pretty standard. One thing to note is that if you are using the OI class to create commands, it will create a new instance for each button press. This can be pretty confusing.
+    2. Initialize - This function runs only the first time this command is created. This seems counter-intuitive but thats just the way it is. So if you press a button more than once and the command is created more than once, Init would only be called once.
+    3. Execute - This is where the main functionality of your command goes. This function will continously run until IsFinished returns true, or the command is interupted.
+    4. IsFinished - This function is run right after the execute function each cycle. If it returns true, the command ends. If false, the command will run another execute cycle again. This can be useful for peacefully ending commands.
+    5. End - This commands runs after IsFinished returns true. This can be used for clean up after a command is done.
+    6. Interupted - This command is called if another command of the same subsystem gets a higher priority in the Scheduler queue. It will interrupt the command, and kill it. 
+
+    A command can also Requires() a subsystem to make it belong to a subsystem.
 
 - Command Groups: A command group is a sequence of commands that can run sequentually or in parallel. You have to be very careful with this because depending on the order of your commands you might end up running things in parallel when you meant to run them in order. For example, you could have a command group that runs a command called IntakeBall and then another command called DriveForward. Another thing to note is that commands are added to commandgroups in their constructor so you have to be careful with timing issues.
 
+#Chapter Five: Tigertronics Specifics
 
+Over the years of Tigertronics, I have developed a system to quickly put together robot code that works in 99% of use cases. A lot of the commands can be copy-pasted and will work without issue. Lets look at some code that I have created that allows us to use Commands in auto and teleop seamlessly.
 
