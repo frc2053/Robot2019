@@ -79,3 +79,128 @@ The Command Based system is very powerful but definetly has its quirks. The whol
 
 Over the years of Tigertronics, I have developed a system to quickly put together robot code that works in 99% of use cases. A lot of the commands can be copy-pasted and will work without issue. Lets look at some code that I have created that allows us to use Commands in auto and teleop seamlessly.
 
+For example lets look at a command function by function:
+
+```C++
+ControlIntakeWheels::ControlIntakeWheels(double time, double speed) {
+  Requires(Robot::intakeSubsystem.get());
+  timer = std::make_unique<frc::Timer>();
+  timeCurrent = 0;
+  isDone = false;
+  inputSpeed = speed;
+  timeTarget = time;
+  timer->Reset();
+  timer->Start();
+}
+```
+
+We take in two parameters, a time and speed. We create a timer and set our parameters up. We also start the timer.
+
+```C++
+void ControlIntakeWheels::Execute() {
+    if(inputSpeed == 0) {
+		Robot::intakeSubsystem->SetIntakeWheelSpeed(inputSpeed);
+		isDone = true;
+    }
+    else {
+        timeCurrent = timer->Get();
+        if(timeTarget == 0) {
+            Robot::intakeSubsystem->SetIntakeWheelSpeed(inputSpeed);
+            isDone = false;
+        }
+        else {
+            if(timeCurrent >= timeTarget) {
+                Robot::intakeSubsystem->SetIntakeWheelSpeed(0);
+                isDone = true;
+            }
+            else {
+                Robot::intakeSubsystem->SetIntakeWheelSpeed(inputSpeed);
+                isDone = false;
+            }
+        }
+    }
+}
+```
+The time parameters are used to tell if we are in Autonomous Mode or Teleoperated. If the time is zero, we set our wheelspeed in the subsystem. and set isDone to false. This means the command will keep running until we let go of the button. Then, when the buttons is released, OI created a new command that has speed and time zero. This causes us to stop the wheels and the command ends immediatley. 
+
+If the time is not zero, we look at the current time and check if it is past the time we want it to execute. If it isnt we continue setting the speed to our target, if it is, we end the command and set our wheel speed to zero.
+
+This type of command layout works for a lot of the mechanisms on our robot. For example, intakes, or anything that moves freely without any more advanced control.
+
+If we do want more advanced control like PID or motion profiling, the command actually becomes more simple (If you are using the talonSRX for the control). This is because you configure the talon at the start and just tell it to move to a certain point. For example, here is a snipped version of our elevator command. The PID and motion profiling runs on the Talon.
+
+```C++
+void ElevatorControl::Execute() {
+	yAxis = Robot::oi->GetOperatorController()->GetLeftYAxis();
+	isRightShoulderPressed = Robot::oi->GetOperatorController()->rightShoulderButton->Get();
+	isLeftShoulderPressed = Robot::oi->GetOperatorController()->leftShoulderButton->Get();
+        <snipped>
+	if (manualControl) {
+		Robot::elevatorSubsystem->RunElevatorMotor(yAxis);
+	}
+	else {
+		switch(currentState)
+		{
+		case GROUND:
+			Robot::elevatorSubsystem->GoToHeight(Robot::robotMap->kELEVATOR_GROUND);
+			break;
+		case LEVEL_ONE:
+			Robot::elevatorSubsystem->GoToHeight(Robot::robotMap->kELEVATOR_LEVEL_ONE_HATCH);
+			break;
+		case LEVEL_TWO:
+			Robot::elevatorSubsystem->GoToHeight(Robot::robotMap->kELEVATOR_LEVEL_TWO_HATCH);
+			break;
+		case LEVEL_THREE:
+			Robot::elevatorSubsystem->GoToHeight(Robot::robotMap->kELEVATOR_LEVEL_THREE_HATCH);
+			break;
+		}
+	}
+}
+```
+
+In our subsystem those functions just call the Set Method on the talon with the specified setpoint in ticks.
+
+## Tips and Tricks learned
+
+### Talon SRX Tips
+- To correctly tune PID loops and make sure everything is working correctly, make sure your hardware is set up correctly. A common thing to do is to hook up the white wire off of the talon to the red wire on the motor and the green wire to the black wire. Then make sure the encoder is securely mounted to the shaft of the motor or output shaft (etc). Then make sure you have wired it directly to the talon through a breakout board or if it is CTRE Mag encoder, ensure it is clear of debris when inserting it into the slot on the talon. Then, load up a very basic program that lets you control the motor with a joystick and make sure when you set the talon to a positive direction, its lights blink green and the encoder position increases. THIS HAS TO BE SET CORRECTLY OR ELSE PID WILL NOT WORK. If it is incorrect, you can invert the output of the motor or reverse the sensor. Now, make sure you also multiply the output by the gear ratio or a ticks per revolution of the encoder. This is so you can apply real world measurements and make it easier to make sense if something is going wrong. 
+
+- Sometimes, Talons will show up in the configuration tool, this could be because it needs new firmware, or more likley, it has a duplicate ID as another talon. So re-ID one and see if that works
+
+### PID Tuning Tips
+
+- Start with P at 1, I and D at 0. Then run a program that moves a mechanism to a position and observe. If the mechanism doesnt reach its setpoint, double P. If it spins or moves wildly, half P. The ideal P value is one where the mecahnism occilates around its setpoint without spinning out of control. Then, you can increase D until the mecanism stops occilating around the setpoint. If it still doesnt reach its setpoint, increase I until it does. Start with D at 10 if P is 1 and I at 0.01;
+
+- If nothing seems to be working, make sure you have your sensors and exepected values set up correctly. You might have something reversed and not realize it.
+
+### Networking
+
+- Always use static IP addresses for anything connected to the robot. The roborio and radio do support mDNS, but it is not very fast and could lead to problems down the road. 
+
+- RoboRIO ip is always 10.20.53.2 if connected over wifi, if connected over USB, you can connect to the roboRIO using 172.22.11.2
+
+### RoboRIO
+
+- If the roborio isnt connecting to the radio, but your computer is connecting to the radio, make sure the roborio is actually on and the ethernet cables are connected. If that doesnt work, try and reflash the image of the roborio.
+
+- If your driverstaion keeps saying "No Robot Code" you either have no frcUserProgram or your code crashes instantly. This usually means some sort of nullptr error or memory error. Add some print statments or debug.
+
+- Pay attention to the status LEDS on the roborio it might tell you something important.
+
+### Radio
+
+- To configure the radio, you must use the FRC Radio Configuration Tool. You must re configure the robot after compeitition because it is a different config.
+
+- It takes a bit to connect sometimes, be patient.
+
+### NavX
+
+- If the navX is giving very strange values for yaw, it might be because it was calibrated in a different orientation from before. When calibrating, it must be inline with earths axis. So, it must be vertical or horizontal and NOT at an angle.
+
+- Even though the NavX is powered through the mxp port on the roborio, it is a good idea to use a USB cable to power it through the roborio as well. This is because the voltage will cut out the the mxp ports first rather than the usb ports if the battery voltage gets too low.
+
+### Raspberry PI Vision Stuff
+
+- Using the FRCVision tool, you can easily upload cross compiled rpi programs to the roborio and it will hangle restarting, power cutoff etc. There is a readme in the repo for the vision that explains how to set it up.
+
+- To increase the update rate of the network tables, you can set the update rate to a very slow value, then flush the values every iteration of the loop.
