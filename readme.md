@@ -75,7 +75,7 @@ The Command Based system is very powerful but definetly has its quirks. The whol
 
 - Command Groups: A command group is a sequence of commands that can run sequentually or in parallel. You have to be very careful with this because depending on the order of your commands you might end up running things in parallel when you meant to run them in order. For example, you could have a command group that runs a command called IntakeBall and then another command called DriveForward. Another thing to note is that commands are added to commandgroups in their constructor so you have to be careful with timing issues.
 
-#Chapter Five: Tigertronics Specifics
+## Chapter Five: Tigertronics Specifics
 
 Over the years of Tigertronics, I have developed a system to quickly put together robot code that works in 99% of use cases. A lot of the commands can be copy-pasted and will work without issue. Lets look at some code that I have created that allows us to use Commands in auto and teleop seamlessly.
 
@@ -160,7 +160,7 @@ void ElevatorControl::Execute() {
 
 In our subsystem those functions just call the Set Method on the talon with the specified setpoint in ticks.
 
-## Pose Estimation (May require some background calculus knowlege)
+## Chapter Six: Pose Estimation (May require some background calculus knowlege)
 
 To do more advanced autonomous modes, we need a way of measuring where we are on the feild, to do this we need what we call Pose Estimation. This means that we can estimate the current "state" (meaning x, y, and yaw) of our robot using encoders. To do this we can use a set of equations called Forward Kinematics. The input to this equation is our wheel velocities, and the output is our total translational and rotational velocity vectors. This isn't useful by itself until we integrate those values to get position.
 
@@ -172,9 +172,20 @@ Here is the specifics of how the system works.
 
 3. These global x, y and yaw vectors are then translated by the previous loops robot state. This gives us a position of the robot that is updated every loop.
 
-A lot of the math and technqiues used are borrowed from Team 2481 and 1323. The "math" classes are basically directly copied.
+A lot of the math and technqiues used are borrowed from Team 2481 and 1323. The "math" classes are basically directly copied. Also, we shouldn't expect this to be too accurate because of the slippage of the mecanum wheels. 
 
-## Tips and Tricks learned
+## Chapter Six Point Five: Path following
+
+So the pose estimation helps us find where we are on the feild, but we want to control where are robot goes precisely in autonomous. A "Path" consists of a time, x, y, and yaw coordinates to go to. We then add these coordinates to a map which the robot iterates through at each time step and then tell the robot to move to that position. We use 3 PID loops on our x, y and yaw at the same time to move across the field. This works decently, but because of the way mecanum wheels strafe, you need to find a "smudge factor" because you won't move at full speed sideways as you would forward. 
+
+To generate the path, is a work in progress, right now you can use pathweaver and then manually adjust the CSV file to the format you need.
+
+FORMAT:
+time, x, y, yaw
+
+You then upload those CSV files to the roborio using WinSCP. You copy them to /home/lvuser/
+
+## Chapter Seven: Tips and Tricks learned
 
 ### Talon SRX Tips
 - To correctly tune PID loops and make sure everything is working correctly, make sure your hardware is set up correctly. A common thing to do is to hook up the white wire off of the talon to the red wire on the motor and the green wire to the black wire. Then make sure the encoder is securely mounted to the shaft of the motor or output shaft (etc). Then make sure you have wired it directly to the talon through a breakout board or if it is CTRE Mag encoder, ensure it is clear of debris when inserting it into the slot on the talon. Then, load up a very basic program that lets you control the motor with a joystick and make sure when you set the talon to a positive direction, its lights blink green and the encoder position increases. THIS HAS TO BE SET CORRECTLY OR ELSE PID WILL NOT WORK. If it is incorrect, you can invert the output of the motor or reverse the sensor. Now, make sure you also multiply the output by the gear ratio or a ticks per revolution of the encoder. This is so you can apply real world measurements and make it easier to make sense if something is going wrong. 
