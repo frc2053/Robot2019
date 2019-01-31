@@ -160,6 +160,20 @@ void ElevatorControl::Execute() {
 
 In our subsystem those functions just call the Set Method on the talon with the specified setpoint in ticks.
 
+## Pose Estimation (May require some background calculus knowlege)
+
+To do more advanced autonomous modes, we need a way of measuring where we are on the feild, to do this we need what we call Pose Estimation. This means that we can estimate the current "state" (meaning x, y, and yaw) of our robot using encoders. To do this we can use a set of equations called Forward Kinematics. The input to this equation is our wheel velocities, and the output is our total translational and rotational velocity vectors. This isn't useful by itself until we integrate those values to get position.
+
+Here is the specifics of how the system works.
+
+1. Every "tick" of the roborio (0.02 seconds), We get the distance that each wheel has traveled. Then add that to the old value of the distance which is the last iterations distance. This gives us a "delta" distance. We can then turn those changes in position into change in velocity by dividing by our delta time.
+
+2. We then pass those values into our forward kinematics equation. This equation for mecanum at least was found on a research paper online. The details of that and the derivations are over my head but it involves a lot of linear algebra haha. This equation outputs the global x, y and yaw velocity vectors.
+
+3. These global x, y and yaw vectors are then translated by the previous loops robot state. This gives us a position of the robot that is updated every loop.
+
+A lot of the math and technqiues used are borrowed from Team 2481 and 1323. The "math" classes are basically directly copied.
+
 ## Tips and Tricks learned
 
 ### Talon SRX Tips
@@ -204,3 +218,7 @@ In our subsystem those functions just call the Set Method on the talon with the 
 - Using the FRCVision tool, you can easily upload cross compiled rpi programs to the roborio and it will hangle restarting, power cutoff etc. There is a readme in the repo for the vision that explains how to set it up.
 
 - To increase the update rate of the network tables, you can set the update rate to a very slow value, then flush the values every iteration of the loop.
+
+### CAN Stuff 
+
+- If the motors are not spinning, or showing up in the configuration tool, make sure your CAN wires are connected correctly, yellow to yellow and green to green. Also make sure the Talons are actually on. 
