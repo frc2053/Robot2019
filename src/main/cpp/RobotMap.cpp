@@ -1,22 +1,26 @@
-#include "INIReader.h"
 #include "RobotMap.h"
-
-
+#include "INIReader.h"
+#include <iostream>
 
 RobotMap::RobotMap() {
-
+    std::cout << "fuck this shit";
 }
 
 void RobotMap::Init() {
     INIReader reader("/home/lvuser/robotprops.ini");
+
+    if(reader.ParseError() < 0)
+    {
+//        cout << "Can't load the stupid file/n";
+    }
     //CONTROLLER STUFF
     kDRIVER_CONTROLLER_PORT = reader.GetInteger("controller", "kDRIVERCONTROLLERPORT", -1);
-    std:: cout << kDRIVER_CONTROLLER_PORT;
+//    cout << kDRIVER_CONTROLLER_PORT;
     kOPERATOR_CONTROLLER_PORT = reader.GetInteger("controller", "kOPERATORCONTROLLERPORT", -1);
-    std:: cout << kOPERATOR_CONTROLLER_PORT;
+  //  cout << kOPERATOR_CONTROLLER_PORT;
     kCONTROLLER_PERIOD = reader.GetReal("controller", "kCONTROLLERPERIOD", -1.0);
-    std:: cout << kCONTROLLER_PERIOD;
-    
+  //  cout << kCONTROLLER_PERIOD;
+
     //ENCODER STUFF
     kTICKS_PER_REV_OF_ENCODER = reader.GetInteger("encoder", "TICKSPERREVOFENCODER", -1);
     kTICKS_PER_REV_NEO = reader.GetInteger("encoder", "TICKSPERREVNEO", -1);
