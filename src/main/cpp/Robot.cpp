@@ -13,6 +13,7 @@
 
 #include "Commands/Drive/FollowPath.h"
 #include "Commands/Drive/DriveCommand.h"
+#include <iostream>
 
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<DrivebaseSubsystem> Robot::drivebaseSubsystem;
