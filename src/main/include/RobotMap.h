@@ -66,9 +66,9 @@ public:
 
     //INTAKE PARAMS
     double  kINTAKE_ANGLE_BALL;
+    //;)
     double  kINTAKE_ANGLE_UP;
     double  kFLAPPER_UP_ANGLE;
-    //;)
     double  kFLAPPER_DOWN_ANGLE;
     int kINTAKE_ANGLE_TOLERANCE;
     double  kINTAKE_SPEED;

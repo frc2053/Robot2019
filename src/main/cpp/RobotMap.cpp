@@ -1,17 +1,22 @@
 #include "INIReader.h"
 #include "RobotMap.h"
 
+
+
 RobotMap::RobotMap() {
 
 }
 
 void RobotMap::Init() {
-    INIReader reader("robotprops.ini");
+    INIReader reader("/home/lvuser/robotprops.ini");
     //CONTROLLER STUFF
     kDRIVER_CONTROLLER_PORT = reader.GetInteger("controller", "kDRIVERCONTROLLERPORT", -1);
+    std:: cout << kDRIVER_CONTROLLER_PORT;
     kOPERATOR_CONTROLLER_PORT = reader.GetInteger("controller", "kOPERATORCONTROLLERPORT", -1);
+    std:: cout << kOPERATOR_CONTROLLER_PORT;
     kCONTROLLER_PERIOD = reader.GetReal("controller", "kCONTROLLERPERIOD", -1.0);
-
+    std:: cout << kCONTROLLER_PERIOD;
+    
     //ENCODER STUFF
     kTICKS_PER_REV_OF_ENCODER = reader.GetInteger("encoder", "TICKSPERREVOFENCODER", -1);
     kTICKS_PER_REV_NEO = reader.GetInteger("encoder", "TICKSPERREVNEO", -1);
