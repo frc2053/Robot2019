@@ -15,6 +15,7 @@
 #include "Utilities/Math/Rotation2D.h"
 #include "Utilities/Math/RigidTransform2D.h"
 #include "Utilities/TigerMecanum/DriveController.h"
+#include "Utilities/TigerMecanum/RobotPose.h"
 
 
 /**
@@ -53,5 +54,6 @@ private:
 	Translation2D m_motionSetpoint;
 	double flPos, frPos, blPos, brPos;
 	DriveController* m_driveController;
+	RobotPose* pose;
 };
 
