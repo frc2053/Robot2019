@@ -13,6 +13,7 @@
 #include <iostream>
 
 FollowPath::FollowPath(std::string filePath) : m_path(Robot::pathManager->GetPath(filePath)) {
+  std::cout<<"got to the constuctor";
   Requires(Robot::drivebaseSubsystem.get());
   m_driveController = Robot::drivebaseSubsystem->GetDriveController();
   m_skip = false;
@@ -22,6 +23,7 @@ FollowPath::FollowPath(std::string filePath) : m_path(Robot::pathManager->GetPat
 
 // Called just before this Command runs the first time
 void FollowPath::Initialize() {
+  std::cout<<"got to the initializer";
   m_skip = false;
   m_driveController->EnableController();
   isFirst = true;
@@ -29,6 +31,7 @@ void FollowPath::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void FollowPath::Execute() {
+  std::cout<<"got to execute";
   RigidTransform2D targetPos = m_path.getInterpolated(InterpolatingDouble(TimeSinceInitialized()));
 
   if(isFirst) {
@@ -53,6 +56,7 @@ void FollowPath::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool FollowPath::IsFinished() {
+  std::cout<<"finished";
   RigidTransform2D lastPoint = m_path.rbegin()->second;
   RigidTransform2D robotPose = Robot::observer->GetLastRobotPose();
 
