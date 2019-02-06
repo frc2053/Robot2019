@@ -9,6 +9,7 @@
 #include "Utilities/Math/RigidTransform2D.h"
 #include "frc/RobotController.h"
 #include <iostream>
+#include <frc/shuffleboard/Shuffleboard.h>
 
 /**
  * Constructor for the subsystem. We setup all the talons in here as well as the tiger drive and swerve stuff.
@@ -40,6 +41,8 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	brPos = 0;
 	m_first = true;
 	m_driveController = new DriveController(Robot::observer);
+	pose = new RobotPose();
+	Shuffleboard::GetTab("Field Position").Add("Robot Pose", pose);
 }
 
 DriveController* DrivebaseSubsystem::GetDriveController() {
@@ -179,6 +182,10 @@ void DrivebaseSubsystem::Periodic() {
 	SmartDashboard::PutNumber("Field X", observerPos.getTranslation().getX());
 	SmartDashboard::PutNumber("Field Y", observerPos.getTranslation().getY());
 	SmartDashboard::PutNumber("Field Yaw", observerPos.getRotation().getDegrees());
+
+	pose->SetX(observerPos.getTranslation().getX());
+	pose->SetY(observerPos.getTranslation().getY());
+	pose->SetHeading(observerPos.getRotation().getDegrees());
 
 	SmartDashboard::PutNumber("FL Drive Dist", GetWheelDistance("fl").getX());
 	SmartDashboard::PutNumber("FR Drive Dist", GetWheelDistance("fr").getX());
