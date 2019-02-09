@@ -7,7 +7,7 @@ RobotMap::RobotMap(){
 }
 
 void RobotMap::Init() {
-    INIReader reader("/home/lvuser/robotprops.ini");
+    INIReader reader("/home/lvuser/deploy/robotprops.ini");
 
     if(reader.ParseError() < 0)
     {
