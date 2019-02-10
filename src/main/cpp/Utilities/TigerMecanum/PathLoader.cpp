@@ -16,6 +16,9 @@ PathLoader::PathLoader(Path2D &path) : m_path(path)
 {
 }
 
+PathLoader::PathLoader() {
+}
+
 PathLoader::~PathLoader()
 {
 }
@@ -30,6 +33,18 @@ void PathLoader::LoadPath(const std::string filePath)
 			std::cout << "Time: " << results[0] << " X: " << results[1] << " Y: " << results[2] << " Heading: " << results[3] << "\n";
 		}
 	}
+}
+
+std::vector<double> PathLoader::LoadVelocityPath(const std::string filePath) {
+	std::ifstream testFile(filePath);
+	std::vector<double> retVal;
+    while (testFile.good()) {
+		std::vector<std::string> results = GetNextLineAndSplitIntoTokens(testFile);
+		if(results.size() == 2){
+			retVal.push_back(std::stod(results[1]));
+		}
+	}
+	return retVal;
 }
 
 std::vector<std::string> PathLoader::GetNextLineAndSplitIntoTokens(std::istream& str)

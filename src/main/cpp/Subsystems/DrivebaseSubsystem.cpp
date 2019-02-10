@@ -43,6 +43,13 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	m_driveController = new DriveController(Robot::observer);
 	pose = new RobotPose();
 	Shuffleboard::GetTab("Field Position").Add("Robot Pose", pose);
+
+	flVelPID = frontLeftSpark->GetPIDController();
+	frVelPID = frontRightSpark->GetPIDController();
+	blVelPID = backLeftSpark->GetPIDController();
+	brVelPID = backRightSpark->GetPIDController();
+
+	ConfigSparkVelocityPID();
 }
 
 DriveController* DrivebaseSubsystem::GetDriveController() {
@@ -68,6 +75,51 @@ void DrivebaseSubsystem::InitDefaultCommand() {
 
 void DrivebaseSubsystem::MecDrive(double xAxis, double yAxis, double rotAxis, double currentYaw) {
 	mecDrive->DriveCartesian(xAxis, yAxis, rotAxis, -currentYaw);
+}
+
+void DrivebaseSubsystem::ConfigSparkVelocityPID() {
+	flVelPID.SetP(Robot::robotMap->kAUTO_CONTROLLER_P);
+	flVelPID.SetI(Robot::robotMap->kAUTO_CONTROLLER_I);
+	flVelPID.SetD(Robot::robotMap->kAUTO_CONTROLLER_D);
+	flVelPID.SetFF(Robot::robotMap->kAUTO_CONTROLLER_V);
+	flVelPID.SetIZone(1e-6);
+	flVelPID.SetOutputRange(-1, 1);
+
+	frVelPID.SetP(Robot::robotMap->kAUTO_CONTROLLER_P);
+	frVelPID.SetI(Robot::robotMap->kAUTO_CONTROLLER_I);
+	frVelPID.SetD(Robot::robotMap->kAUTO_CONTROLLER_D);
+	frVelPID.SetFF(Robot::robotMap->kAUTO_CONTROLLER_V);
+	frVelPID.SetIZone(1e-6);
+	frVelPID.SetOutputRange(-1, 1);
+
+	blVelPID.SetP(Robot::robotMap->kAUTO_CONTROLLER_P);
+	blVelPID.SetI(Robot::robotMap->kAUTO_CONTROLLER_I);
+	blVelPID.SetD(Robot::robotMap->kAUTO_CONTROLLER_D);
+	blVelPID.SetFF(Robot::robotMap->kAUTO_CONTROLLER_V);
+	blVelPID.SetIZone(1e-6);
+	blVelPID.SetOutputRange(-1, 1);
+
+	brVelPID.SetP(Robot::robotMap->kAUTO_CONTROLLER_P);
+	brVelPID.SetI(Robot::robotMap->kAUTO_CONTROLLER_I);
+	brVelPID.SetD(Robot::robotMap->kAUTO_CONTROLLER_D);
+	brVelPID.SetFF(Robot::robotMap->kAUTO_CONTROLLER_V);
+	brVelPID.SetIZone(1e-6);
+	brVelPID.SetOutputRange(-1, 1);
+}
+
+void DrivebaseSubsystem::SetWheelVelocities(double fl, double fr, double bl, double br) {
+	flVelPID.SetReference(ConvertInPerSecondToRPM(fl), rev::ControlType::kVelocity);
+	frVelPID.SetReference(ConvertInPerSecondToRPM(fr), rev::ControlType::kVelocity);
+	blVelPID.SetReference(ConvertInPerSecondToRPM(bl), rev::ControlType::kVelocity);
+	brVelPID.SetReference(ConvertInPerSecondToRPM(br), rev::ControlType::kVelocity);
+}
+
+double DrivebaseSubsystem::ConvertInPerSecondToRPM(double ips) {
+	double rpm = 0;
+
+
+
+	return rpm;
 }
 
 /*

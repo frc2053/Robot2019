@@ -12,6 +12,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 #include "Commands/Drive/FollowPath.h"
+#include "Commands/Drive/FollowPathVelocity.h"
 #include "Commands/Drive/DriveCommand.h"
 #include <iostream>
 
@@ -83,7 +84,11 @@ void Robot::DisabledPeriodic() {
  * autonomous mode. Used to get selected auto mode.
  */
 void Robot::AutonomousInit() {
-	Command* testAuto = new FollowPath("/home/lvuser/smoothcenterHabToLeftRocket.csv");
+	//Command* testAuto = new FollowPath("/home/lvuser/smoothcenterHabToLeftRocket.csv");
+
+
+	//ONLY PUT PATH NAME AND .CSV FOR VELOCITY FOLLOW PATH NO HOME/LVUSER AND NO FL FR OR ANYTHING
+	Command* testAuto = new FollowPathVelocity("figureEight.csv");
 	testAuto->Start();
 }
 

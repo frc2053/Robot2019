@@ -27,16 +27,19 @@ public:
 	void InitDefaultCommand();
 	const std::unique_ptr<TigerDrive>& GetTigerDrive();
 	void MecDrive(double xAxis, double yAxis, double rotAxis, double currentYaw);
+	void SetWheelVelocities(double fl, double fr, double bl, double br);
 	RigidTransform2D::Delta MecanumForwardKinematics(RigidTransform2D::Delta& flVelocity, RigidTransform2D::Delta& frVelocity, RigidTransform2D::Delta& blVelocity, RigidTransform2D::Delta& brVelocity);
 	double ConvertEncoderTicksToEncoderRotations(int ticks);
 	double ConvertEncoderRotationsToWheelsRotations(double rotations);
 	double ConvertWheelRotationsToDistance(double rotations);
+	double ConvertInPerSecondToRPM(double ips);
 	double GetWheelSpeed(std::string wheel);
 	Translation2D GetWheelDistance(std::string wheel);
 	double ConvertRPMToTicksPer100MS(double rpm);
 	void ZeroEncoders();
 	virtual void Periodic();
 	DriveController* GetDriveController();
+	void ConfigSparkVelocityPID();
 private:
 	std::shared_ptr<AHRS> imu;
 	std::unique_ptr<rev::CANSparkMax> frontLeftSpark;
@@ -55,5 +58,11 @@ private:
 	double flPos, frPos, blPos, brPos;
 	DriveController* m_driveController;
 	RobotPose* pose;
+
+	rev::CANPIDController flVelPID;
+	rev::CANPIDController frVelPID;
+	rev::CANPIDController blVelPID;
+	rev::CANPIDController brVelPID;
+	const double maxMotorRPM = 5700;
 };
 

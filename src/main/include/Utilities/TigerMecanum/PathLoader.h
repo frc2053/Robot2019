@@ -19,8 +19,10 @@ typedef InterpolatingMap<InterpolatingDouble, RigidTransform2D> Path2D;
 class PathLoader {
 public:
   PathLoader(Path2D& path);
+  PathLoader();
   virtual ~PathLoader();
   void LoadPath(const std::string filePath);
+  std::vector<double> LoadVelocityPath(const std::string filePath);
 private:
   Path2D& m_path;
   std::vector<std::string> GetNextLineAndSplitIntoTokens(std::istream& str);
