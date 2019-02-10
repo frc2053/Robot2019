@@ -16,9 +16,6 @@ PathLoader::PathLoader(Path2D &path) : m_path(path)
 {
 }
 
-PathLoader::PathLoader() {
-}
-
 PathLoader::~PathLoader()
 {
 }

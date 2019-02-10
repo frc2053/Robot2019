@@ -4,10 +4,11 @@
 FollowPathVelocity::FollowPathVelocity(std::string pathName) {
   Requires(Robot::drivebaseSubsystem.get());
   isDone = false;
-  PathLoader flLoader = PathLoader();
-  PathLoader frLoader = PathLoader();
-  PathLoader blLoader = PathLoader();
-  PathLoader brLoader = PathLoader();
+  Path2D nullPath;
+  PathLoader flLoader = PathLoader(nullPath);
+  PathLoader frLoader = PathLoader(nullPath);
+  PathLoader blLoader = PathLoader(nullPath);
+  PathLoader brLoader = PathLoader(nullPath);
 
   flVelocityList = flLoader.LoadVelocityPath("/home/lvuser/flvelocity" + pathName);
   frVelocityList = flLoader.LoadVelocityPath("/home/lvuser/frvelocity" + pathName);

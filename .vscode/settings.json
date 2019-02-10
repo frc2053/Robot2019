@@ -77,6 +77,8 @@
     "cwctype": "cpp",
     "deque": "cpp",
     "fstream": "cpp",
-    "complex": "cpp"
+    "complex": "cpp",
+    "queue": "cpp",
+    "stack": "cpp"
   }
 }

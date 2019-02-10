@@ -16,6 +16,7 @@
 #include "Utilities/Math/RigidTransform2D.h"
 #include "Utilities/TigerMecanum/DriveController.h"
 #include "Utilities/TigerMecanum/RobotPose.h"
+#include <rev/CANPIDController.h>
 
 
 /**
@@ -59,10 +60,10 @@ private:
 	DriveController* m_driveController;
 	RobotPose* pose;
 
-	rev::CANPIDController flVelPID;
-	rev::CANPIDController frVelPID;
-	rev::CANPIDController blVelPID;
-	rev::CANPIDController brVelPID;
+	std::unique_ptr<rev::CANPIDController> flVelPID;
+	std::unique_ptr<rev::CANPIDController> frVelPID;
+	std::unique_ptr<rev::CANPIDController> blVelPID;
+	std::unique_ptr<rev::CANPIDController> brVelPID;
 	const double maxMotorRPM = 5700;
 };
 
