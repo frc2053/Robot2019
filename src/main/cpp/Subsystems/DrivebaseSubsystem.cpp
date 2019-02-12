@@ -116,8 +116,10 @@ void DrivebaseSubsystem::SetWheelVelocities(double fl, double fr, double bl, dou
 
 double DrivebaseSubsystem::ConvertInPerSecondToRPM(double ips) {
 	double rpm = 0;
+	double wheel_D = 6.0;
 
-	rpm = ips / (M_PI * 6);
+	rpm = (ips/(wheel_D * M_PI))*60.0; //to get in per mins not per sec I think
+	//rpm = ips / (M_PI * 6);
 
 	return rpm;
 }

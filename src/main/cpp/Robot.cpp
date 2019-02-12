@@ -88,7 +88,7 @@ void Robot::AutonomousInit() {
 
 
 	//ONLY PUT PATH NAME AND .CSV FOR VELOCITY FOLLOW PATH NO HOME/LVUSER AND NO FL FR OR ANYTHING
-	Command* testAuto = new FollowPathVelocity("figureEight.csv");
+	Command* testAuto = new FollowPathVelocity("TenFeetForward.csv");
 	testAuto->Start();
 }
 

@@ -10,10 +10,10 @@ FollowPathVelocity::FollowPathVelocity(std::string pathName) {
   PathLoader blLoader = PathLoader(nullPath);
   PathLoader brLoader = PathLoader(nullPath);
 
-  flVelocityList = flLoader.LoadVelocityPath("/home/lvuser/flvelocity" + pathName);
-  frVelocityList = flLoader.LoadVelocityPath("/home/lvuser/frvelocity" + pathName);
-  blVelocityList = flLoader.LoadVelocityPath("/home/lvuser/blvelocity" + pathName);
-  brVelocityList = flLoader.LoadVelocityPath("/home/lvuser/brvelocity" + pathName);
+  flVelocityList = flLoader.LoadVelocityPath("/home/lvuser/deploy/flvelocity" + pathName);
+  frVelocityList = flLoader.LoadVelocityPath("/home/lvuser/deploy/frvelocity" + pathName);
+  blVelocityList = flLoader.LoadVelocityPath("/home/lvuser/deploy/blvelocity" + pathName);
+  brVelocityList = flLoader.LoadVelocityPath("/home/lvuser/deploy/brvelocity" + pathName);
   int tick = 0;
 }
 
