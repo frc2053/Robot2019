@@ -95,7 +95,8 @@ void RobotMap::Init() {
     kSTRAFE_MULTIPLIER = reader.GetReal("forward kinematics", "kSTRAFE_MULTIPLIER", -1.0);
 
     //LIFT STUFF
-    kFOOT_SPARK_ID = reader.GetInteger("lift", "kFOOT_SPARK_ID", -1);
+    kFOOT_TALON_ID = reader.GetInteger("lift", "kFOOT_TALON_ID", -1);
     kLEG_LEADER_TALON_ID = reader.GetInteger("lift", "kLEG_LEADER_TALON_ID", -1);
     kLEG_FOLLOWER_TALON_ID = reader.GetInteger("lift", "kLEG_FOLLOWER_TALON_ID", -1);
+    
 }

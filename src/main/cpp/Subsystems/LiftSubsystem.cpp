@@ -8,7 +8,7 @@
 #include <rev/CANSparkMaxLowLevel.h>
 
 LiftSubsystem::LiftSubsystem() : Subsystem("LiftSubsystem") {
-  FootDriverSpark = std::make_unique<rev::CANSparkMax>(Robot::robotMap->kFOOT_SPARK_ID, rev::CANSparkMaxLowLevel::MotorType::kBrushless);
+  FootDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kFOOT_TALON_ID);
   LegDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kLEG_LEADER_TALON_ID);
   LegFollowerTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kLEG_FOLLOWER_TALON_ID);
 
@@ -32,7 +32,7 @@ void LiftSubsystem::SetPosition(double position){
 }
 
 void LiftSubsystem::SetFootSpeed(double speed){
-  FootDriverSpark->Set(speed);
+  FootDriverTalon->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
 }
 
 void LiftSubsystem::SetLegSpeed(double speed){

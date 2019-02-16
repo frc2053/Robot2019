@@ -98,7 +98,7 @@ public:
     double  kSTRAFE_MULTIPLIER;
 
     //LIFT STUFF
-    int kFOOT_SPARK_ID;
+    int kFOOT_TALON_ID;
     int kLEG_LEADER_TALON_ID;
     int kLEG_FOLLOWER_TALON_ID;
 };
