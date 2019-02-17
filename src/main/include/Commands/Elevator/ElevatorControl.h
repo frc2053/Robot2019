@@ -23,4 +23,6 @@ private:
 	bool isRightShoulderPressed;
 	bool isLeftShoulderPressed;
 	bool manualControl;
+	bool lastStateRightShoulder;
+	bool lastStateLeftShoulder;
 };

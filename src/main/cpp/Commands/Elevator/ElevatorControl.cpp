@@ -15,6 +15,8 @@ ElevatorControl::ElevatorControl() {
 	isRightShoulderPressed = false;
 	isLeftShoulderPressed = false;
 	manualControl = false;
+	lastStateLeftShoulder = false;
+	lastStateRightShoulder = false;
 	currentState = ELEVATOR_POSITION::GROUND;
 }
 
@@ -23,6 +25,8 @@ void ElevatorControl::Initialize() {
 	yAxis = 0;
 	isRightShoulderPressed = false;
 	isLeftShoulderPressed = false;
+	lastStateLeftShoulder = false;
+	lastStateRightShoulder = false;
 	currentState = ELEVATOR_POSITION::GROUND;
 	manualControl = false;
 }
@@ -40,12 +44,12 @@ void ElevatorControl::Execute() {
 		manualControl = false;
 	}
 
-	if (isRightShoulderPressed) {
+	if (isRightShoulderPressed && (lastStateRightShoulder != true)) {
 		if (!(currentState == ELEVATOR_POSITION::LEVEL_THREE)) {
 			currentState = (ELEVATOR_POSITION)(currentState + 1);
 		}
 	}
-	if (isLeftShoulderPressed) {
+	if (isLeftShoulderPressed && (lastStateLeftShoulder != true)) {
 		if (!(currentState == ELEVATOR_POSITION::GROUND)) {
 			currentState = (ELEVATOR_POSITION)(currentState - 1);
 		}
@@ -71,6 +75,9 @@ void ElevatorControl::Execute() {
 			break;
 		}
 	}
+
+	lastStateLeftShoulder = isLeftShoulderPressed;
+	lastStateRightShoulder = isRightShoulderPressed;
 }
 
 // Make this return true when this Command no longer needs to run execute()

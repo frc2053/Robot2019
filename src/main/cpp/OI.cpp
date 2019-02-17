@@ -22,15 +22,18 @@ OI::OI() {
 	operatorController = std::make_unique<TigerJoystick>(Robot::robotMap->kOPERATOR_CONTROLLER_PORT);
 
 	//INTAKE
-	operatorController->yButton->WhenPressed(new ControlIntakeWrist(Robot::robotMap->kINTAKE_ANGLE_UP));
-	operatorController->aButton->WhenPressed(new ControlIntakeWrist(Robot::robotMap->kINTAKE_ANGLE_BALL));
+	operatorController->selectButton->WhenPressed(new ControlIntakeWrist(Robot::robotMap->kINTAKE_ANGLE_UP));
+	operatorController->startButton->WhenPressed(new ControlIntakeWrist(Robot::robotMap->kINTAKE_ANGLE_BALL));
 
-	operatorController->xButton->WhenActive(new ControlIntakeWheels(0, Robot::robotMap->kINTAKE_SPEED));
-	operatorController->xButton->WhenReleased(new ControlIntakeWheels(0, 0));
+	operatorController->aButton->WhenActive(new ControlIntakeWheels(0, Robot::robotMap->kINTAKE_SPEED));
+	operatorController->aButton->WhenReleased(new ControlIntakeWheels(0, 0));
 
-	operatorController->leftShoulderButton->WhenPressed(new ControlSlapper(Robot::robotMap->kSLAPPER_RELEASE_TICKS));
-	operatorController->rightShoulderButton->WhenPressed(new ControlSlapper(Robot::robotMap->kSLAPPER_DOWN_TICKS));
-	operatorController->rightShoulderButton->WhenReleased(new ControlSlapper(Robot::robotMap->kSLAPPER_UP_TICKS));
+	operatorController->bButton->WhenActive(new ControlIntakeWheels(0, -Robot::robotMap->kINTAKE_SPEED));
+	operatorController->bButton->WhenReleased(new ControlIntakeWheels(0, 0));
+
+	operatorController->GetRightTrigger()->WhenPressed(new ControlSlapper(Robot::robotMap->kSLAPPER_RELEASE_TICKS));
+	operatorController->GetLeftTrigger()->WhenPressed(new ControlSlapper(Robot::robotMap->kSLAPPER_DOWN_TICKS));
+	operatorController->GetLeftTrigger()->WhenReleased(new ControlSlapper(Robot::robotMap->kSLAPPER_UP_TICKS));
 }
 
 const std::unique_ptr<TigerJoystick>& OI::GetDriverController() {
