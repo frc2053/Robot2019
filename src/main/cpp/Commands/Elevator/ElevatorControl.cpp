@@ -12,21 +12,21 @@
 ElevatorControl::ElevatorControl() {
 	Requires(Robot::elevatorSubsystem.get());
 	yAxis = 0;
-	isRightShoulderPressed = false;
-	isLeftShoulderPressed = false;
+	isRightTriggerPressed = false;
+	isLeftTriggerPressed = false;
 	manualControl = false;
-	lastStateLeftShoulder = false;
-	lastStateRightShoulder = false;
+	lastStateLeftTrigger = false;
+	lastStateRightTrigger = false;
 	currentState = ELEVATOR_POSITION::GROUND;
 }
 
 // Called just before this Command runs the first time
 void ElevatorControl::Initialize() {
 	yAxis = 0;
-	isRightShoulderPressed = false;
-	isLeftShoulderPressed = false;
-	lastStateLeftShoulder = false;
-	lastStateRightShoulder = false;
+	isRightTriggerPressed = false;
+	isLeftTriggerPressed = false;
+	lastStateLeftTrigger = false;
+	lastStateRightTrigger = false;
 	currentState = ELEVATOR_POSITION::GROUND;
 	manualControl = false;
 }
@@ -34,8 +34,8 @@ void ElevatorControl::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void ElevatorControl::Execute() {
 	yAxis = Robot::oi->GetOperatorController()->GetLeftYAxis();
-	isRightShoulderPressed = Robot::oi->GetOperatorController()->rightShoulderButton->Get();
-	isLeftShoulderPressed = Robot::oi->GetOperatorController()->leftShoulderButton->Get();
+	isRightTriggerPressed = Robot::oi->GetOperatorController()->GetRightTriggerPressed();
+	isLeftTriggerPressed = Robot::oi->GetOperatorController()->GetLeftTriggerPressed();
 
 	if (yAxis != 0) {
 		manualControl = true;
@@ -44,12 +44,12 @@ void ElevatorControl::Execute() {
 		manualControl = false;
 	}
 
-	if (isRightShoulderPressed && (lastStateRightShoulder != true)) {
+	if (isRightTriggerPressed && (lastStateRightTrigger != true)) {
 		if (!(currentState == ELEVATOR_POSITION::LEVEL_THREE)) {
 			currentState = (ELEVATOR_POSITION)(currentState + 1);
 		}
 	}
-	if (isLeftShoulderPressed && (lastStateLeftShoulder != true)) {
+	if (isLeftTriggerPressed && (lastStateLeftTrigger != true)) {
 		if (!(currentState == ELEVATOR_POSITION::GROUND)) {
 			currentState = (ELEVATOR_POSITION)(currentState - 1);
 		}
@@ -76,8 +76,8 @@ void ElevatorControl::Execute() {
 		}
 	}
 
-	lastStateLeftShoulder = isLeftShoulderPressed;
-	lastStateRightShoulder = isRightShoulderPressed;
+	lastStateLeftTrigger = isLeftTriggerPressed;
+	lastStateRightTrigger = isRightTriggerPressed;
 }
 
 // Make this return true when this Command no longer needs to run execute()

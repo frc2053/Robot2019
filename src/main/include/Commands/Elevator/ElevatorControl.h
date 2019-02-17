@@ -20,9 +20,9 @@ public:
 private:
 	ELEVATOR_POSITION currentState;
 	double yAxis;
-	bool isRightShoulderPressed;
-	bool isLeftShoulderPressed;
+	bool isRightTriggerPressed;
+	bool isLeftTriggerPressed;
 	bool manualControl;
-	bool lastStateRightShoulder;
-	bool lastStateLeftShoulder;
+	bool lastStateRightTrigger;
+	bool lastStateLeftTrigger;
 };
