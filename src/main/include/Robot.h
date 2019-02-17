@@ -7,6 +7,7 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
+#include <frc/smartdashboard/SendableChooser.h>
 #include "OI.h"
 #include "Subsystems/DrivebaseSubsystem.h"
 #include "Subsystems/IntakeSubsystem.h"
@@ -17,6 +18,7 @@
 #include <opencv2/core/core.hpp>
 #include <cameraserver/CameraServer.h>
 #include "RobotMap.h"
+#include <string>
 
 /**
  * This is the main class of the robot. Sort of like
@@ -42,4 +44,6 @@ public:
 	void TeleopPeriodic() override;
 	void TestPeriodic() override;
 private:
+	frc::SendableChooser<std::string> autoChooser;
+	std::string selectedMode;
 };

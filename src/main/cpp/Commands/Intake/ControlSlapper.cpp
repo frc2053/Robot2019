@@ -5,41 +5,41 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Commands/Intake/ControlFlapper.h"
+#include "Commands/Intake/ControlSlapper.h"
 #include "Robot.h"
 #include "RobotMap.h"
 
-ControlFlapper::ControlFlapper(double intakeAngle) {
+ControlSlapper::ControlSlapper(double intakeAngle) {
   Requires(Robot::intakeSubsystem.get());
   targetAngle = intakeAngle;
   isDone = false;
 }
 
 // Called just before this Command runs the first time
-void ControlFlapper::Initialize() {
+void ControlSlapper::Initialize() {
 
 }
 
 // Called repeatedly when this Command is scheduled to run
-void ControlFlapper::Execute() {
-  Robot::intakeSubsystem->SetFlapperAngle(targetAngle);
-  if(Robot::intakeSubsystem->GetFlapperAngleError() < Robot::robotMap->kINTAKE_ANGLE_TOLERANCE) {
+void ControlSlapper::Execute() {
+  Robot::intakeSubsystem->SetSlapperAngle(targetAngle);
+  if(std::abs(Robot::intakeSubsystem->GetSlapperError()) < 5) {
     isDone = true;
   }
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool ControlFlapper::IsFinished() { 
+bool ControlSlapper::IsFinished() { 
   return isDone; 
 }
 
 // Called once after isFinished returns true
-void ControlFlapper::End() {
+void ControlSlapper::End() {
 
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ControlFlapper::Interrupted() {
+void ControlSlapper::Interrupted() {
 
 }

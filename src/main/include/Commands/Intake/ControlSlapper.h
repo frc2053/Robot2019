@@ -9,9 +9,9 @@
 
 #include <frc/commands/Command.h>
 
-class ControlFlapper : public frc::Command {
+class ControlSlapper : public frc::Command {
 public:
-  ControlFlapper(double angle);
+  ControlSlapper(double angle);
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

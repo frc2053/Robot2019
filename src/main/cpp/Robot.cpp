@@ -4,7 +4,6 @@
  * \author Drew Williams
  */
 
-
 #include "Robot.h"
 #include <frc/commands/Scheduler.h>
 #include <Commands/Drive/ZeroYaw.h>
@@ -33,9 +32,14 @@ std::unique_ptr<RobotMap> Robot::robotMap;
  * the robot behaves. Usually we init subsystems here and
  * also set up game specific auto routines.
  */
-void Robot::RobotInit() {
+void Robot::RobotInit()
+{
 	robotMap = std::make_unique<RobotMap>();
 	robotMap->Init();
+
+	autoChooser.SetDefaultOption("tenFeetForward", "tenFeetForward");
+
+	SmartDashboard::PutData("AutoMode", &autoChooser);
 
 	pathManager = std::make_unique<PathManager>();
 	observer = std::make_shared<ObserverSubsystem>();
@@ -50,7 +54,6 @@ void Robot::RobotInit() {
 	camera.SetResolution(320, 240);
 	camera.SetFPS(30);
 	camera.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
-	
 }
 
 /**
@@ -73,7 +76,8 @@ void Robot::DisabledInit() {}
  * like the scale state in auto.
  *
  */
-void Robot::DisabledPeriodic() {
+void Robot::DisabledPeriodic()
+{
 	frc::Scheduler::GetInstance()->Run();
 }
 
@@ -83,13 +87,17 @@ void Robot::DisabledPeriodic() {
  * This function runs once when you first change to
  * autonomous mode. Used to get selected auto mode.
  */
-void Robot::AutonomousInit() {
+void Robot::AutonomousInit()
+{
+	selectedMode = (std::string)autoChooser.GetSelected();
 	//Command* testAuto = new FollowPath("/home/lvuser/smoothcenterHabToLeftRocket.csv");
 
-
 	//ONLY PUT PATH NAME AND .CSV FOR VELOCITY FOLLOW PATH NO HOME/LVUSER AND NO FL FR OR ANYTHING
-	Command* testAuto = new FollowPathVelocity("TenFeetForward.csv");
-	testAuto->Start();
+	if (selectedMode == "tenFeetForward")
+	{
+		Command *testAuto = new FollowPathVelocity("TenFeetForward.csv");
+		testAuto->Start();
+	}
 }
 
 /**
@@ -99,7 +107,8 @@ void Robot::AutonomousInit() {
  * in autonomous mode. Can be used to check path following
  * or if we are waiting for something in auto.
  */
-void Robot::AutonomousPeriodic() {
+void Robot::AutonomousPeriodic()
+{
 	frc::Scheduler::GetInstance()->Run();
 	SmartDashboard::PutNumber("PATH GOAL X", drivebaseSubsystem->GetDriveController()->GetFieldTarget().getTranslation().getX());
 	SmartDashboard::PutNumber("PATH GOAL Y", drivebaseSubsystem->GetDriveController()->GetFieldTarget().getTranslation().getY());
@@ -112,8 +121,9 @@ void Robot::AutonomousPeriodic() {
  * This function runs once when you enable the robot in teleop.
  * Runs everytime you enable
  */
-void Robot::TeleopInit() {
-	Command* driveCommand = new DriveCommand();
+void Robot::TeleopInit()
+{
+	Command *driveCommand = new DriveCommand();
 	driveCommand->Start();
 }
 
@@ -125,7 +135,8 @@ void Robot::TeleopInit() {
  * smartdashboard updates. Make sure you dont overload this function
  * or you will lag the robot!
  */
-void Robot::TeleopPeriodic() {
+void Robot::TeleopPeriodic()
+{
 	frc::Scheduler::GetInstance()->Run();
 }
 
@@ -135,10 +146,11 @@ void Robot::TeleopPeriodic() {
  * This function runs every 20ms while test mode is active.
  * Not used that much...
  */
-void Robot::TestPeriodic() {
-
+void Robot::TestPeriodic()
+{
 }
 
-int main() {
+int main()
+{
 	return frc::StartRobot<Robot>();
 }

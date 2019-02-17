@@ -27,9 +27,8 @@ public:
     int kTICKS_PER_REV_NEO;
     int kELEVATORTICKS_PER_INCH;
     double  kWRIST_GEAR_RATIO;
-    double  kFLAPPER_GEAR_RATIO;
+    double  kSLAPPER_GEAR_RATIO;
     double  kWHEEL_DIAMETER;
-    double  kDRIVE_GEAR_RATIO;
     double  kWHEEL_BASE_LENGTH;
     double  kWHEEL_BASE_WIDTH;
 
@@ -45,6 +44,12 @@ public:
     double  kELEVATOR_I;
     double  kELEVATOR_D;
 
+    //ELEVATOR PID
+    double  kSLAPPER_F;
+    double  kSLAPPER_P;
+    double  kSLAPPER_I;
+    double  kSLAPPER_D;
+
     //DRIVEBASE TALONS
     int kDRIVESPARK_FL_ID;
     int kDRIVESPARK_FR_ID;
@@ -53,23 +58,24 @@ public:
 
     //INTAKE TALONS
     int kINTAKE_WHEELS_ID;
-    int kINTAKE_ACTUATOR_ID;
+    int kINTAKE_LEFT_WRIST_ID;
+    int KINTAKE_RIGHT_WRIST_ID;
 
     //ELEVATOR TALONS
     int kELEVATOR_LEADER_ID;
     int kELEVATOR_FOLLOWERONE_ID;
     int kELEVATOR_FOLLOWERTWO_ID;
 
-    //FLAPPER TALONS
-    int kINTAKE_FLAPPER_LEFT_ID;
-    int kINTAKE_FLAPPER_RIGHT_ID;
+    //SLAPPER TALONS
+    int kINTAKE_SLAPPER_ID;
 
     //INTAKE PARAMS
     double  kINTAKE_ANGLE_BALL;
     //;)
     double  kINTAKE_ANGLE_UP;
-    double  kFLAPPER_UP_ANGLE;
-    double  kFLAPPER_DOWN_ANGLE;
+    double  kSLAPPER_UP_TICKS;
+    double  kSLAPPER_DOWN_TICKS;
+    double  kSLAPPER_RELEASE_TICKS;
     int kINTAKE_ANGLE_TOLERANCE;
     double  kINTAKE_SPEED;
 

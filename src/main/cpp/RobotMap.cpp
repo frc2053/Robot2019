@@ -24,9 +24,7 @@ void RobotMap::Init() {
     kTICKS_PER_REV_NEO = reader.GetInteger("encoder", "kTICKS_PER_REV_NEO", -1);
     kELEVATORTICKS_PER_INCH = reader.GetInteger("encoder", "kELEVATORTICKS_PER_INCH", -1);
     kWRIST_GEAR_RATIO = reader.GetReal("encoder", "kWRIST_GEAR_RATIO", -1.0);
-    kFLAPPER_GEAR_RATIO = reader.GetReal("encoder", "kFLAPPER_GEAR_RATIO", -1.0);
     kWHEEL_DIAMETER = reader.GetReal("encoder", "kWHEEL_DIAMETER", -1.0);
-    kDRIVE_GEAR_RATIO = reader.GetReal("encoder", "kDRIVE_GEAR_RATIO", -1.0);
     kWHEEL_BASE_LENGTH = reader.GetReal("encoder", "kWHEEL_BASE_LENGTH", -1.0);
     kWHEEL_BASE_WIDTH = reader.GetReal("encoder", "kWHEEL_BASE_WIDTH", -1);
 
@@ -37,10 +35,16 @@ void RobotMap::Init() {
     kROTATION_ANGLE_TOLERANCE = reader.GetReal("drivebase rotation", "kROTATION_ANGLE_TOLERANCE", -1.0);
 
     //ELEVATOR PID
-    kELEVATOR_F = reader.GetReal("elevator pid", "kROTATION_F", -1.0);
-    kELEVATOR_P = reader.GetReal("elevator pid", "kROTATION_P", -1.0);
-    kELEVATOR_I = reader.GetReal("elevator pid", "kROTATION_I", -1.0);
-    kELEVATOR_D = reader.GetReal("elevator pid", "kROTATION_D", -1.0);
+    kELEVATOR_F = reader.GetReal("elevator pid", "kELEVATOR_F", -1.0);
+    kELEVATOR_P = reader.GetReal("elevator pid", "kELEVATOR_P", -1.0);
+    kELEVATOR_I = reader.GetReal("elevator pid", "kELEVATOR_I", -1.0);
+    kELEVATOR_D = reader.GetReal("elevator pid", "kELEVATOR_D", -1.0);
+
+    //SLAPPER PID
+    kSLAPPER_F = reader.GetReal("slapper pid", "kSLAPPER_F", -1.0);
+    kSLAPPER_P = reader.GetReal("slapper pid", "kSLAPPER_P", -1.0);
+    kSLAPPER_I = reader.GetReal("slapper pid", "kSLAPPER_I", -1.0);
+    kSLAPPER_D = reader.GetReal("slapper pid", "kSLAPPER_F", -1.0);
 
     //DRIVEBASE TALONS
     kDRIVESPARK_FL_ID = reader.GetReal("drivebase talons", "kDRIVE_SPARK_FL_ID", -1);
@@ -49,25 +53,25 @@ void RobotMap::Init() {
     kDRIVESPARK_BR_ID = reader.GetReal("drivebase talons", "kDRIVE_SPARK_BR_ID", -1);
 
     //INTAKE TALONS
-    kINTAKE_WHEELS_ID = reader.GetInteger("intake talons", "kDRIVE_SPARK_FL_ID", -1);
-    kINTAKE_ACTUATOR_ID = reader.GetInteger("intake talons", "kDRIVE_SPARK_ACTUATOR_ID", -1);
+    kINTAKE_WHEELS_ID = reader.GetInteger("intake talons", "kINTAKE_WHEELS_ID", -1);
+    kINTAKE_LEFT_WRIST_ID = reader.GetInteger("intake talons", "kINTAKE_LEFT_WRIST_ID", -1);
+    KINTAKE_RIGHT_WRIST_ID = reader.GetInteger("intake talons", "kINTAKE_RIGHT_WRIST_ID", -1);
 
     //ELEVATOR TALONS
     kELEVATOR_LEADER_ID = reader.GetInteger("elevator talons", "kELEVATOR_LEADER_ID", -1);
     kELEVATOR_FOLLOWERONE_ID = reader.GetInteger("elevator talons", "kELEVATOR_FOLLOWER_ONE_ID", -1);
     kELEVATOR_FOLLOWERTWO_ID = reader.GetInteger("elevator talons", "kELEVATOR_FOLLOWER_TWO_ID", -1);
 
-    //FLAPPER TALONS
-    kINTAKE_FLAPPER_LEFT_ID = reader.GetInteger("flapper talons", "kINTAKE_FLAPPER_LEFT_ID", -1);
-    kINTAKE_FLAPPER_RIGHT_ID = reader.GetInteger("flapper talons", "kINTAKE_FLAPPER_RIGHT_ID", -1);
+    //SLAPPER TALONS
+    kINTAKE_SLAPPER_ID = reader.GetInteger("slapper talons", "kINTAKE_SLAPPER_ID", -1);
 
     //INTAKE PARAMS
     kINTAKE_ANGLE_BALL = reader.GetReal("intake params", "kINTAKE_ANGLE_BALL", -1.0);
     kINTAKE_ANGLE_UP = reader.GetReal("intake params", "kINTAKE_ANGLE_UP", -1.0);
-    kFLAPPER_UP_ANGLE = reader.GetReal("intake params", "kFLAPPER_UP_ANGLE", -1.0);
-    kFLAPPER_DOWN_ANGLE = reader.GetReal("intake params", "kFLAPPER_DOWN_ANGLE", -1.0);
+    kSLAPPER_UP_TICKS = reader.GetReal("intake params", "kSLAPPER_UP_TICKS", -1.0);
+    kSLAPPER_DOWN_TICKS = reader.GetReal("intake params", "kSLAPPER_DOWN_TICKS", -1.0);
+    kSLAPPER_RELEASE_TICKS = reader.GetReal("intake params", "kSLAPPER_RELEASE_TICKS", -1.0);
     //;)
-    kINTAKE_ANGLE_TOLERANCE = reader.GetInteger("intake params", "kINTAKE_ANGLE_TOLERANCE", -1);
     kINTAKE_SPEED = reader.GetReal("intake params", "kINTAKE_SPEED", -1.0);
 
     //ELEVATOR PARAMS
@@ -98,5 +102,5 @@ void RobotMap::Init() {
     kFOOT_TALON_ID = reader.GetInteger("lift", "kFOOT_TALON_ID", -1);
     kLEG_LEADER_TALON_ID = reader.GetInteger("lift", "kLEG_LEADER_TALON_ID", -1);
     kLEG_FOLLOWER_TALON_ID = reader.GetInteger("lift", "kLEG_FOLLOWER_TALON_ID", -1);
-    
+
 }

@@ -13,17 +13,16 @@
 class IntakeSubsystem : public frc::Subsystem {
  private:
   std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeWheelsTalon;
-  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeWristTalon;
-  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeFlapperLeftTalon;
-  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeFlapperRightTalon;
+  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeWristTalonLeft;
+  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeWristTalonRight;
+  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeSlapperTalon;
  public:
   IntakeSubsystem();
   void InitDefaultCommand() override;
   void SetIntakeWheelSpeed(double speed);
   void SetWristAngle(double angle);
-  void SetFlapperAngle(double angle);
+  void SetSlapperAngle(double angle);
   int ConvertAngleToTicksWrist(double angle);
-  int ConvertAngleToTicksFlapper(double angle);
-  int GetWristAngleError();
-  int GetFlapperAngleError();
+  int ConvertAngleToTicksSlapper(double angle);
+  int GetSlapperError();
 };
