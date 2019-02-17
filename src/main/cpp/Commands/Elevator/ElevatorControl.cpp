@@ -7,7 +7,9 @@
 
 #include "Commands/Elevator/ElevatorControl.h"
 #include "Robot.h"
+#include <iostream>
 #include "RobotMap.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 ElevatorControl::ElevatorControl() {
 	Requires(Robot::elevatorSubsystem.get());
@@ -43,15 +45,17 @@ void ElevatorControl::Execute() {
 	else {
 		manualControl = false;
 	}
-
+	
 	if (isRightTriggerPressed && (lastStateRightTrigger != true)) {
 		if (!(currentState == ELEVATOR_POSITION::LEVEL_THREE)) {
 			currentState = (ELEVATOR_POSITION)(currentState + 1);
+			std::cout << "UP!" << std::endl;
 		}
 	}
 	if (isLeftTriggerPressed && (lastStateLeftTrigger != true)) {
 		if (!(currentState == ELEVATOR_POSITION::GROUND)) {
 			currentState = (ELEVATOR_POSITION)(currentState - 1);
+			std::cout << "DOWN!" << std::endl;
 		}
 	}
 

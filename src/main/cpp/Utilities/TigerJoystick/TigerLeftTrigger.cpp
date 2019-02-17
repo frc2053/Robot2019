@@ -1,7 +1,6 @@
 #include "Utilities/TigerJoystick/TigerLeftTrigger.h"
 #include <frc/Joystick.h>
 
-
 /**
  * Constructor for a trigger. Please pass in a pointer to the joystick and axis!
  * @param joy joystick the trigger is attached to

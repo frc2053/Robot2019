@@ -17,7 +17,7 @@ TigerJoystick::TigerJoystick(int port) {
 	startButton = std::make_unique<frc::JoystickButton>(joystick.get(), 8);
 	leftStickButton = std::make_unique<frc::JoystickButton>(joystick.get(), 9);
 	rightStickButton = std::make_unique<frc::JoystickButton>(joystick.get(), 10);
-	leftTrigger = std::make_unique<TigerLeftTrigger>(joystick.get(), 3);
+	leftTrigger = std::make_unique<TigerLeftTrigger>(joystick.get(), 2);
 	rightTrigger = std::make_unique<TigerRightTrigger>(joystick.get(), 3);
 }
 
