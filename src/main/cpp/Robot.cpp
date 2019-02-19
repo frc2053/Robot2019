@@ -66,7 +66,10 @@ void Robot::RobotInit()
  * Runs everytime you disable. Might want to use to
  * make sure everything shuts down correctly.
  */
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+	Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDoneOverride(true);
+	Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDone(true);
+}
 
 /**
  * \brief Disabled Periodic
