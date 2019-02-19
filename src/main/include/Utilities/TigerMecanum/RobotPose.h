@@ -1,27 +1,20 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 #pragma once
 
 #include <frc/smartdashboard/SendableBase.h>
 #include <frc/smartdashboard/SendableBuilder.h>
 
-class RobotPose : frc::SendableBase {
- public:
-  RobotPose();
-  void InitSendable(frc::SendableBuilder& builder);
-  void SetX(double xIn);
-  void SetY(double yIn);
-  void SetHeading(double heading);
-  double GetX();
-  double GetY();
-  double GetHeading();
- private:
-  double x;
-  double y;
-  double heading;
+class RobotPose : public frc::SendableBase {
+private:
+    double x;
+    double y;
+    double heading;
+public:
+    RobotPose();
+    void SetX(double newX);
+    void SetY(double newY);
+    void SetHeading(double newHeading);
+    double GetX();
+    double GetY();
+    double GetHeading();
+    void InitSendable(frc::SendableBuilder& builder) override;
 };

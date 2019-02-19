@@ -1,29 +1,23 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 #include "Utilities/TigerMecanum/RobotPose.h"
+#include <iostream>
 
-
-RobotPose::RobotPose() {
+RobotPose::RobotPose() : SendableBase(false) {
+    SetName("RobotPose");
     x = 0;
     y = 0;
     heading = 0;
 }
 
-void RobotPose::SetX(double xIn) {
-    x = xIn;
+void RobotPose::SetX(double newX) {
+    x = newX;
 }
 
-void RobotPose::SetY(double yIn) {
-    y = yIn;
+void RobotPose::SetY(double newY) {
+    y = newY;
 }
 
-void RobotPose::SetHeading(double headingIn) {
-    heading = headingIn;
+void RobotPose::SetHeading(double newHeading) {
+    heading = newHeading;
 }
 
 double RobotPose::GetX() {
@@ -40,7 +34,7 @@ double RobotPose::GetHeading() {
 
 void RobotPose::InitSendable(frc::SendableBuilder& builder) {
     builder.SetSmartDashboardType("RobotPose");
-    builder.AddDoubleProperty("x", [=]() { return GetX(); }, [=](double value) {SetX(value);});
-    builder.AddDoubleProperty("y",  [=]() { return GetY(); }, [=](double value) {SetY(value);});
-    builder.AddDoubleProperty("heading",  [=]() { return GetHeading(); }, [=](double value) {SetHeading(value);});
+    builder.AddDoubleProperty("x", [=]() { return GetX();}, [=](double value){SetX(value);});
+    builder.AddDoubleProperty("y", [=]() { return GetY();}, [=](double value){SetY(value);});
+    builder.AddDoubleProperty("heading", [=]() { return GetHeading();}, [=](double value){SetHeading(value);});
 }

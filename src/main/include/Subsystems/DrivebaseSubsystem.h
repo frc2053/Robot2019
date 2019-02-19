@@ -58,7 +58,7 @@ private:
 	Translation2D m_motionSetpoint;
 	double flPos, frPos, blPos, brPos;
 	DriveController* m_driveController;
-	RobotPose* pose;
+	std::unique_ptr<RobotPose> pose;
 
 	std::unique_ptr<rev::CANPIDController> flVelPID;
 	std::unique_ptr<rev::CANPIDController> frVelPID;

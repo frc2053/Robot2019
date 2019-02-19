@@ -41,8 +41,8 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	brPos = 0;
 	m_first = true;
 	m_driveController = new DriveController(Robot::observer);
-	pose = new RobotPose();
-	Shuffleboard::GetTab("Field Position").Add("Robot Pose", pose);
+	pose = std::make_unique<RobotPose>();
+	frc::SmartDashboard::PutData(pose.get());
 
 	flVelPID = std::make_unique<rev::CANPIDController>(*frontLeftSpark.get());
 	frVelPID = std::make_unique<rev::CANPIDController>(*frontRightSpark.get());
