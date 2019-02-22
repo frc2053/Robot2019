@@ -23,6 +23,7 @@ std::unique_ptr<ElevatorSubsystem> Robot::elevatorSubsystem;
 std::shared_ptr<ObserverSubsystem> Robot::observer;
 std::unique_ptr<PathManager> Robot::pathManager;
 std::unique_ptr<RobotMap> Robot::robotMap;
+std::unique_ptr<VisionSubsystem> Robot::visionSubsystem;
 
 /**
  * \brief Robot Initialization
@@ -47,6 +48,7 @@ void Robot::RobotInit()
 	intakeSubsystem = std::make_unique<IntakeSubsystem>();
 	liftSubsystem = std::make_unique<LiftSubsystem>();
 	elevatorSubsystem = std::make_unique<ElevatorSubsystem>();
+	visionSubsystem = std::make_unique<VisionSubsystem>();
 	oi = std::make_unique<OI>();
 	SmartDashboard::PutData("Zero Yaw", new ZeroYaw());
 	SmartDashboard::PutData("Zero Pose", new ZeroPose());

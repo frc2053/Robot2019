@@ -14,6 +14,7 @@
 #include "Subsystems/LiftSubsystem.h"
 #include "Subsystems/ObserverSubsystem.h"
 #include "Subsystems/ElevatorSubsystem.h"
+#include "Subsystems/VisionSubsystem.h"
 #include "Utilities/TigerMecanum/PathManager.h"
 #include <opencv2/core/core.hpp>
 #include <cameraserver/CameraServer.h>
@@ -32,6 +33,7 @@ public:
 	static std::unique_ptr<IntakeSubsystem> intakeSubsystem;
 	static std::unique_ptr<LiftSubsystem> liftSubsystem;
 	static std::unique_ptr<ElevatorSubsystem> elevatorSubsystem;
+	static std::unique_ptr<VisionSubsystem> visionSubsystem;
 	static std::unique_ptr<PathManager> pathManager;
 	static std::unique_ptr<RobotMap> robotMap;
 
