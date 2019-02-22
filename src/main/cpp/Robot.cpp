@@ -95,8 +95,8 @@ void Robot::DisabledPeriodic()
  */
 void Robot::AutonomousInit()
 {
-	selectedMode = (std::string)autoChooser.GetSelected();
-	//Command* testAuto = new FollowPath("/home/lvuser/smoothcenterHabToLeftRocket.csv");
+	//selectedMode = (std::string)autoChooser.GetSelected();
+	Command* testAuto = new FollowPath("/home/lvuser/smoothcenterHabToLeftRocket.csv");
 
 	//ONLY PUT PATH NAME AND .CSV FOR VELOCITY FOLLOW PATH NO HOME/LVUSER AND NO FL FR OR ANYTHING
 	if (selectedMode == "tenFeetForward")
