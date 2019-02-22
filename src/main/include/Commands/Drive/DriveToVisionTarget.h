@@ -7,22 +7,16 @@
 
 #pragma once
 
-#include <frc/commands/Subsystem.h>
-#include <networktables/NetworkTable.h>
-#include <networktables/NetworkTableInstance.h>
+#include <frc/commands/Command.h>
 
-
-class VisionSubsystem : public frc::Subsystem {
- private:
-  int translationX;
-  int translationY;
-  double targetArea;
-  std::shared_ptr<NetworkTable> table;
+class DriveToVisionTarget : public frc::Command {
  public:
-  VisionSubsystem();
-  void InitDefaultCommand() override;
-  virtual void Periodic();
-  int GetTranslationX();
-  int GetTranslationY();
-  double GetTargetArea();
+  DriveToVisionTarget();
+  void Initialize() override;
+  void Execute() override;
+  bool IsFinished() override;
+  void End() override;
+  void Interrupted() override;
+ private:
+  bool isDone;
 };

@@ -107,4 +107,10 @@ public:
     int kFOOT_TALON_ID;
     int kLEG_LEADER_TALON_ID;
     int kLEG_FOLLOWER_TALON_ID;
+
+    //VISION
+    double kVISION_STEER_P;
+    double kVISION_FOW_P;
+    double kVISION_MAX_SPEED;
+    double kVISION_TARGET_AREA;
 };

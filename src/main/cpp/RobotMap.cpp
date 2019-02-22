@@ -103,4 +103,9 @@ void RobotMap::Init() {
     kLEG_LEADER_TALON_ID = reader.GetInteger("lift", "kLEG_LEADER_TALON_ID", -1);
     kLEG_FOLLOWER_TALON_ID = reader.GetInteger("lift", "kLEG_FOLLOWER_TALON_ID", -1);
 
+    //VISION STUFF
+    kVISION_STEER_P = reader.GetInteger("vision", "kVISION_STEER_P", 0);
+    kVISION_FOW_P = reader.GetInteger("vision", "kVISION_FOW_P", 0);
+    kVISION_MAX_SPEED = reader.GetInteger("vision", "kVISION_MAX_SPEED", 0);
+    kVISION_TARGET_AREA = reader.GetInteger("vision", "kVISION_TARGET_AREA", 0);
 }
