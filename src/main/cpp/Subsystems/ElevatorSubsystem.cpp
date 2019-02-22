@@ -8,11 +8,16 @@
 #include "Subsystems/ElevatorSubsystem.h"
 #include "Robot.h"
 #include "Commands/Elevator/ElevatorControl.h"
+#include "frc/WPILib.h"
 
 ElevatorSubsystem::ElevatorSubsystem() : Subsystem("ElevatorSubsystem") {
   elevatorMotorLeader = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kELEVATOR_LEADER_ID);
   elevatorMotorFollower01 = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kELEVATOR_FOLLOWERONE_ID);
   elevatorMotorFollower02 = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kELEVATOR_FOLLOWERTWO_ID);
+
+  elevatorMotorLeader.reset(new ctre::phoenix::motorcontrol::can::TalonSRX(Robot::robotMap->kELEVATOR_LEADER_ID));
+  elevatorMotorFollower01.reset(new ctre::phoenix::motorcontrol::can::TalonSRX(Robot::robotMap->kELEVATOR_FOLLOWERONE_ID));
+  elevatorMotorFollower02.reset(new ctre::phoenix::motorcontrol::can::TalonSRX(Robot::robotMap->kELEVATOR_FOLLOWERTWO_ID));
 
   elevatorMotorFollower01->Follow(*elevatorMotorLeader.get());
   elevatorMotorFollower02->Follow(*elevatorMotorLeader.get());
