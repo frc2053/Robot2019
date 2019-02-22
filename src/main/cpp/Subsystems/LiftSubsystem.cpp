@@ -12,6 +12,10 @@ LiftSubsystem::LiftSubsystem() : Subsystem("LiftSubsystem") {
   LegDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kLEG_LEADER_TALON_ID);
   LegFollowerTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kLEG_FOLLOWER_TALON_ID);
 
+  FootDriverTalon->ConfigFactoryDefault();
+  LegDriverTalon->ConfigFactoryDefault();
+  LegFollowerTalon->ConfigFactoryDefault();
+
   LegFollowerTalon->Follow(*LegDriverTalon.get());
   LegDriverTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative);
 }

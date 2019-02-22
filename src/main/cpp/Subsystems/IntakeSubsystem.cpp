@@ -13,6 +13,11 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeWristTalonLeft = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kINTAKE_LEFT_WRIST_ID);
   intakeWristTalonRight = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->KINTAKE_RIGHT_WRIST_ID);
   intakeSlapperTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kINTAKE_SLAPPER_ID);
+
+  intakeWheelsTalon->ConfigFactoryDefault();
+  intakeWristTalonLeft->ConfigFactoryDefault();
+  intakeWristTalonRight->ConfigFactoryDefault();
+  intakeSlapperTalon->ConfigFactoryDefault();
   
   intakeSlapperTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);
   intakeWristTalonLeft->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);

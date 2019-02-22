@@ -15,9 +15,9 @@ ElevatorSubsystem::ElevatorSubsystem() : Subsystem("ElevatorSubsystem") {
   elevatorMotorFollower01 = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kELEVATOR_FOLLOWERONE_ID);
   elevatorMotorFollower02 = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kELEVATOR_FOLLOWERTWO_ID);
 
-  elevatorMotorLeader.reset(new ctre::phoenix::motorcontrol::can::TalonSRX(Robot::robotMap->kELEVATOR_LEADER_ID));
-  elevatorMotorFollower01.reset(new ctre::phoenix::motorcontrol::can::TalonSRX(Robot::robotMap->kELEVATOR_FOLLOWERONE_ID));
-  elevatorMotorFollower02.reset(new ctre::phoenix::motorcontrol::can::TalonSRX(Robot::robotMap->kELEVATOR_FOLLOWERTWO_ID));
+  elevatorMotorLeader->ConfigFactoryDefault();
+  elevatorMotorFollower01->ConfigFactoryDefault();
+  elevatorMotorFollower02->ConfigFactoryDefault();
 
   elevatorMotorFollower01->Follow(*elevatorMotorLeader.get());
   elevatorMotorFollower02->Follow(*elevatorMotorLeader.get());
