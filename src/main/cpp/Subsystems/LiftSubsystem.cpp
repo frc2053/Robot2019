@@ -16,8 +16,7 @@ LiftSubsystem::LiftSubsystem() : Subsystem("LiftSubsystem") {
   LegDriverTalon->ConfigFactoryDefault();
   LegFollowerTalon->ConfigFactoryDefault();
 
-  LegFollowerTalon->Follow(*LegDriverTalon.get());
-  LegDriverTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative);
+  LegFollowerTalon->Follow(*LegDriverTalon.get());  LegDriverTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative);
 }
 
 int LiftSubsystem::DistanceToTicks(double distance){

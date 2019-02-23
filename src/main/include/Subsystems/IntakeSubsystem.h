@@ -25,4 +25,5 @@ class IntakeSubsystem : public frc::Subsystem {
   int ConvertAngleToTicksWrist(double angle);
   int ConvertAngleToTicksSlapper(double angle);
   int GetSlapperError();
+  double GetCurrent();
 };

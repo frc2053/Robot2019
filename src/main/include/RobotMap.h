@@ -71,13 +71,13 @@ public:
 
     //INTAKE PARAMS
     double  kINTAKE_ANGLE_BALL;
-    //;)
     double  kINTAKE_ANGLE_UP;
     double  kSLAPPER_UP_TICKS;
     double  kSLAPPER_DOWN_TICKS;
     double  kSLAPPER_RELEASE_TICKS;
     int kINTAKE_ANGLE_TOLERANCE;
     double  kINTAKE_SPEED;
+    double kINTAKE_CURRENT;
 
     //ELEVATOR PARAMS
     double  kELEVATOR_GROUND;

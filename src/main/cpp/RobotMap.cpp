@@ -71,8 +71,8 @@ void RobotMap::Init() {
     kSLAPPER_UP_TICKS = reader.GetReal("intake params", "kSLAPPER_UP_TICKS", -1.0);
     kSLAPPER_DOWN_TICKS = reader.GetReal("intake params", "kSLAPPER_DOWN_TICKS", -1.0);
     kSLAPPER_RELEASE_TICKS = reader.GetReal("intake params", "kSLAPPER_RELEASE_TICKS", -1.0);
-    //;)
     kINTAKE_SPEED = reader.GetReal("intake params", "kINTAKE_SPEED", -1.0);
+    kINTAKE_CURRENT = reader.GetReal("intake params", "kINTAKE_CURRENT", -1.0);
 
     //ELEVATOR PARAMS
     kELEVATOR_GROUND = reader.GetReal("elevator params", "kELEVATOR_GROUND", -1.0);

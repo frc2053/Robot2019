@@ -12,7 +12,7 @@
 
 class ControlIntakeWheels : public frc::Command {
  public:
-  ControlIntakeWheels(double time = 0, double speed = 0);
+  ControlIntakeWheels(double time = 0, double speed = 0, bool checkCurrnet = 0);
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;
@@ -22,6 +22,8 @@ private:
   double timeTarget;
 	double timeCurrent;
 	double inputSpeed;
+  double current;
 	bool isDone;
+  bool isCheckCurrentSpike;
   std::unique_ptr<frc::Timer> timer;
 };

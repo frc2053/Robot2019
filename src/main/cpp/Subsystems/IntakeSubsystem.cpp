@@ -48,3 +48,8 @@ int IntakeSubsystem::ConvertAngleToTicksWrist(double angle) {
 int IntakeSubsystem::GetSlapperError() {
   return intakeSlapperTalon->GetClosedLoopError(0);
 }
+
+double IntakeSubsystem::GetCurrent(){
+  return intakeWheelsTalon->GetOutputCurrent();
+}
+
