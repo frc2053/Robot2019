@@ -60,8 +60,9 @@ void ElevatorControl::Execute() {
 	}
 
 	if (manualControl) {
-		Robot::elevatorSubsystem->RunElevatorMotor(yAxis);
+		Robot::elevatorSubsystem->RunElevatorMotor(-yAxis * 0.5);
 	}
+	/*
 	else {
 		switch(currentState)
 		{
@@ -79,6 +80,8 @@ void ElevatorControl::Execute() {
 			break;
 		}
 	}
+	*/
+	
 
 	lastStateLeftTrigger = isLeftTriggerPressed;
 	lastStateRightTrigger = isRightTriggerPressed;

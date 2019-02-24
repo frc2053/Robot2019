@@ -21,6 +21,13 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   
   intakeSlapperTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);
   intakeWristTalonLeft->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);
+
+  intakeWristTalonRight->Follow(*intakeWristTalonLeft.get());
+
+  intakeSlapperTalon->Config_kF(0, Robot::robotMap->kSLAPPER_F);
+  intakeSlapperTalon->Config_kP(0, Robot::robotMap->kSLAPPER_P);
+  intakeSlapperTalon->Config_kI(0, Robot::robotMap->kSLAPPER_I);
+  intakeSlapperTalon->Config_kD(0, Robot::robotMap->kSLAPPER_D);
 }
 
 void IntakeSubsystem::InitDefaultCommand() {
