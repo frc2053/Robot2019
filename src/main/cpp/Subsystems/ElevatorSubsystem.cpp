@@ -19,8 +19,13 @@ ElevatorSubsystem::ElevatorSubsystem() : Subsystem("ElevatorSubsystem") {
   elevatorMotorFollower01->ConfigFactoryDefault();
   elevatorMotorFollower02->ConfigFactoryDefault();
 
+  elevatorMotorLeader->ConfigForwardLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated, ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled);
+  elevatorMotorFollower01->ConfigForwardLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated, ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled);
+  elevatorMotorFollower02->ConfigForwardLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated, ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled);
 
-
+  elevatorMotorLeader->ConfigReverseLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated, ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled);
+  elevatorMotorFollower01->ConfigReverseLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated, ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled);
+  elevatorMotorFollower02->ConfigReverseLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated, ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled);
 
   elevatorMotorFollower01->Follow(*elevatorMotorLeader.get());
   elevatorMotorFollower02->Follow(*elevatorMotorLeader.get());
