@@ -44,6 +44,7 @@ void ElevatorControl::Execute() {
 	}
 	else {
 		manualControl = false;
+		Robot::elevatorSubsystem->RunElevatorMotor(0);
 	}
 	
 	if (isRightTriggerPressed && (lastStateRightTrigger != true)) {
