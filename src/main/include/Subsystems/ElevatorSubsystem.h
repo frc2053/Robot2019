@@ -21,4 +21,5 @@ class ElevatorSubsystem : public frc::Subsystem {
   void GoToHeight(double inputHeight);
   int ConvertHeightToTicks(double inputHeight);
   void RunElevatorMotor(double speed);
+  int GetElevatorHeight();
 };

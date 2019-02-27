@@ -41,6 +41,7 @@ void ElevatorControl::Execute() {
 
 	if (yAxis != 0) {
 		manualControl = true;
+		currentState = HOLD;
 	}
 	else {
 		manualControl = false;
@@ -48,22 +49,41 @@ void ElevatorControl::Execute() {
 	}
 	
 	if (isRightTriggerPressed && (lastStateRightTrigger != true)) {
-		if (!(currentState == ELEVATOR_POSITION::LEVEL_THREE)) {
+		if (!(currentState == ELEVATOR_POSITION::LEVEL_THREE)||!(currentState == ELEVATOR_POSITION::HOLD)) {
 			currentState = (ELEVATOR_POSITION)(currentState + 1);
 			std::cout << "UP!" << std::endl;
 		}
+		else if(currentState == ELEVATOR_POSITION::HOLD){
+			//deal with the HOLD case
+			//this command is temporary, tells the robot to go to a media height
+			//we need to figure out what we want to do to get the triggers to work after manual mode
+			int distance = Robot::elevatorSubsystem->GetElevatorHeight();
+			int n = 0;
+			while(distance > (ELEVATOR_POSITION)(n)){
+				n++;
+			}
+			currentState = (ELEVATOR_POSITION)(n);
+		}
 	}
 	if (isLeftTriggerPressed && (lastStateLeftTrigger != true)) {
-		if (!(currentState == ELEVATOR_POSITION::GROUND)) {
+		if (!(currentState == ELEVATOR_POSITION::GROUND)||!(currentState == ELEVATOR_POSITION::HOLD)) {
 			currentState = (ELEVATOR_POSITION)(currentState - 1);
 			std::cout << "DOWN!" << std::endl;
+		}
+		else if(currentState == ELEVATOR_POSITION::HOLD){
+			int distance = Robot::elevatorSubsystem->GetElevatorHeight();
+			int n = 3;
+			while(distance < (ELEVATOR_POSITION)(n)){
+				n--;
+			}
+			currentState = (ELEVATOR_POSITION)(n);
 		}
 	}
 
 	if (manualControl) {
 		Robot::elevatorSubsystem->RunElevatorMotor(-yAxis * 0.5);
 	}
-	/*
+	
 	else {
 		switch(currentState)
 		{
@@ -79,9 +99,11 @@ void ElevatorControl::Execute() {
 		case LEVEL_THREE:
 			Robot::elevatorSubsystem->GoToHeight(Robot::robotMap->kELEVATOR_LEVEL_THREE_HATCH);
 			break;
+		case HOLD:
+			break;			
 		}
 	}
-	*/
+	
 	
 
 	lastStateLeftTrigger = isLeftTriggerPressed;

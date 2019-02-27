@@ -15,7 +15,8 @@ public:
 		GROUND = 0,
 		LEVEL_ONE = 1,
 		LEVEL_TWO = 2,
-		LEVEL_THREE = 3
+		LEVEL_THREE = 3,
+		HOLD = 4
 	};
 private:
 	ELEVATOR_POSITION currentState;

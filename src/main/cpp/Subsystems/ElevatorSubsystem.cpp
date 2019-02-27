@@ -32,7 +32,8 @@ ElevatorSubsystem::ElevatorSubsystem() : Subsystem("ElevatorSubsystem") {
 
   elevatorMotorLeader->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::CTRE_MagEncoder_Relative);
   elevatorMotorLeader->SetSelectedSensorPosition(0);
-  elevatorMotorLeader->ConfigAllowableClosedloopError(0, 50, 0);
+  elevatorMotorLeader->ConfigAllowableClosedloopError(0, 1200, 0);
+  elevatorMotorLeader->SetSensorPhase(false);
 
   elevatorMotorLeader->Config_kF(0, Robot::robotMap->kELEVATOR_F);
   elevatorMotorLeader->Config_kP(0, Robot::robotMap->kELEVATOR_P);
@@ -56,5 +57,12 @@ void ElevatorSubsystem::RunElevatorMotor(double speed) {
 
 void ElevatorSubsystem::GoToHeight(double height) {
   elevatorMotorLeader->Set(ctre::phoenix::motorcontrol::ControlMode::Position, ConvertHeightToTicks(height));
+}
+
+int ElevatorSubsystem::GetElevatorHeight(){
+  int distance = 0;
+  int ticks = elevatorMotorLeader->GetSelectedSensorPosition();
+  distance = ticks / Robot::robotMap->kELEVATORTICKS_PER_INCH;
+  return distance;
 }
 
