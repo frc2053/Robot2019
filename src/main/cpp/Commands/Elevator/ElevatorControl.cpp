@@ -81,7 +81,7 @@ void ElevatorControl::Execute() {
 	}
 
 	if (manualControl) {
-		Robot::elevatorSubsystem->RunElevatorMotor(-yAxis * 0.5);
+		Robot::elevatorSubsystem->RunElevatorMotor(-yAxis * 1);
 	}
 	
 	else {
