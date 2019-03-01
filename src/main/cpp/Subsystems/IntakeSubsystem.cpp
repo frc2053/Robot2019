@@ -20,9 +20,9 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeSlapperTalon->ConfigFactoryDefault();
   
   intakeSlapperTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);
-  intakeWristTalonLeft->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);
+  intakeWristTalonRight->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);
 
-  intakeWristTalonRight->Follow(*intakeWristTalonLeft.get());
+  intakeWristTalonLeft->Follow(*intakeWristTalonRight.get());
 
   intakeSlapperTalon->Config_kF(0, Robot::robotMap->kSLAPPER_F);
   intakeSlapperTalon->Config_kP(0, Robot::robotMap->kSLAPPER_P);
@@ -40,7 +40,7 @@ void IntakeSubsystem::SetIntakeWheelSpeed(double speed) {
 
 void IntakeSubsystem::SetWristAngle(double angle) {
   angle = ConvertAngleToTicksWrist(angle);
-  intakeWristTalonLeft->Set(ctre::phoenix::motorcontrol::ControlMode::Position, angle);
+  intakeWristTalonRight->Set(ctre::phoenix::motorcontrol::ControlMode::Position, angle);
 }
 
 void IntakeSubsystem::SetSlapperAngle(double ticks) {

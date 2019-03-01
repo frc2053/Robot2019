@@ -54,13 +54,16 @@ void ElevatorControl::Execute() {
 			std::cout << "UP!" << std::endl;
 		}
 		else if(currentState == ELEVATOR_POSITION::HOLD){
-			//deal with the HOLD case
-			//this command is temporary, tells the robot to go to a media height
-			//we need to figure out what we want to do to get the triggers to work after manual mode
 			int distance = Robot::elevatorSubsystem->GetElevatorHeight();
 			int n = 0;
-			while(distance > (ELEVATOR_POSITION)(n)){
-				n++;
+			if(distance >= Robot::robotMap->kELEVATOR_LEVEL_THREE_HATCH){
+				n = 3;
+			}
+			else if(distance >= Robot::robotMap->kELEVATOR_LEVEL_TWO_HATCH){
+				n = 2;
+			}
+			else if(distance >= Robot::robotMap->kELEVATOR_LEVEL_ONE_HATCH){
+				n = 1;
 			}
 			currentState = (ELEVATOR_POSITION)(n);
 		}
@@ -73,8 +76,14 @@ void ElevatorControl::Execute() {
 		else if(currentState == ELEVATOR_POSITION::HOLD){
 			int distance = Robot::elevatorSubsystem->GetElevatorHeight();
 			int n = 3;
-			while(distance < (ELEVATOR_POSITION)(n)){
-				n--;
+			if(distance <= Robot::robotMap->kELEVATOR_GROUND){
+				n = 0;
+			}
+			else if(distance <= Robot::robotMap->kELEVATOR_LEVEL_ONE_HATCH){
+				n = 1;
+			}
+			else if(distance <= Robot::robotMap->kELEVATOR_LEVEL_TWO_HATCH){
+				n = 2;
 			}
 			currentState = (ELEVATOR_POSITION)(n);
 		}
