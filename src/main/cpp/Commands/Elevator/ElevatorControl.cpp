@@ -66,6 +66,7 @@ void ElevatorControl::Execute() {
 				n = 1;
 			}
 			currentState = (ELEVATOR_POSITION)(n);
+			//;)
 		}
 	}
 	if (isLeftTriggerPressed && (lastStateLeftTrigger != true)) {
