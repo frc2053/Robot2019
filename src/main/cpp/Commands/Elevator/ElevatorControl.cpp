@@ -109,6 +109,7 @@ void ElevatorControl::Execute() {
 			Robot::elevatorSubsystem->GoToHeight(Robot::robotMap->kELEVATOR_LEVEL_THREE_HATCH);
 			break;
 		case HOLD:
+			Robot::elevatorSubsystem->RunElevatorMotor(0);
 			break;			
 		}
 	}
