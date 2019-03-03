@@ -7,6 +7,7 @@
 
 #include "Subsystems/IntakeSubsystem.h"
 #include "Robot.h"
+#include <iostream>
 
 IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeWheelsTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kINTAKE_WHEELS_ID);
@@ -22,12 +23,19 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeSlapperTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);
   intakeWristTalonRight->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);
 
-  intakeWristTalonLeft->Follow(*intakeWristTalonRight.get());
 
   intakeSlapperTalon->Config_kF(0, Robot::robotMap->kSLAPPER_F);
   intakeSlapperTalon->Config_kP(0, Robot::robotMap->kSLAPPER_P);
   intakeSlapperTalon->Config_kI(0, Robot::robotMap->kSLAPPER_I);
   intakeSlapperTalon->Config_kD(0, Robot::robotMap->kSLAPPER_D);
+
+  intakeWristTalonRight->Config_kF(0, Robot::robotMap->kSLAPPER_F);
+  intakeWristTalonRight->Config_kP(0, Robot::robotMap->kSLAPPER_P);
+  intakeWristTalonRight->Config_kI(0, Robot::robotMap->kSLAPPER_I);
+  intakeWristTalonRight->Config_kD(0, Robot::robotMap->kSLAPPER_D);
+
+  intakeWristTalonLeft->Follow(*intakeWristTalonRight.get());
+
 }
 
 void IntakeSubsystem::InitDefaultCommand() {
@@ -39,8 +47,15 @@ void IntakeSubsystem::SetIntakeWheelSpeed(double speed) {
 }
 
 void IntakeSubsystem::SetWristAngle(double angle) {
-  angle = ConvertAngleToTicksWrist(angle);
-  intakeWristTalonRight->Set(ctre::phoenix::motorcontrol::ControlMode::Position, angle);
+  int ticks;
+  ticks = ConvertAngleToTicksWrist(angle);
+  //std::cout << "===> This many ticks: " << ticks << std::endl;
+  intakeWristTalonRight->Set(ctre::phoenix::motorcontrol::ControlMode::Position, ticks);
+}
+
+void IntakeSubsystem::SetWristTicks(int ticks) {
+  std::cout << "===> This many ticks: " << ticks << std::endl;
+  intakeWristTalonRight->Set(ctre::phoenix::motorcontrol::ControlMode::Position, ticks);
 }
 
 void IntakeSubsystem::SetSlapperAngle(double ticks) {
@@ -54,6 +69,10 @@ int IntakeSubsystem::ConvertAngleToTicksWrist(double angle) {
 
 int IntakeSubsystem::GetSlapperError() {
   return intakeSlapperTalon->GetClosedLoopError(0);
+}
+
+int IntakeSubsystem::GetWristError() {
+  return intakeWristTalonRight->GetClosedLoopError(0);
 }
 
 double IntakeSubsystem::GetCurrent(){

@@ -8,6 +8,9 @@
 #include "Commands/Intake/ControlIntakeWrist.h"
 #include "RobotMap.h"
 #include "Robot.h"
+#include <iostream>
+#include <string>
+
 
 ControlIntakeWrist::ControlIntakeWrist(double intakeAngle) {
   Requires(Robot::intakeSubsystem.get());
@@ -22,8 +25,29 @@ void ControlIntakeWrist::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ControlIntakeWrist::Execute() {
-  Robot::intakeSubsystem->SetWristAngle(targetAngle);
-  isDone = true;
+  std::cout << "Set wrist to: " << std::to_string(targetAngle) << std::endl;
+  if (targetAngle > 45.0)
+  {
+    Robot::intakeSubsystem->SetWristTicks(2800);
+
+  }
+  else
+  {
+    if (targetAngle < 45.0)
+    {
+    Robot::intakeSubsystem->SetWristTicks(1740);
+
+    }
+  }
+  
+  if(std::abs(Robot::intakeSubsystem->GetWristError()) < 5) 
+  {
+    isDone = true;
+  }
+
+  //Robot::intakeSubsystem->SetWristAngle(targetAngle);
+  //isDone = true;
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
