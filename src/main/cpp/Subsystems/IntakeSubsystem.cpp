@@ -34,6 +34,10 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeWristTalonRight->Config_kI(0, Robot::robotMap->kSLAPPER_I);
   intakeWristTalonRight->Config_kD(0, Robot::robotMap->kSLAPPER_D);
 
+  intakeWristTalonRight->ConfigPeakOutputForward(1,0);
+  intakeWristTalonRight->ConfigPeakOutputReverse(.5,0);
+  
+
   intakeWristTalonLeft->Follow(*intakeWristTalonRight.get());
 
 }
@@ -51,7 +55,7 @@ void IntakeSubsystem::SetWristAngle(double angle) {
   ticks = ConvertAngleToTicksWrist(angle);
   //std::cout << "===> This many ticks: " << ticks << std::endl;
   intakeWristTalonRight->Set(ctre::phoenix::motorcontrol::ControlMode::Position, ticks);
-}
+  }
 
 void IntakeSubsystem::SetWristTicks(int ticks) {
   std::cout << "===> This many ticks: " << ticks << std::endl;

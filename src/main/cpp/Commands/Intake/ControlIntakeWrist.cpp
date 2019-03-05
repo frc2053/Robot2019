@@ -28,14 +28,14 @@ void ControlIntakeWrist::Execute() {
   std::cout << "Set wrist to: " << std::to_string(targetAngle) << std::endl;
   if (targetAngle > 45.0)
   {
-    Robot::intakeSubsystem->SetWristTicks(2800);
+    Robot::intakeSubsystem->SetWristTicks(1426);
 
   }
   else
   {
     if (targetAngle < 45.0)
     {
-    Robot::intakeSubsystem->SetWristTicks(1740);
+    Robot::intakeSubsystem->SetWristTicks(2567);
 
     }
   }
