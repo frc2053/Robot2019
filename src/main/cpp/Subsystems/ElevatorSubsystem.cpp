@@ -34,10 +34,10 @@ ElevatorSubsystem::ElevatorSubsystem() : Subsystem("ElevatorSubsystem") {
   elevatorMotorLeader->SetSelectedSensorPosition(0);
   elevatorMotorLeader->ConfigAllowableClosedloopError(0, 1200, 0);
   elevatorMotorLeader->SetSensorPhase(false);
-  elevatorMotorLeader->ConfigForwardSoftLimitThreshold(ConvertHeightToTicks(Robot::robotMap->kELEVATOR_LEVEL_THREE_HATCH + 2));
-  elevatorMotorLeader->ConfigForwardSoftLimitEnable(true);
-  elevatorMotorLeader->ConfigReverseSoftLimitThreshold(0);
-  elevatorMotorLeader->ConfigReverseSoftLimitEnable(true);
+  //elevatorMotorLeader->ConfigForwardSoftLimitThreshold(ConvertHeightToTicks(Robot::robotMap->kELEVATOR_LEVEL_THREE_HATCH + 2));
+  //elevatorMotorLeader->ConfigForwardSoftLimitEnable(true);
+  //elevatorMotorLeader->ConfigReverseSoftLimitThreshold(0);
+  //elevatorMotorLeader->ConfigReverseSoftLimitEnable(true);
 
   elevatorMotorLeader->Config_kF(0, Robot::robotMap->kELEVATOR_F);
   elevatorMotorLeader->Config_kP(0, Robot::robotMap->kELEVATOR_P);
