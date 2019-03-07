@@ -72,6 +72,7 @@ void Robot::DisabledInit() {
 	Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDoneOverride(true);
 	Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDone(true);
 	Robot::drivebaseSubsystem->MecDrive(0,0,0,Robot::drivebaseSubsystem->GetTigerDrive()->GetAdjYaw());
+	Robot::elevatorSubsystem->RunElevatorMotor(0);
 }
 
 /**

@@ -26,10 +26,10 @@ OI::OI() {
 	operatorController->startButton->WhenPressed(new ControlIntakeWrist(Robot::robotMap->kINTAKE_ANGLE_BALL));
 
 	operatorController->aButton->WhenActive(new ControlIntakeWheels(0, Robot::robotMap->kINTAKE_SPEED, true));
-	operatorController->aButton->WhenReleased(new ControlIntakeWheels(0, 0, false));
+	operatorController->aButton->WhenInactive(new ControlIntakeWheels(0, 0, false));
 
 	operatorController->bButton->WhenActive(new ControlIntakeWheels(0, -Robot::robotMap->kINTAKE_SPEED, false));
-	operatorController->bButton->WhenReleased(new ControlIntakeWheels(0, 0, false));
+	operatorController->bButton->WhenInactive(new ControlIntakeWheels(0, 0, false));
 
 	operatorController->rightShoulderButton->WhenPressed(new ControlSlapper(Robot::robotMap->kSLAPPER_RELEASE_TICKS));
 	operatorController->leftShoulderButton->WhenPressed(new ControlSlapper(Robot::robotMap->kSLAPPER_DOWN_TICKS));

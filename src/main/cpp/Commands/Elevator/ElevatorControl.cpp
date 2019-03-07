@@ -45,6 +45,7 @@ void ElevatorControl::Execute() {
 	}
 	else {
 		manualControl = false;
+		currentState = ELEVATOR_POSITION::HOLD;
 		Robot::elevatorSubsystem->RunElevatorMotor(0);
 	}
 	
