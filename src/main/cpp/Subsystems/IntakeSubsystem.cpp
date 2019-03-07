@@ -37,6 +37,8 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeWristTalonRight->ConfigPeakOutputForward(1,0);
   intakeWristTalonRight->ConfigPeakOutputReverse(.5,0);
   
+  intakeSlapperTalon->ConfigPeakOutputForward(.5,0);
+  intakeSlapperTalon->ConfigPeakOutputReverse(.5,0);
 
   intakeWristTalonLeft->Follow(*intakeWristTalonRight.get());
 
