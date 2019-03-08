@@ -23,7 +23,9 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeSlapperTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);
   intakeWristTalonRight->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);
 
-
+  intakeSlapperTalon->ConfigForwardLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated, ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled);
+  intakeSlapperTalon->ConfigReverseLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated, ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled);
+  
   intakeSlapperTalon->Config_kF(0, Robot::robotMap->kSLAPPER_F);
   intakeSlapperTalon->Config_kP(0, Robot::robotMap->kSLAPPER_P);
   intakeSlapperTalon->Config_kI(0, Robot::robotMap->kSLAPPER_I);
