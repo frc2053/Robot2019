@@ -8,6 +8,7 @@
 #include "Commands/Intake/ControlSlapper.h"
 #include "Robot.h"
 #include "RobotMap.h"
+#include "iostream"
 
 ControlSlapper::ControlSlapper(double intakeAngle) {
   Requires(Robot::intakeSubsystem.get());
@@ -22,7 +23,9 @@ void ControlSlapper::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ControlSlapper::Execute() {
+  std::cout << "in execute";
   Robot::intakeSubsystem->SetSlapperAngle(targetAngle);
+  std::cout << "slapper error: " << Robot::intakeSubsystem->GetSlapperError();
   if(std::abs(Robot::intakeSubsystem->GetSlapperError()) < 5) {
     isDone = true;
   }

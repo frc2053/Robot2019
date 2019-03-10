@@ -46,6 +46,12 @@ void RobotMap::Init() {
     kSLAPPER_I = reader.GetReal("slapper pid", "kSLAPPER_I", -1.0);
     kSLAPPER_D = reader.GetReal("slapper pid", "kSLAPPER_F", -1.0);
 
+    //WRIST PID
+    kWRIST_F = reader.GetReal("wrist pid", "kSLAPPER_F", -1);
+    kWRIST_P = reader.GetReal("wrist pid", "kSLAPPER_P", -1);
+    kWRIST_I = reader.GetReal("wrist pid", "kSLAPPER_I", -1);
+    kWRIST_D = reader.GetReal("wrist pid", "kSLAPPER_D", -1);
+
     //DRIVEBASE TALONS
     kDRIVESPARK_FL_ID = reader.GetReal("drivebase talons", "kDRIVE_SPARK_FL_ID", -1);
     kDRIVESPARK_FR_ID = reader.GetReal("drivebase talons", "kDRIVE_SPARK_FR_ID", -1);

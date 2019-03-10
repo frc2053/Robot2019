@@ -20,27 +20,39 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeWristTalonRight->ConfigFactoryDefault();
   intakeSlapperTalon->ConfigFactoryDefault();
   
-  intakeSlapperTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);
-  intakeWristTalonRight->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute);
-
   intakeSlapperTalon->ConfigForwardLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated, ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled);
   intakeSlapperTalon->ConfigReverseLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated, ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled);
   
+  intakeSlapperTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::CTRE_MagEncoder_Absolute);
+  intakeSlapperTalon->SetSelectedSensorPosition(0);
+  intakeSlapperTalon->SetSensorPhase(false);
+
   intakeSlapperTalon->Config_kF(0, Robot::robotMap->kSLAPPER_F);
   intakeSlapperTalon->Config_kP(0, Robot::robotMap->kSLAPPER_P);
   intakeSlapperTalon->Config_kI(0, Robot::robotMap->kSLAPPER_I);
   intakeSlapperTalon->Config_kD(0, Robot::robotMap->kSLAPPER_D);
 
-  intakeWristTalonRight->Config_kF(0, Robot::robotMap->kSLAPPER_F);
-  intakeWristTalonRight->Config_kP(0, Robot::robotMap->kSLAPPER_P);
-  intakeWristTalonRight->Config_kI(0, Robot::robotMap->kSLAPPER_I);
-  intakeWristTalonRight->Config_kD(0, Robot::robotMap->kSLAPPER_D);
+  intakeWristTalonRight->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute, 0,	30);
+	intakeWristTalonRight->SetSensorPhase(false);  
 
-  intakeWristTalonRight->ConfigPeakOutputForward(1,0);
-  intakeWristTalonRight->ConfigPeakOutputReverse(.5,0);
+  //intakeWristTalonRight->Config_kF(0, Robot::robotMap->kWRIST_F);
+  //intakeWristTalonRight->Config_kP(0, Robot::robotMap->kWRIST_P);
+  //intakeWristTalonRight->Config_kI(0, Robot::robotMap->kWRIST_I);
+  //intakeWristTalonRight->Config_kD(0, Robot::robotMap->kWRIST_D);
+
+  intakeWristTalonRight->Config_kF(0, 0.0, 30);
+  intakeWristTalonRight->Config_kP(0, 0.8, 30);
+  intakeWristTalonRight->Config_kI(0, 0.0, 30);
+  intakeWristTalonRight->Config_kD(0, 0.0, 30);
+
+  intakeWristTalonRight->ConfigNominalOutputForward(0, 30);
+  intakeWristTalonRight->ConfigNominalOutputReverse(0, 30);
+  intakeWristTalonRight->ConfigPeakOutputForward(0.5,30);
+  intakeWristTalonRight->ConfigPeakOutputReverse(-0.25,30);
   
-  intakeSlapperTalon->ConfigPeakOutputForward(.5,0);
-  intakeSlapperTalon->ConfigPeakOutputReverse(.5,0);
+
+  intakeSlapperTalon->ConfigPeakOutputForward(1,30);
+  intakeSlapperTalon->ConfigPeakOutputReverse(-1,30);
 
   intakeWristTalonLeft->Follow(*intakeWristTalonRight.get());
 
@@ -62,7 +74,7 @@ void IntakeSubsystem::SetWristAngle(double angle) {
   }
 
 void IntakeSubsystem::SetWristTicks(int ticks) {
-  std::cout << "===> This many ticks: " << ticks << std::endl;
+  //std::cout << "===> This many ticks: " << ticks << std::endl;
   intakeWristTalonRight->Set(ctre::phoenix::motorcontrol::ControlMode::Position, ticks);
 }
 

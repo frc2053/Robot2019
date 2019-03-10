@@ -44,6 +44,12 @@ public:
     double  kELEVATOR_I;
     double  kELEVATOR_D;
 
+    //WRIST PID
+    double kWRIST_F;
+    double kWRIST_P;
+    double kWRIST_I;
+    double kWRIST_D;
+
     //ELEVATOR PID
     double  kSLAPPER_F;
     double  kSLAPPER_P;

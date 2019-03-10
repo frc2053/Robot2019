@@ -19,5 +19,7 @@ class ControlIntakeWrist : public frc::Command {
   void Interrupted() override;
 private:
   double targetAngle;
+  int target_ticks;
+  int target_power;
   bool isDone;
 };
