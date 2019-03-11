@@ -39,6 +39,7 @@ void ControlIntakeWheels::Execute() {
 		isDone = true;
 	}
 	else {
+		/*
 		timeCurrent = timer->Get();
 		if(timeTarget == 0) {
 			Robot::intakeSubsystem->SetIntakeWheelSpeed(inputSpeed);
@@ -54,14 +55,18 @@ void ControlIntakeWheels::Execute() {
 				isDone = false;
 			}
 		}
+		*/
+		Robot::intakeSubsystem->SetIntakeWheelSpeed(inputSpeed);
+		isDone = false;
 	}
-
+/*
 	if(isCheckCurrentSpike) {
 		if(current >= Robot::robotMap->kINTAKE_CURRENT){
 			isDone = true;
-			Robot::intakeSubsystem->SetIntakeWheelSpeed(0);
+			//Robot::intakeSubsystem->SetIntakeWheelSpeed(0);
 		}
 	}
+	*/
 }
 
 // Make this return true when this Command no longer needs to run execute()

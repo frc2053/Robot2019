@@ -48,8 +48,7 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeWristTalonRight->ConfigNominalOutputForward(0, 30);
   intakeWristTalonRight->ConfigNominalOutputReverse(0, 30);
   intakeWristTalonRight->ConfigPeakOutputForward(0.5,30);
-  intakeWristTalonRight->ConfigPeakOutputReverse(-0.25,30);
-  
+  intakeWristTalonRight->ConfigPeakOutputReverse(-0.25,30);  
 
   intakeSlapperTalon->ConfigPeakOutputForward(1,30);
   intakeSlapperTalon->ConfigPeakOutputReverse(-1,30);
