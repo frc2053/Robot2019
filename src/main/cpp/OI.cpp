@@ -33,9 +33,9 @@ OI::OI() {
 	operatorController->bButton->WhenPressed(new ControlIntakeWheels(0, -Robot::robotMap->kINTAKE_SPEED, false));
 	operatorController->bButton->WhenReleased(new ControlIntakeWheels(0, 0, false));
 
-	operatorController->rightShoulderButton->WhenActive(new ControlSlapper(Robot::robotMap->kSLAPPER_RELEASE_TICKS));
-	operatorController->leftShoulderButton->WhenActive(new ControlSlapper(Robot::robotMap->kSLAPPER_DOWN_TICKS));
-	operatorController->leftShoulderButton->WhenInactive(new ControlSlapper(Robot::robotMap->kSLAPPER_UP_TICKS));
+	operatorController->rightShoulderButton->WhenPressed(new ControlSlapper(Robot::robotMap->kSLAPPER_RELEASE_TICKS));
+	operatorController->leftShoulderButton->WhenPressed(new ControlSlapper(Robot::robotMap->kSLAPPER_DOWN_TICKS));
+	operatorController->leftShoulderButton->WhenReleased(new ControlSlapper(Robot::robotMap->kSLAPPER_UP_TICKS));
 
 }
 
