@@ -24,8 +24,8 @@ ControlIntakeWheels::ControlIntakeWheels(double time, double speed, bool current
 
 // Called just before this Command runs the first time
 void ControlIntakeWheels::Initialize() {
-  isDone = false;
-	timeCurrent = 0;
+  	isDone = false;
+  	timeCurrent = 0;
 	timer->Reset();
 	timer->Start();
 	isCheckCurrentSpike = false;
@@ -33,40 +33,8 @@ void ControlIntakeWheels::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ControlIntakeWheels::Execute() {
-	current = Robot::intakeSubsystem->GetCurrent();
-  if(inputSpeed == 0) {
-		Robot::intakeSubsystem->SetIntakeWheelSpeed(inputSpeed);
-		isDone = true;
-	}
-	else {
-		/*
-		timeCurrent = timer->Get();
-		if(timeTarget == 0) {
-			Robot::intakeSubsystem->SetIntakeWheelSpeed(inputSpeed);
-			isDone = false;
-		}
-		else {
-			if(timeCurrent >= timeTarget) {
-				Robot::intakeSubsystem->SetIntakeWheelSpeed(0);
-				isDone = true;
-			}
-			else {
-				Robot::intakeSubsystem->SetIntakeWheelSpeed(inputSpeed);
-				isDone = false;
-			}
-		}
-		*/
-		Robot::intakeSubsystem->SetIntakeWheelSpeed(inputSpeed);
-		isDone = false;
-	}
-/*
-	if(isCheckCurrentSpike) {
-		if(current >= Robot::robotMap->kINTAKE_CURRENT){
-			isDone = true;
-			//Robot::intakeSubsystem->SetIntakeWheelSpeed(0);
-		}
-	}
-	*/
+	Robot::intakeSubsystem->SetIntakeWheelSpeed(inputSpeed);
+	isDone = true;
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -76,7 +44,6 @@ bool ControlIntakeWheels::IsFinished() {
 
 // Called once after isFinished returns true
 void ControlIntakeWheels::End() {
-	Robot::intakeSubsystem->SetIntakeWheelSpeed(0);
 }
 
 // Called when another command which requires one or more of the same
