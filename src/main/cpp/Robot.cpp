@@ -38,7 +38,7 @@ void Robot::RobotInit()
 	robotMap = std::make_unique<RobotMap>();
 	robotMap->Init();
 
-	autoChooser.SetDefaultOption("tenFeetForward", "tenFeetForward");
+	autoChooser.SetDefaultOption("smoothtenFtForward", "smoothtenFtForward");
 
 	SmartDashboard::PutData("AutoMode", &autoChooser);
 
@@ -97,7 +97,7 @@ void Robot::DisabledPeriodic()
 void Robot::AutonomousInit()
 {
 	//selectedMode = (std::string)autoChooser.GetSelected();
-	Command* testAuto = new FollowPath("/home/lvuser/deploy/smoothrightTurn.csv");
+	Command* testAuto = new FollowPath("/home/lvuser/deploy/smoothtenFtForward.csv");
 
 	//ONLY PUT PATH NAME AND .CSV FOR VELOCITY FOLLOW PATH NO HOME/LVUSER AND NO FL FR OR ANYTHING
 	//if (selectedMode == "tenFeetForward")
