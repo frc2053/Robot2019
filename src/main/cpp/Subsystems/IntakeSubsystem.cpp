@@ -23,7 +23,7 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeSlapperTalon->ConfigForwardLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated, ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled);
   intakeSlapperTalon->ConfigReverseLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated, ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled);
   
-  intakeSlapperTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::CTRE_MagEncoder_Absolute);
+  intakeSlapperTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::CTRE_MagEncoder_Relative);
   intakeSlapperTalon->SetSelectedSensorPosition(0);
   intakeSlapperTalon->SetSensorPhase(false);
 
@@ -41,17 +41,16 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   //intakeWristTalonRight->Config_kD(0, Robot::robotMap->kWRIST_D);
 
   intakeWristTalonRight->Config_kF(0, 0.0, 30);
-  intakeWristTalonRight->Config_kP(0, 0.8, 30);
+  intakeWristTalonRight->Config_kP(0, 1.25, 30);
   intakeWristTalonRight->Config_kI(0, 0.0, 30);
   intakeWristTalonRight->Config_kD(0, 0.0, 30);
+
+  intakeWheelsTalon->ConfigOpenloopRamp(1);
 
   intakeWristTalonRight->ConfigNominalOutputForward(0, 30);
   intakeWristTalonRight->ConfigNominalOutputReverse(0, 30);
   intakeWristTalonRight->ConfigPeakOutputForward(0.5,30);
   intakeWristTalonRight->ConfigPeakOutputReverse(-0.25,30);  
-
-  intakeSlapperTalon->ConfigPeakOutputForward(1,30);
-  intakeSlapperTalon->ConfigPeakOutputReverse(-1,30);
 
   intakeWristTalonLeft->Follow(*intakeWristTalonRight.get());
 

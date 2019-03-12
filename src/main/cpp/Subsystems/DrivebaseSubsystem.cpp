@@ -30,10 +30,10 @@ DrivebaseSubsystem::DrivebaseSubsystem() : Subsystem("DrivebaseSubsystem") {
 	backRightSpark->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 	Robot::observer->SetRobotPos(RigidTransform2D(Translation2D(0,0), Rotation2D(1, 0, true)), 0.0);
 
-	frontLeftSpark->SetOpenLoopRampRate(0);
-	frontRightSpark->SetOpenLoopRampRate(0);
-	backLeftSpark->SetOpenLoopRampRate(0);
-	backRightSpark->SetOpenLoopRampRate(0);
+	frontLeftSpark->SetOpenLoopRampRate(.25);
+	frontRightSpark->SetOpenLoopRampRate(.25);
+	backLeftSpark->SetOpenLoopRampRate(.25);
+	backRightSpark->SetOpenLoopRampRate(.25);
 
 	flPos = 0;
 	frPos = 0;
