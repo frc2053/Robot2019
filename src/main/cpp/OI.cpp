@@ -10,6 +10,9 @@
 #include "Commands/Intake/ControlIntakeWrist.h"
 #include "Commands/Intake/ControlIntakeWheels.h"
 #include "Commands/Intake/ControlSlapper.h"
+#include "Commands/Lift/ControlLeg.h"
+
+#include <frc/smartdashboard/SmartDashboard.h>
 
 /**
  * \brief OI Constructor
@@ -21,8 +24,6 @@ OI::OI() {
 	driverController = std::make_unique<TigerJoystick>(Robot::robotMap->kDRIVER_CONTROLLER_PORT);
 	operatorController = std::make_unique<TigerJoystick>(Robot::robotMap->kOPERATOR_CONTROLLER_PORT);
 
-	
-
 	//INTAKE
 	operatorController->selectButton->WhenPressed(new ControlIntakeWrist(Robot::robotMap->kINTAKE_ANGLE_UP));
 	operatorController->startButton->WhenPressed(new ControlIntakeWrist(Robot::robotMap->kINTAKE_ANGLE_BALL));
@@ -32,6 +33,9 @@ OI::OI() {
 
 	operatorController->bButton->WhenActive(new ControlIntakeWheels(0, -Robot::robotMap->kINTAKE_SPEED, false));
 	operatorController->bButton->WhenInactive(new ControlIntakeWheels(0, 0, false));
+
+	operatorController->xButton->WhenPressed(new ControlLeg(2000));
+	operatorController->yButton->WhenPressed(new ControlLeg(0));
 
 	operatorController->rightShoulderButton->WhenPressed(new ControlSlapper(Robot::robotMap->kSLAPPER_RELEASE_TICKS));
 	operatorController->leftShoulderButton->WhenPressed(new ControlSlapper(Robot::robotMap->kSLAPPER_DOWN_TICKS));

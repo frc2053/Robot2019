@@ -52,6 +52,11 @@ void RobotMap::Init() {
     kWRIST_I = reader.GetReal("wrist pid", "kSLAPPER_I", -1);
     kWRIST_D = reader.GetReal("wrist pid", "kSLAPPER_D", -1);
 
+    kLEG_F = reader.GetReal("leg pid", "kLEG_F", -1);
+    kLEG_P = reader.GetReal("leg pid", "kLEG_P", -1);
+    kLEG_I = reader.GetReal("leg pid", "kLEG_I", -1);
+    kLEG_D = reader.GetReal("leg pid", "kLEG_D", -1);
+
     //DRIVEBASE TALONS
     kDRIVESPARK_FL_ID = reader.GetReal("drivebase talons", "kDRIVE_SPARK_FL_ID", -1);
     kDRIVESPARK_FR_ID = reader.GetReal("drivebase talons", "kDRIVE_SPARK_FR_ID", -1);
@@ -106,8 +111,7 @@ void RobotMap::Init() {
 
     //LIFT STUFF
     kFOOT_TALON_ID = reader.GetInteger("lift", "kFOOT_TALON_ID", -1);
-    kLEG_LEADER_TALON_ID = reader.GetInteger("lift", "kLEG_LEADER_TALON_ID", -1);
-    kLEG_FOLLOWER_TALON_ID = reader.GetInteger("lift", "kLEG_FOLLOWER_TALON_ID", -1);
+    kLEG_LEADER_TALON_ID = reader.GetInteger("lift", "kLEG_TALON_ID", -1);
 
     //VISION STUFF
     kVISION_STEER_P = reader.GetInteger("vision", "kVISION_STEER_P", 0);

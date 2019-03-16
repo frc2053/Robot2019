@@ -11,6 +11,7 @@
 ControlLeg::ControlLeg(double height) {
 	Requires(Robot::liftSubsystem.get());
 	heightTarget = height;
+	isDone = false;
 }
 
 void ControlLeg::Initialize() {
@@ -18,10 +19,9 @@ void ControlLeg::Initialize() {
 }
 
 void ControlLeg::Execute() {
+	std::cout << "control leg execute height: " << heightTarget << "\n"; 
 	Robot::liftSubsystem->SetPosition(heightTarget);
-	if (Robot::liftSubsystem->GetLegClosedLoopError() < 30) {
-		isDone = true;
-	}
+	isDone = true;
 }
 
 bool ControlLeg::IsFinished() {
@@ -29,7 +29,7 @@ bool ControlLeg::IsFinished() {
 }
 
 void ControlLeg::End() {
-
+	std::cout << "control leg end\n"; 
 }
 
 void ControlLeg::Interrupted() {

@@ -28,18 +28,18 @@ void ControlFoot::Initialize() {
 
 void ControlFoot::Execute() {
   if(inputSpeed == 0) {
-		Robot::liftSubsystem->SetPosition(inputSpeed);
+		Robot::liftSubsystem->SetFootSpeed(inputSpeed);
 		isDone = true;
 	}
 	else {
 		timeCurrent = timer->Get();
 		if(timeTarget == 0) {
-			Robot::liftSubsystem->SetPosition(inputSpeed);
+			Robot::liftSubsystem->SetFootSpeed(inputSpeed);
 			isDone = false;
 		}
 		else {
 			if(timeCurrent >= timeTarget) {
-				Robot::liftSubsystem->SetPosition(0);
+				Robot::liftSubsystem->SetFootSpeed(0);
 				isDone = true;
 			}
 			else {

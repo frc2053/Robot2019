@@ -10,18 +10,18 @@
 LiftSubsystem::LiftSubsystem() : Subsystem("LiftSubsystem") {
   FootDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kFOOT_TALON_ID);
   LegDriverTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kLEG_LEADER_TALON_ID);
-  LegFollowerTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(Robot::robotMap->kLEG_FOLLOWER_TALON_ID);
 
   FootDriverTalon->ConfigFactoryDefault();
   LegDriverTalon->ConfigFactoryDefault();
-  LegFollowerTalon->ConfigFactoryDefault();
 
-  LegFollowerTalon->Follow(*LegDriverTalon.get());  LegDriverTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative);
-}
+  LegDriverTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::CTRE_MagEncoder_Relative);
+  LegDriverTalon->SetSelectedSensorPosition(0);
+  LegDriverTalon->SetSensorPhase(false);
 
-int LiftSubsystem::DistanceToTicks(double distance){
-  int ticks = distance * Robot::robotMap->kELEVATORTICKS_PER_INCH;
-  return ticks;
+  LegDriverTalon->Config_kF(0, Robot::robotMap->kLEG_F);
+  LegDriverTalon->Config_kP(0, Robot::robotMap->kLEG_P);
+  LegDriverTalon->Config_kI(0, Robot::robotMap->kLEG_I);
+  LegDriverTalon->Config_kD(0, Robot::robotMap->kLEG_D);
 }
 
 double LiftSubsystem::GetPosition() {
@@ -30,8 +30,10 @@ double LiftSubsystem::GetPosition() {
 }
 
 void LiftSubsystem::SetPosition(double position){
-  int ticks = DistanceToTicks(position);
-  LegDriverTalon->Set(ctre::phoenix::motorcontrol::ControlMode::Position, ticks);
+  std::cout << "curr pos: " << LegDriverTalon->GetSelectedSensorPosition() << "\n";
+  std::cout << "pos set: " << position << "\n";
+  LegDriverTalon->Set(ctre::phoenix::motorcontrol::ControlMode::Position, position);
+  std::cout << "talon setpt: " << LegDriverTalon->GetClosedLoopTarget() << "\n";
 }
 
 void LiftSubsystem::SetFootSpeed(double speed){

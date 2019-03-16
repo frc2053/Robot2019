@@ -56,6 +56,12 @@ public:
     double  kSLAPPER_I;
     double  kSLAPPER_D;
 
+    //LEG PID
+    double kLEG_F;
+    double kLEG_P;
+    double kLEG_I;
+    double kLEG_D;
+
     //DRIVEBASE TALONS
     int kDRIVESPARK_FL_ID;
     int kDRIVESPARK_FR_ID;
@@ -112,7 +118,6 @@ public:
     //LIFT STUFF
     int kFOOT_TALON_ID;
     int kLEG_LEADER_TALON_ID;
-    int kLEG_FOLLOWER_TALON_ID;
 
     //VISION
     double kVISION_STEER_P;

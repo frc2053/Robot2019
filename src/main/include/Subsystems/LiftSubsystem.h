@@ -13,9 +13,6 @@ class LiftSubsystem : public frc::Subsystem {
  private:
  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> FootDriverTalon;
  std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> LegDriverTalon;
- std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> LegFollowerTalon;
- int DistanceToTicks(double distance);
-
  public:
   LiftSubsystem();
   double GetPosition();
