@@ -11,6 +11,7 @@
 #include "Commands/Intake/ControlIntakeWheels.h"
 #include "Commands/Intake/ControlSlapper.h"
 #include "Commands/Lift/ControlLeg.h"
+#include "Commands/Lift/ControlFoot.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
 
@@ -34,12 +35,15 @@ OI::OI() {
 	operatorController->bButton->WhenActive(new ControlIntakeWheels(0, -Robot::robotMap->kINTAKE_SPEED, false));
 	operatorController->bButton->WhenInactive(new ControlIntakeWheels(0, 0, false));
 
-	operatorController->xButton->WhenPressed(new ControlLeg(2000));
-	operatorController->yButton->WhenPressed(new ControlLeg(0));
+	//operatorController->xButton->WhenPressed(new ControlLeg(25067));
+	//operatorController->yButton->WhenPressed(new ControlLeg(0));
 
 	operatorController->rightShoulderButton->WhenPressed(new ControlSlapper(Robot::robotMap->kSLAPPER_RELEASE_TICKS));
 	operatorController->leftShoulderButton->WhenPressed(new ControlSlapper(Robot::robotMap->kSLAPPER_DOWN_TICKS));
 	operatorController->leftShoulderButton->WhenReleased(new ControlSlapper(Robot::robotMap->kSLAPPER_UP_TICKS));
+
+	operatorController->xButton->WhenPressed(new ControlFoot(0, -1));
+	operatorController->xButton->WhenReleased(new ControlFoot(0, 0));
 
 }
 

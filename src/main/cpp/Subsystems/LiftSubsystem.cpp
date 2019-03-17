@@ -16,7 +16,7 @@ LiftSubsystem::LiftSubsystem() : Subsystem("LiftSubsystem") {
 
   LegDriverTalon->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::CTRE_MagEncoder_Relative);
   LegDriverTalon->SetSelectedSensorPosition(0);
-  LegDriverTalon->SetSensorPhase(false);
+  LegDriverTalon->SetSensorPhase(true);
 
   LegDriverTalon->Config_kF(0, Robot::robotMap->kLEG_F);
   LegDriverTalon->Config_kP(0, Robot::robotMap->kLEG_P);
@@ -46,4 +46,9 @@ void LiftSubsystem::SetLegSpeed(double speed){
 
 int LiftSubsystem::GetLegClosedLoopError() {
   return LegDriverTalon->GetClosedLoopError(0);
+}
+
+void LiftSubsystem::Periodic() {
+  double legControlAxis = Robot::oi->GetOperatorController()->GetRightYAxis();
+  SetLegSpeed(legControlAxis);
 }

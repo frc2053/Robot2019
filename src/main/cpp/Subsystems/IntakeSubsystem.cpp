@@ -41,19 +41,23 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   //intakeWristTalonRight->Config_kD(0, Robot::robotMap->kWRIST_D);
 
   intakeWristTalonRight->Config_kF(0, 0.0, 30);
-  intakeWristTalonRight->Config_kP(0, 1.25, 30);
-  intakeWristTalonRight->Config_kI(0, 0.0, 30);
+  intakeWristTalonRight->Config_kP(0, .5, 30);
+  intakeWristTalonRight->Config_kI(0, .002, 30);
   intakeWristTalonRight->Config_kD(0, 0.0, 30);
+
+  intakeWristTalonRight->ConfigMotionCruiseVelocity(80, 0);
+  intakeWristTalonRight->ConfigMotionAcceleration(500, 0);
 
   intakeWheelsTalon->ConfigOpenloopRamp(1);
 
   intakeWristTalonRight->ConfigNominalOutputForward(0, 30);
   intakeWristTalonRight->ConfigNominalOutputReverse(0, 30);
-  intakeWristTalonRight->ConfigPeakOutputForward(0.5,30);
-  intakeWristTalonRight->ConfigPeakOutputReverse(-0.75,30);  
+  intakeWristTalonRight->ConfigPeakOutputForward(1,30);
+  intakeWristTalonRight->ConfigPeakOutputReverse(-1,30);  
 
   intakeWristTalonLeft->Follow(*intakeWristTalonRight.get());
 
+  arbFF = 0;
 }
 
 void IntakeSubsystem::InitDefaultCommand() {
@@ -73,7 +77,7 @@ void IntakeSubsystem::SetWristAngle(double angle) {
 
 void IntakeSubsystem::SetWristTicks(int ticks) {
   //std::cout << "===> This many ticks: " << ticks << std::endl;
-  intakeWristTalonRight->Set(ctre::phoenix::motorcontrol::ControlMode::Position, ticks);
+  intakeWristTalonRight->Set(ctre::phoenix::motorcontrol::ControlMode::MotionMagic, ticks);//, ctre::phoenix::motorcontrol::DemandType::DemandType_ArbitraryFeedForward, arbFF);
 }
 
 void IntakeSubsystem::SetSlapperAngle(double ticks) {
@@ -95,5 +99,15 @@ int IntakeSubsystem::GetWristError() {
 
 double IntakeSubsystem::GetCurrent(){
   return intakeWheelsTalon->GetOutputCurrent();
+}
+
+void IntakeSubsystem::Periodic() {
+  double kF = 1.25;
+  double angleOffset = intakeWristTalonRight->GetSelectedSensorPosition() - 1505;
+  double angleRads = angleOffset * 2 * M_PI / Robot::robotMap->kTICKS_PER_REV_OF_ENCODER;
+  std::cout << "angle: " << angleRads << "\n";
+  double angleModifier = cos(angleRads);
+  arbFF = angleModifier * kF;
+  std::cout << "arbFF: " << arbFF << "\n";
 }
 

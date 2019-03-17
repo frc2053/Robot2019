@@ -16,6 +16,7 @@ class IntakeSubsystem : public frc::Subsystem {
   std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeWristTalonLeft;
   std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeWristTalonRight;
   std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> intakeSlapperTalon;
+  double arbFF;
  public:
   IntakeSubsystem();
   void InitDefaultCommand() override;
@@ -28,4 +29,5 @@ class IntakeSubsystem : public frc::Subsystem {
   int GetSlapperError();
   int GetWristError();
   double GetCurrent();
+  virtual void Periodic();
 };
