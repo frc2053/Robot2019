@@ -28,6 +28,7 @@ OI::OI() {
 	//INTAKE
 	operatorController->selectButton->WhenPressed(new ControlIntakeWrist(Robot::robotMap->kINTAKE_ANGLE_UP));
 	operatorController->startButton->WhenPressed(new ControlIntakeWrist(Robot::robotMap->kINTAKE_ANGLE_BALL));
+	operatorController->yButton->WhenPressed(new ControlIntakeWrist(5));
 	
 	operatorController->aButton->WhenActive(new ControlIntakeWheels(0, Robot::robotMap->kINTAKE_SPEED, false));
 	operatorController->aButton->WhenInactive(new ControlIntakeWheels(0, 0, false));
