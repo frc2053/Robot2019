@@ -41,19 +41,22 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   //intakeWristTalonRight->Config_kD(0, Robot::robotMap->kWRIST_D);
 
   intakeWristTalonRight->Config_kF(0, 0.0, 30);
-  intakeWristTalonRight->Config_kP(0, .5, 30);
-  intakeWristTalonRight->Config_kI(0, .002, 30);
+  intakeWristTalonRight->Config_kP(0, 1, 30);
+  intakeWristTalonRight->Config_kI(0, 0, 30);
   intakeWristTalonRight->Config_kD(0, 0.0, 30);
 
   intakeWristTalonRight->ConfigMotionCruiseVelocity(80, 0);
-  intakeWristTalonRight->ConfigMotionAcceleration(500, 0);
+  intakeWristTalonRight->ConfigMotionAcceleration(100, 0);
 
-  intakeWheelsTalon->ConfigOpenloopRamp(1);
+  intakeWheelsTalon->ConfigOpenloopRamp(.15);
 
   intakeWristTalonRight->ConfigNominalOutputForward(0, 30);
   intakeWristTalonRight->ConfigNominalOutputReverse(0, 30);
   intakeWristTalonRight->ConfigPeakOutputForward(1,30);
   intakeWristTalonRight->ConfigPeakOutputReverse(-1,30);  
+
+  intakeWristTalonRight->ConfigReverseSoftLimitThreshold(1350);
+  intakeWristTalonRight->ConfigReverseSoftLimitEnable(true);
 
   intakeWristTalonLeft->Follow(*intakeWristTalonRight.get());
 
