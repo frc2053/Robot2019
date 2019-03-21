@@ -10,7 +10,7 @@
 
 class DriveCommand : public frc::Command {
 public:
-	DriveCommand();
+	DriveCommand(bool inAuto);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -35,4 +35,5 @@ private:
 	bool isRightShoulderButtonPressed;
 	bool isLeftStickPressed;
 	bool isRotDone;
+	bool autoOverride;
 };

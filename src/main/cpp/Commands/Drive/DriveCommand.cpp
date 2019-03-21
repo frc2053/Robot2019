@@ -10,7 +10,7 @@
  * And make sure we Require() our subsystem so we can take authority
  * over other commands that may run on the drivebase
  */
-DriveCommand::DriveCommand() {
+DriveCommand::DriveCommand(bool inAuto) {
 	Requires(Robot::drivebaseSubsystem.get());
 
 	xAxis = 0;
@@ -26,6 +26,7 @@ DriveCommand::DriveCommand() {
 	isYPressed = false;
 	isRightShoulderButtonPressed = false;
 	isRotDone = true;
+	autoOverride = inAuto;
 }
 
 /**
@@ -157,6 +158,11 @@ void DriveCommand::CallToTigerDrive() {
 	{
 		Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDoneOverride(true);
 		Robot::drivebaseSubsystem->GetTigerDrive()->SetIsRotDone(true);
-		Robot::drivebaseSubsystem->MecDrive(xAxis, -yAxis, rotAxis, currentYaw);
+		if(autoOverride) {
+			Robot::drivebaseSubsystem->MecDrive(xAxis, -yAxis, rotAxis, 0);
+		}
+		else {
+			Robot::drivebaseSubsystem->MecDrive(xAxis, -yAxis, rotAxis, currentYaw);
+		}
 	}
 }

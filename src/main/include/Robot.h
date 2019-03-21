@@ -48,4 +48,7 @@ public:
 private:
 	frc::SendableChooser<std::string> autoChooser;
 	std::string selectedMode;
+	frc::Command* pathAuto;
+	frc::Command* driveCommand;
+	bool overrideCmd;
 };

@@ -42,6 +42,10 @@ void Robot::RobotInit()
 
 	SmartDashboard::PutData("AutoMode", &autoChooser);
 
+	pathAuto = nullptr;
+	driveCommand = nullptr;
+	overrideCmd = false;
+
 	pathManager = std::make_unique<PathManager>();
 	observer = std::make_shared<ObserverSubsystem>();
 	drivebaseSubsystem = std::make_unique<DrivebaseSubsystem>();
@@ -96,15 +100,9 @@ void Robot::DisabledPeriodic()
  */
 void Robot::AutonomousInit()
 {
-	//selectedMode = (std::string)autoChooser.GetSelected();
-	Command* testAuto = new FollowPath("/home/lvuser/deploy/smoothrightTurn.csv");
-
-	//ONLY PUT PATH NAME AND .CSV FOR VELOCITY FOLLOW PATH NO HOME/LVUSER AND NO FL FR OR ANYTHING
-	//if (selectedMode == "tenFeetForward")
-	//{
-		//Command *testAuto = new FollowPathVelocity("TenFeetForward.csv");
-		testAuto->Start();
-	//}
+	selectedMode = (std::string)autoChooser.GetSelected();
+	pathAuto = new FollowPath("/home/lvuser/deploy/" + selectedMode + ".csv");
+	pathAuto->Start();
 }
 
 /**
@@ -120,6 +118,14 @@ void Robot::AutonomousPeriodic()
 	SmartDashboard::PutNumber("PATH GOAL X", drivebaseSubsystem->GetDriveController()->GetFieldTarget().getTranslation().getX());
 	SmartDashboard::PutNumber("PATH GOAL Y", drivebaseSubsystem->GetDriveController()->GetFieldTarget().getTranslation().getY());
 	SmartDashboard::PutNumber("PATH GOAL YAW", drivebaseSubsystem->GetDriveController()->GetFieldTarget().getRotation().getDegrees());
+	if(Robot::oi->GetDriverController()->GetLeftXAxis() != 0 || Robot::oi->GetDriverController()->GetLeftYAxis() != 0 || Robot::oi->GetDriverController()->GetRightXAxis() != 0) {
+		if(!overrideCmd) {
+			pathAuto->Cancel();
+			driveCommand = new DriveCommand(true);
+			driveCommand->Start();
+			overrideCmd = true;
+		}
+	}
 }
 
 /**
@@ -130,7 +136,10 @@ void Robot::AutonomousPeriodic()
  */
 void Robot::TeleopInit()
 {
-	Command *driveCommand = new DriveCommand();
+	if(overrideCmd) {
+		driveCommand->Cancel();
+	}
+	Command *driveCommand = new DriveCommand(false);
 	driveCommand->Start();
 }
 
