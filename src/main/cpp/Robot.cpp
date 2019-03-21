@@ -38,7 +38,13 @@ void Robot::RobotInit()
 	robotMap = std::make_unique<RobotMap>();
 	robotMap->Init();
 
-	autoChooser.SetDefaultOption("smoothtenFtForward", "smoothtenFtForward");
+	autoChooser.SetDefaultOption("smoothdoNothing", "smoothdoNothing");
+	autoChooser.AddOption("smoothrightSideForward", "smoothrightSideForward");
+	autoChooser.AddOption("smoothleftSideForward", "smoothleftSideForward");
+	autoChooser.AddOption("smoothrightSideBackRocket", "smoothrightSideBackRocket");
+	autoChooser.AddObject("smoothleftSideBackRocket", "smoothleftSideBackRocket");
+	autoChooser.AddOption("smoothrightSideFrontRocket", "smoothrightSideFrontRocket");
+	autoChooser.AddOption("smoothleftSideFrontRocket", "smoothleftSideFrontRocket");
 
 	SmartDashboard::PutData("AutoMode", &autoChooser);
 
@@ -136,7 +142,7 @@ void Robot::AutonomousPeriodic()
  */
 void Robot::TeleopInit()
 {
-	
+
 	if(overrideCmd) {
 		driveCommand->Cancel();
 	}
