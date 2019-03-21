@@ -45,6 +45,12 @@ void Robot::RobotInit()
 	autoChooser.AddObject("smoothleftSideBackRocket", "smoothleftSideBackRocket");
 	autoChooser.AddOption("smoothrightSideFrontRocket", "smoothrightSideFrontRocket");
 	autoChooser.AddOption("smoothleftSideFrontRocket", "smoothleftSideFrontRocket");
+	autoChooser.AddOption("smoothrightSideCargo", "smoothrightSideCargo");
+	autoChooser.AddOption("smoothleftSideCargo", "smoothleftSideCargo");
+	autoChooser.AddOption("smoothcenterCargo", "smoothcenterCargo");
+	autoChooser.AddOption("smoothrightLevelTwo", "smoothrightLevelTwo");
+	autoChooser.AddOption("smoothleftLevelTwo", "smoothleftLevelTwo");
+
 
 	SmartDashboard::PutData("AutoMode", &autoChooser);
 
