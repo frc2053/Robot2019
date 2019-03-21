@@ -16,7 +16,6 @@ public:
 		LEVEL_ONE = 1,
 		LEVEL_TWO = 2,
 		LEVEL_THREE = 3,
-		HOLD = 4
 	};
 private:
 	ELEVATOR_POSITION currentState;
@@ -26,4 +25,5 @@ private:
 	bool manualControl;
 	bool lastStateRightTrigger;
 	bool lastStateLeftTrigger;
+	bool isHolding;
 };
