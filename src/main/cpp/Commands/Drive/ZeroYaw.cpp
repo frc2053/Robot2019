@@ -3,7 +3,6 @@
 
 ZeroYaw::ZeroYaw()
 {
-	Requires(Robot::drivebaseSubsystem.get());
 	isDone = false;
 }
 
