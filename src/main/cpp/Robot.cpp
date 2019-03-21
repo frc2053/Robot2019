@@ -136,6 +136,7 @@ void Robot::AutonomousPeriodic()
  */
 void Robot::TeleopInit()
 {
+	
 	if(overrideCmd) {
 		driveCommand->Cancel();
 	}
