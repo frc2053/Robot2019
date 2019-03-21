@@ -25,21 +25,23 @@ void ControlIntakeWrist::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ControlIntakeWrist::Execute() {
+  Robot::intakeSubsystem->SetWristTicks(targetAngle);
 
-
+/*
   if (targetAngle > 45.0)
   {
       std::cout << "Set wrist to: up! "<< std::endl;
     Robot::intakeSubsystem->SetWristTicks(2352);
   }
-  else
+  else if (targetAngle < 45.0)
   {
-    if (targetAngle < 45.0)
-    {
       std::cout << "Set wrist to: down! "<< std::endl;
       Robot::intakeSubsystem->SetWristTicks(1543);
-    }
   }
+  else{
+    Robot::intakeSubsystem->SetWristTicks()
+  }
+  */
 /*
   if(targetAngle < 10) {
     Robot::intakeSubsystem->SetWristTicks(1105);

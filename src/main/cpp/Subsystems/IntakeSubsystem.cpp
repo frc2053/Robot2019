@@ -55,7 +55,7 @@ IntakeSubsystem::IntakeSubsystem() : Subsystem("IntakeSubsystem") {
   intakeWristTalonRight->ConfigPeakOutputForward(1,30);
   intakeWristTalonRight->ConfigPeakOutputReverse(-1,30);  
 
-  intakeWristTalonRight->ConfigReverseSoftLimitThreshold(1350);
+  intakeWristTalonRight->ConfigReverseSoftLimitThreshold(1250);
   intakeWristTalonRight->ConfigReverseSoftLimitEnable(true);
 
   intakeWristTalonLeft->Follow(*intakeWristTalonRight.get());
